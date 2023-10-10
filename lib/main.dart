@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'friend_page.dart';
+import 'giftbox_page.dart';
+import 'memorybox_page.dart';
+import 'myprofile_page.dart';
+import 'wishlist_page.dart';
 
 void main() => runApp(MyApp());
 
