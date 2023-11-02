@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'friend_page.dart';
 import 'giftbox_page.dart';
 import 'memorybox_page.dart';
 import 'myprofile_page.dart';
 import 'wishlist_page.dart';
+import 'navigation_bar.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData(
         fontFamily: 'AppleSDGothicNeo',
         primaryColor: Color(0xFFF4A261),
@@ -57,42 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: _pages[_currentIndex],
       ),
-      bottomNavigationBar: Container(
-        height: 70.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            topRight: Radius.circular(15.0),
-          ),
-          boxShadow: [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            topRight: Radius.circular(15.0),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Color(0xFFF4A261),
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white70,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.people), label: '친구'),
-              BottomNavigationBarItem(icon: Icon(Icons.circle), label: '위시리스트'),
-              BottomNavigationBarItem(icon: Icon(Icons.circle), label: '선물함'),
-              BottomNavigationBarItem(icon: Icon(Icons.circle), label: '기억함'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'MY'),
-            ],
-          ),
-        ),
+      bottomNavigationBar: BottomNav(
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        currentIndex: _currentIndex,
       ),
     );
   }
