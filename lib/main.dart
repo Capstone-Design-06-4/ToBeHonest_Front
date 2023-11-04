@@ -2,20 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'models/friend.dart';
+
+import '../services/login_service.dart';
+import '../services/friend_service.dart';
+
 import 'friend_page.dart';
 import 'giftbox_page.dart';
 import 'memorybox_page.dart';
+
 import 'myprofile_page.dart';
 import 'wishlist_page.dart';
 import 'navigation_bar.dart';
 
 
-
-void main() => runApp(MyApp());
+//main에서 처리하는 것이 아닌 추가 수정 필요
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진 바인딩을 초기화합니다.
+  await Hive.initFlutter(); // Hive를 초기화합니다.
+  // Hive 어댑터를 등록합니다.
+  Hive.registerAdapter(FriendAdapter());
+  await login('이메일 자리', '비밀번호 자리');
+  String? token = await getToken();
+  if (token != null) {
+    await fetchFriends(token);
+  }
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
