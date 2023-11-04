@@ -1,9 +1,29 @@
-class Friend {
+// friend.dart
+import 'package:hive/hive.dart';
+
+// By below command in terminal
+// Hive generator will generate a 'friend.g.dart' file
+// flutter packages pub run build_runner build
+part 'friend.g.dart';
+
+@HiveType(typeId: 0) // typeId는 Hive 박스에서 이 모델을 식별하는 데 사용됩니다.
+class Friend extends HiveObject {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String birthDate;
+
+  @HiveField(3)
   final String profileURL;
+
+  @HiveField(4)
   final bool myGive;
+
+  @HiveField(5)
   final bool myTake;
 
   Friend({
@@ -15,9 +35,10 @@ class Friend {
     required this.myTake,
   });
 
+  // JSON 맵에서 Friend 객체를 생성하는 팩토리 생성자
   factory Friend.fromJson(Map<String, dynamic> json) {
     return Friend(
-      id: json['friendId'],
+      id: json['friendId'] is int ? json['friendId'] : int.tryParse(json['friendId'].toString()) ?? 0,
       name: json['specifiedName'],
       birthDate: json['birthDate'],
       profileURL: json['profileURL'],
@@ -26,30 +47,3 @@ class Friend {
     );
   }
 }
-// 예시 데이터를 만듭니다.
-List<Friend> friends = [
-  Friend(
-    id: 1,
-    name: 'Emily',
-    birthDate: 'D-Day 0월 0일',
-    profileURL: 'https://example.com/emily.jpg',
-    myGive: true,
-    myTake: false,
-  ),
-  Friend(
-    id: 2,
-    name: 'Brian',
-    birthDate: 'D-1',
-    profileURL: 'https://example.com/brian.jpg',
-    myGive: false,
-    myTake: true,
-  ),
-  Friend(
-    id: 3,
-    name: 'Nick',
-    birthDate: 'D-3',
-    profileURL: 'https://example.com/nick.jpg',
-    myGive: true,
-    myTake: true,
-  ),
-];
