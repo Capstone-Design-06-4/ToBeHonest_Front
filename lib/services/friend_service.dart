@@ -15,7 +15,7 @@ Future<void> fetchFriends(String accessToken) async {
   final url = Uri.parse('http://10.0.2.2:8080/members/friends');
   final headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer $accessToken',
+    'Authorization': "Bearer $accessToken",
   };
 
   try {

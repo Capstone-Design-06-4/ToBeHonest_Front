@@ -38,8 +38,10 @@ Future<void> login(String email, String password) async {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final accessToken = data['accessToken'];
-      saveToken(accessToken);
+      //print('Token before saved: ' + accessToken);
+      await saveToken(accessToken);
       print('로그인 성공: ${response.statusCode}');
+      //print('Token saved: ' + accessToken);
     } else {
       print('로그인 실패: ${response.statusCode}');
     }
