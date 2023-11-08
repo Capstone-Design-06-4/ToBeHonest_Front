@@ -43,7 +43,11 @@ Future<void> saveFriendsToLocal(List<Friend> friendsList) async {
 
   // 기존의 친구 목록을 지우고 새 목록으로 대체
   await box.clear();
-  await box.addAll(friendsList);
+  //await box.addAll(friendsList);
+  // List를 순회하면서 각 Friend 객체를 id를 키로 사용하여 저장
+  for (var friend in friendsList) {
+    await box.put(friend.id, friend);
+  }
 }
 
 Future<List<Friend>> getAllFriends() async {
