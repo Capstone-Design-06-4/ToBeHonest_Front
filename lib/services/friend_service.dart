@@ -56,3 +56,35 @@ Future<List<Friend>> getAllFriends() async {
   await box.close();
   return friends;
 }
+
+Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) async {
+  // 서버로부터 ID 목록을 가져옵니다.
+  final String url = 'http://10.0.2.2:8080/members/friends/searchId/$startsWith';
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    // 서버로부터 정상적인 응답을 받았을 때
+    List<dynamic> ids = json.decode(response.body);
+    // Hive DB에서 해당하는 Friend 객체들을 검색합니다.
+    var box = await Hive.openBox<Friend>('friendsBox');
+    List<Friend> friendsList = [];
+    for (var id in ids) {
+      final friendId = id as int; // 서버로부터 받은 ID가 int 타입임을 가정합니다.
+      final friend = box.get(friendId); // ID를 사용하여 Friend 객체를 검색합니다.
+      if (friend != null) {
+        friendsList.add(friend);
+      }
+    }
+    return friendsList; // 검색된 Friend 객체들의 리스트를 반환합니다.
+  } else {
+    // 에러가 발생했을 때
+    throw Exception('Failed to load friend ids');
+  }
+}
