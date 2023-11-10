@@ -28,10 +28,12 @@ void main() async {
   await Hive.initFlutter(); // Hive를 초기화합니다.
   // Hive 어댑터를 등록합니다.
   Hive.registerAdapter(FriendAdapter());
-  await login('이메일 자리', '비밀번호 자리');
+
+  await login('email1@example.com', 'password1');
   String? token = await getToken();
   if (token != null) {
     await fetchFriends(token);
+  //너가 원하는 List  변수 = await searchAndRetrieveFriends(_searchController.text, token);
   }
   runApp(MyApp());
 }
