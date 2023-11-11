@@ -1,3 +1,5 @@
+//main.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +15,8 @@ import 'models/friend.dart';
 import '../services/login_service.dart';
 import '../services/friend_service.dart';
 
+import '../controllers/friend_controller.dart';
+
 import 'friend_page.dart';
 import 'giftbox_page.dart';
 import 'memorybox_page.dart';
@@ -24,17 +28,22 @@ import 'navigation_bar.dart';
 
 //main에서 처리하는 것이 아닌 추가 수정 필요
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진 바인딩을 초기화합니다.
-  await Hive.initFlutter(); // Hive를 초기화합니다.
-  // Hive 어댑터를 등록합니다.
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   Hive.registerAdapter(FriendAdapter());
 
+  // GetX를 사용하여 FriendController 인스턴스를 생성하고 의존성 시스템에 저장합니다
+  final FriendController friendController = Get.put(FriendController());
+
+  // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
   await login('email1@example.com', 'password1');
-  String? token = await getToken();
+  final String? token = await getToken();
   if (token != null) {
-    await fetchFriends(token);
-  //너가 원하는 List  변수 = await searchAndRetrieveFriends(_searchController.text, token);
+    // FriendController를 사용하여 친구 목록을 가져옵니다
+    friendController.fetchFriends(); // fetchFriends 메서드 호출
   }
+
+  // 앱 실행
   runApp(MyApp());
 }
 

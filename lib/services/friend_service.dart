@@ -1,3 +1,5 @@
+//friend_service.dart
+
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
@@ -12,6 +14,7 @@ void setupHive() async {
 }
 
 Future<void> fetchFriends(String accessToken) async {
+  print('사용하는 토큰: $accessToken'); // 토큰 로깅
   final url = Uri.parse('http://10.0.2.2:8080/members/friends');
   final headers = {
     'Content-Type': 'application/json',
@@ -50,7 +53,7 @@ Future<void> saveFriendsToLocal(List<Friend> friendsList) async {
   }
 }
 
-Future<List<Friend>> getAllFriends() async {
+Future<List<Friend>> getAllFriends(String? token) async {
   var box = await Hive.openBox<Friend>('friendsBox');
   List<Friend> friends = box.values.toList();
   await box.close();
@@ -59,6 +62,10 @@ Future<List<Friend>> getAllFriends() async {
 
 Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) async {
   // 서버로부터 ID 목록을 가져옵니다.
+  print('사용하는 토큰: $token'); // 여기는 매개변수 token을 사용하는 올바른 위치입니다.
+  print('검색어: $startsWith'); // 검색어 로깅
+// HTTP 요청 코드...
+
   final String url = 'http://10.0.2.2:8080/members/friends/searchId/$startsWith';
   final response = await http.get(
     Uri.parse(url),
@@ -68,6 +75,9 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
       'Authorization': 'Bearer $token',
     },
   );
+
+  print('서버 응답 상태 코드: ${response.statusCode}');
+  print('서버 응답 본문: ${response.body}');
 
   if (response.statusCode == 200) {
     // 서버로부터 정상적인 응답을 받았을 때
