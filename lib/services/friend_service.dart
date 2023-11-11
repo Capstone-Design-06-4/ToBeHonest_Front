@@ -132,3 +132,60 @@ Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) asy
     throw Exception;
   }
 }
+
+Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) async {
+  final String url = 'http:://10.0.2.2:8080/members/search/phoneNumber/$phone';
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    },
+  );
+
+  if(response.statusCode == 200) {
+    var friendData = json.decode(response.body);
+    int memberId = friendData['memberId'] ?? 0;
+    String memberName = friendData['memberName'] ?? 'Unknown';
+    String profileURL = friendData['profileURL'] ?? 'default.png';
+    String friendStatus = friendData['friendStatus'];
+
+    Friend tempFriend = Friend.fromJson({
+      'friendId': memberId,
+      'specifiedName': memberName,
+      'birthDate': '1900-01-01', // 임의로 채운 값
+      'profileURL': profileURL,
+      'myGive': false, // 임의로 채운 값
+      'myTake': false, // 임의로 채운 값
+    });
+
+    return Tuple2<Friend, String>(tempFriend, friendStatus);
+  } else {
+    throw Exception;
+  }
+}
+
+Future<void> addFriend(String friendID, String accessToken) async {
+  final url = Uri.parse('http://10.0.2.2:8080/members/friends/add/$friendID');
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': "Bearer $accessToken",
+  };
+
+  try {
+    final response = await http.post(url, headers: headers);
+    if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
+// JSON 응답을 파싱하여 Friend 객체 리스트로 변환
+        dynamic friendJson = json.decode(response.body);
+        Friend friends = friendJson.map((jsonItem) => Friend.fromJson(jsonItem));
+
+      } else {
+        print('로그인 실패: ${response.statusCode}');
+      }
+    }
+  } catch (e) {
+    print('오류 발생: $e');
+  }
+}
