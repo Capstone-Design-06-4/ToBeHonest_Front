@@ -176,14 +176,12 @@ Future<void> addFriend(String friendID, String accessToken) async {
   try {
     final response = await http.post(url, headers: headers);
     if (response.statusCode == 200) {
-      if (response.statusCode == 200) {
-// JSON 응답을 파싱하여 Friend 객체 리스트로 변환
-        dynamic friendJson = json.decode(response.body);
-        Friend friends = friendJson.map((jsonItem) => Friend.fromJson(jsonItem));
-
-      } else {
-        print('로그인 실패: ${response.statusCode}');
-      }
+      // JSON 응답을 파싱하여 Friend 객체 리스트로 변환
+      dynamic friendJson = json.decode(response.body);
+      Friend friends = friendJson.map((jsonItem) => Friend.fromJson(jsonItem));
+      saveFriendsToLocal(friends);
+    } else {
+      print('로그인 실패: ${response.statusCode}');
     }
   } catch (e) {
     print('오류 발생: $e');
