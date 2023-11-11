@@ -41,15 +41,21 @@ Future<void> fetchFriends(String accessToken) async {
   }
 }
 
-Future<void> saveFriendsToLocal(List<Friend> friendsList) async {
+Future<void> saveFriendsToLocal(dynamic friends) async {
   var box = await Hive.openBox<Friend>('friendsBox');
 
   // 기존의 친구 목록을 지우고 새 목록으로 대체
   await box.clear();
-  //await box.addAll(friendsList);
-  // List를 순회하면서 각 Friend 객체를 id를 키로 사용하여 저장
-  for (var friend in friendsList) {
-    await box.put(friend.id, friend);
+  if (friends is List<Friend>) {
+    // List를 순회하면서 각 Friend 객체를 id를 키로 사용하여 저장
+    for (var friend in friends) {
+      await box.put(friend.id, friend);
+    }
+  } else if (friends is Friend) {
+    // 단일 Friend 객체 저장
+    await box.put(friends.id, friends);
+  } else {
+    throw ArgumentError('The argument must be a Friend or List<Friend>');
   }
 }
 
