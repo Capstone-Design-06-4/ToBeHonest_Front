@@ -55,3 +55,29 @@ Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
     throw Exception('오류 발생: $e');
   }
 }
+
+Future<List<Item>> findItemByCategory(String category, String accessToken) async {
+  final url = Uri.parse('http:://10.0.2.2:8080/items/search/$category');
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': "Bearer $accessToken",
+  };
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      List<dynamic> itemJson = json.decode(response.body);
+      List<Item> itemsList = itemJson.map((jsonItem) => Item.fromJson(jsonItem))
+          .toList();
+
+      await saveItemResultToLocal(itemsList);
+
+      return itemsList;
+
+    } else {
+      print('keyword로 검색한 결과가 없습니다.');
+      return [];
+    }
+  } catch (e) {
+    throw Exception('오류 발생: $e');
+  }
+}
