@@ -2,10 +2,13 @@
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tuple/tuple.dart';
 
 import '../models/friend.dart';
+import './login_service.dart';
 
 // Hive 초기화 및 어댑터 등록
 void setupHive() async {
@@ -41,15 +44,21 @@ Future<void> fetchFriends(String accessToken) async {
   }
 }
 
-Future<void> saveFriendsToLocal(List<Friend> friendsList) async {
+Future<void> saveFriendsToLocal(dynamic friends) async {
   var box = await Hive.openBox<Friend>('friendsBox');
 
   // 기존의 친구 목록을 지우고 새 목록으로 대체
   await box.clear();
-  //await box.addAll(friendsList);
-  // List를 순회하면서 각 Friend 객체를 id를 키로 사용하여 저장
-  for (var friend in friendsList) {
-    await box.put(friend.id, friend);
+  if (friends is List<Friend>) {
+    // List를 순회하면서 각 Friend 객체를 id를 키로 사용하여 저장
+    for (var friend in friends) {
+      await box.put(friend.id, friend);
+    }
+  } else if (friends is Friend) {
+    // 단일 Friend 객체 저장
+    await box.put(friends.id, friends);
+  } else {
+    throw ArgumentError('The argument must be a Friend or List<Friend>');
   }
 }
 
@@ -60,6 +69,7 @@ Future<List<Friend>> getAllFriends(String? token) async {
   return friends;
 }
 
+//친구 중에서 이름으로 검색하는 기능
 Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) async {
   // 서버로부터 ID 목록을 가져옵니다.
   print('사용하는 토큰: $token'); // 여기는 매개변수 token을 사용하는 올바른 위치입니다.
@@ -96,5 +106,94 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
   } else {
     // 에러가 발생했을 때
     throw Exception('Failed to load friend ids');
+  }
+}
+
+//아래 메서드는 친구를 추가하기 위해 아직 친국가 아닌 회원을 찾는 기능
+Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) async {
+  final String url = 'http:://10.0.2.2:8080/members/search/email/$email';
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    },
+  );
+
+  if(response.statusCode == 200) {
+    var friendData = json.decode(response.body);
+    int memberId = friendData['memberId'] ?? 0;
+    String memberName = friendData['memberName'] ?? 'Unknown';
+    String profileURL = friendData['profileURL'] ?? 'default.png';
+    String friendStatus = friendData['friendStatus'];
+
+    Friend tempFriend = Friend.fromJson({
+      'friendId': memberId,
+      'specifiedName': memberName,
+      'birthDate': '1900-01-01', // 임의로 채운 값
+      'profileURL': profileURL,
+      'myGive': false, // 임의로 채운 값
+      'myTake': false, // 임의로 채운 값
+    });
+
+    return Tuple2<Friend, String>(tempFriend, friendStatus);
+  } else {
+    throw Exception;
+  }
+}
+
+Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) async {
+  final String url = 'http:://10.0.2.2:8080/members/search/phoneNumber/$phone';
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    },
+  );
+
+  if(response.statusCode == 200) {
+    var friendData = json.decode(response.body);
+    int memberId = friendData['memberId'] ?? 0;
+    String memberName = friendData['memberName'] ?? 'Unknown';
+    String profileURL = friendData['profileURL'] ?? 'default.png';
+    String friendStatus = friendData['friendStatus'];
+
+    Friend tempFriend = Friend.fromJson({
+      'friendId': memberId,
+      'specifiedName': memberName,
+      'birthDate': '1900-01-01', // 임의로 채운 값
+      'profileURL': profileURL,
+      'myGive': false, // 임의로 채운 값
+      'myTake': false, // 임의로 채운 값
+    });
+
+    return Tuple2<Friend, String>(tempFriend, friendStatus);
+  } else {
+    throw Exception;
+  }
+}
+
+Future<void> addFriend(String friendID, String accessToken) async {
+  final url = Uri.parse('http://10.0.2.2:8080/members/friends/add/$friendID');
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': "Bearer $accessToken",
+  };
+
+  try {
+    final response = await http.post(url, headers: headers);
+    if (response.statusCode == 200) {
+      // JSON 응답을 파싱하여 Friend 객체 리스트로 변환
+      dynamic friendJson = json.decode(response.body);
+      Friend friends = friendJson.map((jsonItem) => Friend.fromJson(jsonItem));
+      saveFriendsToLocal(friends);
+    } else {
+      print('로그인 실패: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('오류 발생: $e');
   }
 }

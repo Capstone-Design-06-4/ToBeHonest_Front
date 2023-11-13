@@ -4,6 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+Future<void> saveEmail(String email) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('email', email);
+}
+
+Future<String?> getEmail() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('email');
+}
+
 Future<void> saveToken(String token) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('accessToken', token);
@@ -42,6 +52,7 @@ Future<void> login(String email, String password) async {
       final accessToken = data['accessToken'];
       //print('Token before saved: ' + accessToken);
       await saveToken(accessToken);
+      await saveEmail(email);
       print('로그인 성공: ${response.statusCode}');
       //print('Token saved: ' + accessToken);
     } else {
