@@ -46,4 +46,10 @@ class Friend extends HiveObject {
       myTake: json['myTake'],
     );
   }
+
+  // Friend 객체를 문자열로 변환하는 toString 메소드
+  @override
+  String toString() {
+    return 'Friend{id: $id, name: $name, birthDate: $birthDate, profileURL: $profileURL, myGive: $myGive, myTake: $myTake}';
+  }
 }
