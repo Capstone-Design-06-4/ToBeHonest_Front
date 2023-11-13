@@ -35,6 +35,10 @@ class SearchFriendWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
             borderSide: BorderSide(width: 2.0, color: Theme.of(context).primaryColor),
           ),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () => controller.clear(),
+          ),
         ),
         keyboardType: TextInputType.text,
       ),

@@ -15,24 +15,26 @@ class FriendPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 검색 컨트롤러를 FriendController와 연결합니다.
     final TextEditingController searchController = TextEditingController();
     searchController.addListener(() {
-      // 텍스트가 변경될 때마다 검색을 실행합니다.
       String searchQuery = searchController.text;
+      friendController.isAddingAllowed.value = searchQuery.isEmpty;
       if (searchQuery.isNotEmpty) {
         friendController.searchFriends(searchQuery);
       } else {
-        // 텍스트가 비었다면, 모든 친구를 다시 불러옵니다.
-        friendController.fetchFriends();
+        friendController.getFriendsList();
       }
     });
 
     return Scaffold(
       body: Column(
         children: <Widget>[
-          SearchFriendWidget(controller: searchController), // onSearch를 제거했습니다.
-          const AddFriendTile(),
+          SearchFriendWidget(controller: searchController),
+          Obx(() => Visibility(
+            visible: friendController.isAddingAllowed.value,
+              child: const AddFriendTile(),
+            ),
+          ),
           const FriendCategorized(title: '친구 목록'),
           Expanded(
             child: Obx(() {

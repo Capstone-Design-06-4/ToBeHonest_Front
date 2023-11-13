@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/friend.dart'; // Friend 모델을 위한 임포트, 실제 경로로 변경해야 함
+import '../models/friend.dart';
 
 class FriendDetailPage extends StatelessWidget {
   final Friend friend;
