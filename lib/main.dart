@@ -39,10 +39,10 @@ void main() async {
   await login('email1@example.com', 'password1');
   final String? token = await getToken();
   if (token != null) {
+    await fetchFriends(token);
     // FriendController를 사용하여 친구 목록을 가져옵니다
-    friendController.fetchFriends(); // fetchFriends 메서드 호출
+    friendController.getFriendsList(); // fetchFriends 메서드 호출
   }
-
   // 앱 실행
   runApp(MyApp());
 }
