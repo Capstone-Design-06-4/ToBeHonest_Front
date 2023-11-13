@@ -111,7 +111,7 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
 
 //아래 메서드는 친구를 추가하기 위해 아직 친국가 아닌 회원을 찾는 기능
 Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) async {
-  final String url = 'http:://10.0.2.2:8080/members/search/email/$email';
+  final String url = 'http://10.0.2.2:8080/members/search/email/$email';
   final response = await http.get(
     Uri.parse(url),
     headers: {
@@ -125,7 +125,7 @@ Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) asy
     var friendData = json.decode(response.body);
     int memberId = friendData['memberId'] ?? 0;
     String memberName = friendData['memberName'] ?? 'Unknown';
-    String profileURL = friendData['profileURL'] ?? 'default.png';
+    String profileURL = friendData['profileImgURL'] ?? 'default.png';
     String friendStatus = friendData['friendStatus'];
 
     Friend tempFriend = Friend.fromJson({
@@ -144,7 +144,7 @@ Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) asy
 }
 
 Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) async {
-  final String url = 'http:://10.0.2.2:8080/members/search/phoneNumber/$phone';
+  final String url = 'http://10.0.2.2:8080/members/search/phoneNumber/$phone';
   final response = await http.get(
     Uri.parse(url),
     headers: {
@@ -158,7 +158,7 @@ Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) asy
     var friendData = json.decode(response.body);
     int memberId = friendData['memberId'] ?? 0;
     String memberName = friendData['memberName'] ?? 'Unknown';
-    String profileURL = friendData['profileURL'] ?? 'default.png';
+    String profileURL = friendData['profileImgURL'] ?? 'default.png';
     String friendStatus = friendData['friendStatus'];
 
     Friend tempFriend = Friend.fromJson({
@@ -188,8 +188,8 @@ Future<void> addFriend(String friendID, String accessToken) async {
     if (response.statusCode == 200) {
       // JSON 응답을 파싱하여 Friend 객체 리스트로 변환
       dynamic friendJson = json.decode(response.body);
-      Friend friends = friendJson.map((jsonItem) => Friend.fromJson(jsonItem));
-      saveFriendsToLocal(friends);
+      Friend friend = Friend.fromJson(friendJson);
+      saveFriendsToLocal(friend);
     } else {
       print('로그인 실패: ${response.statusCode}');
     }
