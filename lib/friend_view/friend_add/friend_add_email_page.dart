@@ -11,7 +11,7 @@ class EmailAddPage extends StatefulWidget {
 
 class _EmailAddPageState extends State<EmailAddPage> {
   final TextEditingController _emailController = TextEditingController();
-  //final AddController _addController = Get.find<AddController>(); // AddController 인스턴스
+  final AddController _addController = Get.find<AddController>(); // AddController 인스턴스
 
   final List<String> _domainList = [
     '직접 입력',
@@ -90,7 +90,7 @@ class _EmailAddPageState extends State<EmailAddPage> {
                           print('전체 이메일: $fullEmail');
 
                           // AddController의 searchFriendsByEmail 메서드 호출
-                          //_addController.searchFriendsByEmail(fullEmail);
+                          _addController.searchFriendsByEmail(fullEmail);
                         }
                       },
                     ),

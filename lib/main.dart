@@ -36,21 +36,20 @@ void main() async {
 
   // GetX를 사용하여 FriendController 인스턴스를 생성하고 의존성 시스템에 저장합니다
   final FriendController friendController = Get.put(FriendController());
+  final AddController addController = Get.put(AddController()); // AddController 추가
 
   // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
   await login('email1@example.com', 'password1');
   final String? token = await getToken();
   if (token != null) {
     await fetchFriends(token);
+
     await friendController.getFriendsList(); // fetchFriends 메서드 호출
-
-    Tuple2<Friend, String> testSearchEmail = await findFriendByEmail("naver1@naver.com", token);
-
-    await addFriend(testSearchEmail.item1.id.toString(), token);
   }
   // 앱 실행
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   @override

@@ -4,6 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+Future<void> saveID(String ID) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('ID', ID);
+}
+
+Future<String?> getID() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('ID');
+}
+
 Future<void> saveEmail(String email) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('email', email);
