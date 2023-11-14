@@ -190,8 +190,9 @@ Future<void> addFriend(String friendID, String accessToken) async {
       dynamic friendJson = json.decode(response.body);
       Friend friend = Friend.fromJson(friendJson);
       saveFriendsToLocal(friend);
+      print('친구 추가 성공');
     } else {
-      print('로그인 실패: ${response.statusCode}');
+      print('친구 추가 실패: ${response.statusCode}');
     }
   } catch (e) {
     print('오류 발생: $e');
