@@ -48,8 +48,8 @@ Future<void> saveFriendsToLocal(dynamic friends) async {
   var box = await Hive.openBox<Friend>('friendsBox');
 
   // 기존의 친구 목록을 지우고 새 목록으로 대체
-  await box.clear();
   if (friends is List<Friend>) {
+    await box.clear();
     // List를 순회하면서 각 Friend 객체를 id를 키로 사용하여 저장
     for (var friend in friends) {
       await box.put(friend.id, friend);
