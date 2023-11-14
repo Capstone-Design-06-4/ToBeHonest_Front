@@ -1,8 +1,8 @@
 //friend_add_detailed.dart
 
 import 'package:flutter/material.dart';
-import '../widgets/friend_add_tel_widget.dart';
-import '../widgets/friend_add_email_widget.dart';
+import 'friend_add/friend_add_tel_page.dart';
+import 'friend_add/friend_add_email_page.dart';
 
 class AddFriendPage extends StatelessWidget {
   @override

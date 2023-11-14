@@ -1,4 +1,8 @@
+//friend_add_email_page.dart
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tobehonest/controllers/friend_add_controller.dart';
 
 class EmailAddPage extends StatefulWidget {
   @override
@@ -7,6 +11,7 @@ class EmailAddPage extends StatefulWidget {
 
 class _EmailAddPageState extends State<EmailAddPage> {
   final TextEditingController _emailController = TextEditingController();
+  //final AddController _addController = Get.find<AddController>(); // AddController 인스턴스
 
   final List<String> _domainList = [
     '직접 입력',
@@ -83,7 +88,9 @@ class _EmailAddPageState extends State<EmailAddPage> {
                           });
                           String fullEmail = _emailController.text;
                           print('전체 이메일: $fullEmail');
-                          // 여기에 이메일 추가 로직을 구현하세요
+
+                          // AddController의 searchFriendsByEmail 메서드 호출
+                          //_addController.searchFriendsByEmail(fullEmail);
                         }
                       },
                     ),

@@ -5,13 +5,22 @@ import 'package:get/get.dart';
 import '../controllers/friend_controller.dart';
 import '../widgets/friend_list_widget.dart';
 import '../widgets/friend_search_widget.dart';
-import '../widgets/friend_add_widget.dart';
+import '../widgets/friend_add_click.dart';
 import '../widgets/friend_categorized_widget.dart';
 
-class FriendPage extends StatelessWidget {
+class FriendPage extends StatefulWidget {
+  @override
+  _FriendPageState createState() => _FriendPageState();
+}
+
+class _FriendPageState extends State<FriendPage> {
   final FriendController friendController = Get.find<FriendController>();
 
-  FriendPage({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    friendController.getFriendsList();
+  }
 
   @override
   Widget build(BuildContext context) {

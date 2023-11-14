@@ -9,6 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tuple/tuple.dart';
 
 import 'models/friend.dart';
 
@@ -16,6 +17,7 @@ import '../services/login_service.dart';
 import '../services/friend_service.dart';
 
 import '../controllers/friend_controller.dart';
+import '../controllers/friend_add_controller.dart';
 
 import 'friend_page.dart';
 import 'giftbox_page.dart';
@@ -39,10 +41,13 @@ void main() async {
   await login('email1@example.com', 'password1');
   final String? token = await getToken();
   if (token != null) {
-    // FriendController를 사용하여 친구 목록을 가져옵니다
-    friendController.fetchFriends(); // fetchFriends 메서드 호출
-  }
+    await fetchFriends(token);
+    await friendController.getFriendsList(); // fetchFriends 메서드 호출
 
+    Tuple2<Friend, String> testSearchEmail = await findFriendByEmail("naver1@naver.com", token);
+
+    await addFriend(testSearchEmail.item1.id.toString(), token);
+  }
   // 앱 실행
   runApp(MyApp());
 }
