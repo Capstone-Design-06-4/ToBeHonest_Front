@@ -10,7 +10,7 @@ import '../models/item.dart';
 import './login_service.dart';
 
 Future<void> fetchWishlist(String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/')
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/');
 }
 
 Future<void> addWishlist(String itemID, String token) async {
