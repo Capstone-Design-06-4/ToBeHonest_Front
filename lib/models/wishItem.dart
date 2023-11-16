@@ -46,4 +46,14 @@ class WishItem {
       'fundAmount': fundAmount,
     };
   }
+
+  @override
+  String toString() {
+    return 'WishItem{'
+        'wishItemId: $wishItemId, '
+        'itemName: $itemName, '
+        'image: $image, '
+        'itemPrice: $itemPrice, '
+        'fundAmount: $fundAmount}';
+  }
 }
