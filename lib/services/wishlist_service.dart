@@ -11,6 +11,30 @@ import '../models/wishItem.dart';
 
 import './login_service.dart';
 
+/*
+ * wishlist_service 설명
+ * 1. 위시리스트에 아이템을 등록하기
+ * List<Item> items가 있다면 그 중 선택된 item에 대해서
+ * await addWishlist(item.id.toString(), token);으로 추가할 수 있음.
+ * 추가 후에는 getX를 이용해서 위시리스트 페이지를 업데이트(새로고침) 해주시면됨.
+ *
+ * 2. 위시리스트 조회하기
+ * fetch와 get은 같이 써야함. (순서 fetch -> get)
+ * Progress : 진행중인 위시리스트
+ * Completed : 완료되었지만 사용하지 않은 위시리스트
+ * Used : 사용까지 완료한 위시리스트
+ * 예시) 진행중인 위시리스트 List<WishItem>로 받아오기
+ * await fetchProgressWishItems(token);
+ * List<WishItem> progressWishItems = await getProgressWishItems();
+ *
+ * 아래는 쓸 일이 없겠지만 api 명세서에 있어서 만든 것 / 위시리스트 진행도와 관계없이 다 갖고 오기
+ * Future<void> fetchWishItems(String token) async
+ * Future<List<WishItem>> getAllWishItems() async
+ *
+ * save는 로직상 wishlist_service 안에서만 사용하는 함수들.
+ * static으로 선언할걸 그랬나.
+ */
+
 Future<void> saveWishItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('wishItemBox');
 
