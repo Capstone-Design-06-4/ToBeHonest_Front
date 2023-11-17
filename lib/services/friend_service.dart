@@ -60,9 +60,10 @@ Future<void> saveFriendsToLocal(dynamic friends) async {
   } else {
     throw ArgumentError('The argument must be a Friend or List<Friend>');
   }
+  await box.close();
 }
 
-Future<List<Friend>> getAllFriends(String? token) async {
+Future<List<Friend>> getAllFriends() async {
   var box = await Hive.openBox<Friend>('friendsBox');
   List<Friend> friends = box.values.toList();
   await box.close();
@@ -102,6 +103,7 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
         friendsList.add(friend);
       }
     }
+    await box.close();
     return friendsList; // 검색된 Friend 객체들의 리스트를 반환합니다.
   } else {
     // 에러가 발생했을 때

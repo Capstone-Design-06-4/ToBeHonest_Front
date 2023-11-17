@@ -14,6 +14,16 @@ Future<String?> getID() async {
   return prefs.getString('ID');
 }
 
+Future<void> saveProfileImg(String ProfileImg) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('ProfileImg', ProfileImg);
+}
+
+Future<String?> getProfileImg() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('ProfileImg');
+}
+
 Future<void> saveEmail(String email) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('email', email);
@@ -63,6 +73,7 @@ Future<void> login(String email, String password) async {
       //print('Token before saved: ' + accessToken);
       await saveToken(accessToken);
       await saveEmail(email);
+      await getMyInfo(email, accessToken);
       print('로그인 성공: ${response.statusCode}');
       //print('Token saved: ' + accessToken);
     } else {
@@ -70,5 +81,34 @@ Future<void> login(String email, String password) async {
     }
   } catch (e) {
     print('오류 발생: $e');
+  }
+}
+
+Future<void> getMyInfo(String email, String token) async {
+  final String url = 'http://10.0.2.2:8080/members/search/email/$email';
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    },
+  );
+
+  if(response.statusCode == 200) {
+    var friendData = json.decode(response.body);
+    int memberId = friendData['memberId'] ?? '0';
+    String memberName = friendData['memberName'] ?? 'Unknown';
+    String profileURL = friendData['profileImgURL'] ?? 'default.png';
+    String friendStatus = friendData['friendStatus'];
+
+    if(memberId == 0 || friendStatus != "ME") {
+      print('ID 갖고 오기 실패');
+      throw Exception;
+    }
+    await saveID(memberId.toString());
+    await saveProfileImg(profileURL);
+  } else {
+    throw Exception;
   }
 }
