@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/friend_controller.dart';
+import '../controllers/friend_search_controller.dart';
 import '../widgets/friend_list_widget.dart';
 import '../widgets/friend_search_widget.dart';
 import '../widgets/friend_add_click.dart';

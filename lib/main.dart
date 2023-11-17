@@ -16,7 +16,7 @@ import 'models/friend.dart';
 import '../services/login_service.dart';
 import '../services/friend_service.dart';
 
-import '../controllers/friend_controller.dart';
+import '../controllers/friend_search_controller.dart';
 import '../controllers/friend_add_controller.dart';
 
 import 'friend_page.dart';

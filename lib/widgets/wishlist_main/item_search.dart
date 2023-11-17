@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ProductSearchWidget extends StatefulWidget {
+class ItemSearchBar extends StatefulWidget {
   final ValueChanged<String> onSearch;
 
-  ProductSearchWidget({this.onSearch = _defaultOnSearch});
+  ItemSearchBar({this.onSearch = _defaultOnSearch});
 
   static void _defaultOnSearch(String value) {}
 
@@ -11,7 +11,7 @@ class ProductSearchWidget extends StatefulWidget {
   _ProductSearchWidgetState createState() => _ProductSearchWidgetState();
 }
 
-class _ProductSearchWidgetState extends State<ProductSearchWidget> {
+class _ProductSearchWidgetState extends State<ItemSearchBar> {
   final TextEditingController _controller = TextEditingController();
 
   void _handleSearch() {
