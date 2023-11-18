@@ -2,25 +2,29 @@ import 'package:hive/hive.dart';
 
 part 'wishItem.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class WishItem {
   @HiveField(0)
   final int wishItemId;
 
   @HiveField(1)
-  final String itemName;
+  final String itemBrand;
 
   @HiveField(2)
-  final String image;
+  final String itemName;
 
   @HiveField(3)
-  final double itemPrice;
+  final String image;
 
   @HiveField(4)
-  final double fundAmount;
+  final int itemPrice;
+
+  @HiveField(5)
+  final int fundAmount;
 
   WishItem({
     required this.wishItemId,
+    required this.itemBrand,
     required this.itemName,
     required this.image,
     required this.itemPrice,
@@ -28,19 +32,30 @@ class WishItem {
   });
 
   factory WishItem.fromJson(Map<String, dynamic> json) {
+    // itemName에서 HTML 태그 제거
+    String rawItemName = json['itemName'] as String;
+    String cleanedItemName = rawItemName.replaceAll(RegExp(r'<[/]?b>'), '');
+
+    // itemName에서 브랜드 추출
+    String itemBrand = cleanedItemName.split(' ').first;
+
+    // 브랜드를 제거한 나머지 이름
+    String itemName = cleanedItemName.substring(itemBrand.length).trim();
     return WishItem(
       wishItemId: json['wishItemId'] as int,
-      itemName: json['itemName'] as String,
+      itemBrand: itemBrand,
+      itemName: itemName,
       image: json['image'] as String,
-      itemPrice: json['itemPrice'] as double,
-      fundAmount: json['fundAmount'] as double,
+      itemPrice: json['itemPrice'] as int,
+      fundAmount: json['fundAmount'] as int,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'wishItemId': wishItemId,
-      'itemName': itemName,
+      'itemBrand': itemBrand, // 추가된 필드
+      'itemName': '$itemBrand $itemName', // 원래 형식으로 복원
       'image': image,
       'itemPrice': itemPrice,
       'fundAmount': fundAmount,
@@ -51,6 +66,7 @@ class WishItem {
   String toString() {
     return 'WishItem{'
         'wishItemId: $wishItemId, '
+        'itemBrand: $itemBrand, '
         'itemName: $itemName, '
         'image: $image, '
         'itemPrice: $itemPrice, '
