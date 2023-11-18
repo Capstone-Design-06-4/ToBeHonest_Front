@@ -45,3 +45,4 @@ app.*.map.json
 /lib/models/item.g.dart
 /lib/models/friend.g.dart
 /test/
+/lib/models/wishItem.g.dart

@@ -15,7 +15,7 @@ class FriendController extends GetxController {
     try {
       String? token = await getToken(); // 로그인 서비스에서 토큰을 가져옵니다.
       if (token != null) {
-        var friends = await getAllFriends(token); // 서비스에서 친구 목록을 가져옵니다.
+        var friends = await getAllFriends(); // 서비스에서 친구 목록을 가져옵니다.
         if (friends.isNotEmpty) {
           friendsList.assignAll(friends);
         }
