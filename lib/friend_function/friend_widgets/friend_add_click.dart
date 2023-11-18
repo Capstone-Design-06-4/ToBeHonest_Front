@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobehonest/friend_view/friend_add_view.dart';
+import 'package:tobehonest/friend_function/friend_view/friend_add_view.dart';
 
 
 class AddFriendTile extends StatelessWidget {

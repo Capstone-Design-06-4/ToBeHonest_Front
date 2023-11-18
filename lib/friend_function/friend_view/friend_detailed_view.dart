@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/friend.dart';
+import 'package:tobehonest/models/friend.dart';
 
 class FriendDetailPage extends StatelessWidget {
   final Friend friend;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../models/friend.dart';
-import '../friend_view/friend_detailed_view.dart';
+import 'package:tobehonest/models/friend.dart';
+import 'package:tobehonest/friend_function/friend_view/friend_detailed_view.dart';
 
 Widget buildFriendContainer(BuildContext context, Friend friend) {
   return GestureDetector(

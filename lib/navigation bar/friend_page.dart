@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/friend_search_controller.dart';
-import '../widgets/friend_list_widget.dart';
-import '../widgets/friend_search_widget.dart';
-import '../widgets/friend_add_click.dart';
-import '../widgets/friend_categorized_widget.dart';
+import '../friend_function/friend_widgets/friend_list_widget.dart';
+import '../friend_function/friend_widgets/friend_search_widget.dart';
+import '../friend_function/friend_widgets/friend_add_click.dart';
+import '../friend_function/friend_widgets/friend_categorized_widget.dart';
 
 class FriendPage extends StatefulWidget {
   @override

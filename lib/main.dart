@@ -12,19 +12,23 @@ import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
 
 import 'models/friend.dart';
+import 'models/item.dart';
+import 'models/wishItem.dart';
 
 import '../services/login_service.dart';
 import '../services/friend_service.dart';
+import '../services/item_service.dart';
+import '../services/wishlist_service.dart';
 
 import '../controllers/friend_search_controller.dart';
 import '../controllers/friend_add_controller.dart';
 
-import 'friend_page.dart';
-import 'giftbox_page.dart';
-import 'memorybox_page.dart';
+import 'navigation bar/friend_page.dart';
+import 'navigation bar/giftbox_page.dart';
+import 'navigation bar/memorybox_page.dart';
 
-import 'myprofile_page.dart';
-import 'wishlist_page.dart';
+import 'navigation bar/myprofile_page.dart';
+import 'navigation bar/wishlist_page.dart';
 import 'navigation_bar.dart';
 
 
