@@ -47,7 +47,7 @@ class WishItem {
       itemName: itemName,
       image: json['image'] as String,
       itemPrice: json['itemPrice'] as int,
-      fundAmount: json['fundAmount'] as int ?? 0,
+      fundAmount: json['fundAmount'] != null ? json['fundAmount'] as int : 0
     );
   }
 
