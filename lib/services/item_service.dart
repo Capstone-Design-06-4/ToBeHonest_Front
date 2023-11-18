@@ -9,6 +9,16 @@ import '../models/friend.dart';
 import '../models/item.dart';
 import './login_service.dart';
 
+/*
+ * wishlist_service 설명
+ * 1. 아이템 찾기(키워드로 찾기, 카테고리로 찾기)
+ * textField에서 받은 String searchQuery에 대해서
+ * List<Item> items = await findItemByKeyword(searchQuery, token);
+ * List<Item> items = await findItemByCategory(searchQuery, token);
+ *
+ * get이랑 save는 쓸 일 없을듯.
+ */
+
 Future<void> saveItemResultToLocal(dynamic items) async {
   var box = await Hive.openBox<Item>('itemsBox');
   await box.clear();
