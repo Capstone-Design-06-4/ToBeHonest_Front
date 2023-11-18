@@ -132,13 +132,15 @@ Future<void> fetchWishItems(String token) async {
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/$memberID');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
   };
   try {
-    final response = await http.post(url, headers: headers);
+    final response = await http.get(url, headers: headers);
     if(response.statusCode == 200) {
-      List<dynamic> wishItemJsonList = json.decode(response.body);
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList =
         wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
       await saveWishItemsToLocal(wishItemList);
@@ -156,13 +158,15 @@ Future<void> fetchProgressWishItems(String token) async {
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$memberID');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
   };
   try {
-    final response = await http.post(url, headers: headers);
+    final response = await http.get(url, headers: headers);
     if(response.statusCode == 200) {
-      List<dynamic> wishItemJsonList = json.decode(response.body);
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList =
       wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
       await saveProgressItemsToLocal(wishItemList);
@@ -180,13 +184,15 @@ Future<void> fetchCompletedWishItems(String token) async {
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/completed/$memberID');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
   };
   try {
-    final response = await http.post(url, headers: headers);
+    final response = await http.get(url, headers: headers);
     if(response.statusCode == 200) {
-      List<dynamic> wishItemJsonList = json.decode(response.body);
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList =
       wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
       await saveCompletedItemsToLocal(wishItemList);
@@ -204,13 +210,15 @@ Future<void> fetchUsedWishItems(String token) async {
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$memberID');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
   };
   try {
-    final response = await http.post(url, headers: headers);
+    final response = await http.get(url, headers: headers);
     if(response.statusCode == 200) {
-      List<dynamic> wishItemJsonList = json.decode(response.body);
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList =
       wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
       await saveUsedItemsToLocal(wishItemList);

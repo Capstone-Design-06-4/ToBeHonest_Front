@@ -33,13 +33,15 @@ Future<List<Item>> getAllItems() async {
 Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
   final url = Uri.parse('http://10.0.2.2:8080/items/search/$keyword');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",
   };
   try {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      List<dynamic> itemJson = json.decode(response.body);
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> itemJson = json.decode(decodedResponse);
       List<Item> itemsList = itemJson.map((jsonItem) => Item.fromJson(jsonItem))
           .toList();
 
@@ -59,13 +61,14 @@ Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
 Future<List<Item>> findItemByCategory(String category, String accessToken) async {
   final url = Uri.parse('http://10.0.2.2:8080/items/categories/search/$category');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",
   };
   try {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      List<dynamic> itemJson = json.decode(response.body);
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> itemJson = json.decode(decodedResponse);
       List<Item> itemsList = itemJson.map((jsonItem) => Item.fromJson(jsonItem))
           .toList();
 
