@@ -9,6 +9,16 @@ import '../models/friend.dart';
 import '../models/item.dart';
 import './login_service.dart';
 
+/*
+ * wishlist_service 설명
+ * 1. 아이템 찾기(키워드로 찾기, 카테고리로 찾기)
+ * textField에서 받은 String searchQuery에 대해서
+ * List<Item> items = await findItemByKeyword(searchQuery, token);
+ * List<Item> items = await findItemByCategory(searchQuery, token);
+ *
+ * get이랑 save는 쓸 일 없을듯.
+ */
+
 Future<void> saveItemResultToLocal(dynamic items) async {
   var box = await Hive.openBox<Item>('itemsBox');
   await box.clear();
@@ -33,13 +43,15 @@ Future<List<Item>> getAllItems() async {
 Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
   final url = Uri.parse('http://10.0.2.2:8080/items/search/$keyword');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",
   };
   try {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      List<dynamic> itemJson = json.decode(response.body);
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> itemJson = json.decode(decodedResponse);
       List<Item> itemsList = itemJson.map((jsonItem) => Item.fromJson(jsonItem))
           .toList();
 
@@ -59,13 +71,14 @@ Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
 Future<List<Item>> findItemByCategory(String category, String accessToken) async {
   final url = Uri.parse('http://10.0.2.2:8080/items/categories/search/$category');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",
   };
   try {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      List<dynamic> itemJson = json.decode(response.body);
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> itemJson = json.decode(decodedResponse);
       List<Item> itemsList = itemJson.map((jsonItem) => Item.fromJson(jsonItem))
           .toList();
 
