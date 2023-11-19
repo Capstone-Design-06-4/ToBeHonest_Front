@@ -1,16 +1,18 @@
+// wishlist_page.dart
+
 import 'package:flutter/material.dart';
-import '../controllers/wishlist_search_controlller.dart';
+import 'package:get/get.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import '../wishlist_main/item_search.dart';
 import '../wishlist_main/item_list.dart';
 import '../wishlist_view/item_add.dart';
-import 'package:get/get.dart';
 
-class Wishlist_Page extends StatefulWidget {
+class WishListPage extends StatefulWidget {
   @override
-  _Wishlist_PageState createState() => _Wishlist_PageState();
+  _WishListPageState createState() => _WishListPageState();
 }
 
-class _Wishlist_PageState extends State<Wishlist_Page> {
+class _WishListPageState extends State<WishListPage> {
   String _searchText = '';
   final WishListController wishListController = Get.put(WishListController());
 
@@ -18,6 +20,16 @@ class _Wishlist_PageState extends State<Wishlist_Page> {
     setState(() {
       _searchText = text;
     });
+
+    _updateWishItems();
+  }
+
+  void _updateWishItems() async {
+    try {
+      await wishListController.fetchWishItems(searchText: _searchText);
+    } catch (e) {
+      print('오류 발생: $e');
+    }
   }
 
   @override
@@ -26,22 +38,20 @@ class _Wishlist_PageState extends State<Wishlist_Page> {
       children: <Widget>[
         ItemSearchBar(onSearch: _onSearch),
         Expanded(
-          child: Obx(
-                () {
-              if (wishListController.wishItems.isEmpty) {
-                // 데이터 로딩 중 화면
-                return Center(child: CircularProgressIndicator());
-              } else {
-                // 위시 아이템이 로드된 경우 위젯을 구성
-                return ListView(
-                  children: <Widget>[
-                    ItemAddBar(context),
-                    WishItemList(),
-                  ],
-                );
-              }
-            },
-          ),
+          child: Obx(() {
+            if (wishListController.isLoading.isTrue) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return ListView(
+              children: <Widget>[
+                ItemAddBar(context),
+                WishItemList(
+                  wishItems: wishListController.wishItems,
+                  searchText: _searchText,
+                ),
+              ],
+            );
+          }),
         ),
       ],
     );

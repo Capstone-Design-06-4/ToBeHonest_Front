@@ -153,7 +153,7 @@ Future<void> fetchWishItems(String token) async {
   }
 }
 
-Future<void> fetchProgressWishItems(String token) async {
+Future<void> fetchProgressWishItems(String token, {String? searchText}) async {
   final String memberID = await getID() ?? '0';
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$memberID');

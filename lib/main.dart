@@ -26,7 +26,6 @@ import '../controllers/friend_add_controller.dart';
 import 'navigation bar/friend_page.dart';
 import 'navigation bar/giftbox_page.dart';
 import 'navigation bar/memorybox_page.dart';
-
 import 'navigation bar/myprofile_page.dart';
 import 'navigation bar/wishlist_page.dart';
 import 'navigation_bar.dart';
@@ -37,6 +36,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(FriendAdapter());
+  Hive.registerAdapter(ItemAdapter());
+  Hive.registerAdapter(WishItemAdapter());
+
 
   // GetX를 사용하여 FriendController 인스턴스를 생성하고 의존성 시스템에 저장합니다
   final FriendController friendController = Get.put(FriendController());
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final _pages = [
     FriendPage(), // 친구 페이지
-    Wishlist_Page(), // 위시리스트 페이지
+    WishListPage(), // 위시리스트 페이지
     PlaceholderWidget(Colors.green), // 선물함 페이지
     PlaceholderWidget(Colors.yellow), // 기억함 페이지
     PlaceholderWidget(Colors.purple), // MY 페이지

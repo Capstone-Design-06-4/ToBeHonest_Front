@@ -1,11 +1,11 @@
+// item_search.dart
+
 import 'package:flutter/material.dart';
 
 class ItemSearchBar extends StatefulWidget {
   final ValueChanged<String> onSearch;
 
-  ItemSearchBar({this.onSearch = _defaultOnSearch});
-
-  static void _defaultOnSearch(String value) {}
+  ItemSearchBar({required this.onSearch});
 
   @override
   _ProductSearchWidgetState createState() => _ProductSearchWidgetState();
@@ -24,14 +24,17 @@ class _ProductSearchWidgetState extends State<ItemSearchBar> {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextField(
         controller: _controller,
-        onSubmitted: (value) => _handleSearch(),// 키보드에서 검색 버튼을 눌렀을 때
+        onChanged: (value) => widget.onSearch(value),
         style: TextStyle(fontSize: 14),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10),
           prefixIcon: Icon(Icons.search, size: 30),
           suffixIcon: IconButton(
             icon: Icon(Icons.clear),
-            onPressed: () => _controller.clear(),
+            onPressed: () {
+              _controller.clear();
+              widget.onSearch('');
+            },
           ),
           hintText: '상품 이름 검색하기',
           filled: true,
