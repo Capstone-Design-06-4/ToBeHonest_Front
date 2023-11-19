@@ -46,3 +46,4 @@ app.*.map.json
 /lib/models/friend.g.dart
 /test/
 /lib/models/wishItem.g.dart
+/lib/models/contributor.g.dart
