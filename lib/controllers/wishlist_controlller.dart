@@ -12,10 +12,10 @@ class WishListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchWishItems();
+    fetchWishItems_Progress();
   }
 
-  Future<void> fetchWishItems({String? searchText}) async {
+  Future<void> fetchWishItems_Progress({String? searchText}) async {
     try {
       isLoading(true);
 
@@ -44,7 +44,7 @@ class WishListController extends GetxController {
       print('토큰: $token');
       if (token == null) throw Exception("토큰이 없습니다.");
 
-      await fetchWishItems();
+      await fetchWishItems_Progress();
     } catch (e) {
       print('오류 발생: $e');
     } finally {

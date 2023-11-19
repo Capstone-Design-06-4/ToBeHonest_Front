@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
-import '../wishlist_main/item_search.dart';
-import '../wishlist_main/item_list.dart';
-import '../wishlist_view/item_add.dart';
+import 'package:tobehonest/wishlist_widget/wishlist_main/item_search_widget.dart';
+import 'package:tobehonest/wishlist_widget/wishlist_main/item_list_widget.dart';
+import 'package:tobehonest/wishlist_widget/wishlist_add/item_add_search_widget.dart';
+import '../wishlist_view/item_add_view.dart';
 
 class WishListPage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _WishListPageState extends State<WishListPage> {
 
   void _updateWishItems() async {
     try {
-      await wishListController.fetchWishItems(searchText: _searchText);
+      await wishListController.fetchWishItems_Progress(searchText: _searchText);
     } catch (e) {
       print('오류 발생: $e');
     }

@@ -1,6 +1,9 @@
+//item_detailed_view.dart
+
 import 'package:flutter/material.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
+import 'package:tobehonest/wishlist_view/item_contributed_view.dart';
 
 class ItemDetailed extends StatelessWidget {
   final WishItem wishItem;
@@ -11,8 +14,6 @@ class ItemDetailed extends StatelessWidget {
   Widget build(BuildContext context) {
     // 펀딩 진행률을 계산합니다. 모금액 / 총 금액
     final double fundingProgress = wishItem.fundAmount / wishItem.itemPrice;
-    final double discountRate = wishItem.fundAmount / wishItem.itemPrice;
-    final double discountedPrice = wishItem.itemPrice * (1 - discountRate);
 
     String formatNumber(int number) {
       final formatter = NumberFormat('#,###');
@@ -31,12 +32,11 @@ class ItemDetailed extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height * 0.51,
-              margin: EdgeInsets.symmetric(horizontal: 15.0),
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.height * 0.42,
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
               decoration: BoxDecoration(
                 color: Colors.black, // 배경색을 흰색으로 설정
                 borderRadius: BorderRadius.circular(12), // 모서리를 둥글게 처리
@@ -57,10 +57,27 @@ class ItemDetailed extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 16),
-            Text(wishItem.itemBrand, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            Text(wishItem.itemName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0), // 적절한 여백을 설정합니다.
+                  child: Text(
+                    wishItem.itemBrand,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 0.0), // 적절한 여백을 설정합니다.
+              child: Text(
+                wishItem.itemName,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
             SizedBox(height: 16),
             Stack(
               children: [
@@ -95,16 +112,21 @@ class ItemDetailed extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 70),
             Container(
-              width: 150, // 원하는 버튼의 폭으로 설정
+              width: MediaQuery.of(context).size.width * 0.6, // 또는 다른 적절한 값
               child: ElevatedButton(
                 onPressed: () {
-                  // 펀딩한 사람 보여주기 기능 구현
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ItemContributed(wishItem: wishItem),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
-                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8), // 내부 패딩 줄임
+                  primary: Colors.orange.shade400,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8), // 내부 패딩과 너비를 조절
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -113,12 +135,11 @@ class ItemDetailed extends StatelessWidget {
                 child: FittedBox(
                   child: Text(
                     '참여한 사람 보기',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
             ),
-
 
           ],
         ),
