@@ -153,7 +153,7 @@ Future<void> fetchWishItems(String token) async {
   }
 }
 
-Future<void> fetchProgressWishItems(String token, {String? searchText}) async {
+Future<void> fetchProgressWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$memberID');
@@ -231,7 +231,7 @@ Future<void> fetchUsedWishItems(String token) async {
   }
 }
 
-Future<void> addWishlist(String itemID, String token) async {
+Future<void> addWishlist(int itemID, String token) async {
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/add/$itemID');
   final headers = {
     'Content-Type': 'application/json',
