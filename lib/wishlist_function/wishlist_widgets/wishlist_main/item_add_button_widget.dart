@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobehonest/wishlist_view/item_add_view.dart';
+import 'package:tobehonest/wishlist_function/wishlist_view/item_add_view.dart';
 
 Widget ItemAddBar(BuildContext context) {
   return Padding(

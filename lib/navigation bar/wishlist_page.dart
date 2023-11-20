@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
-import 'package:tobehonest/wishlist_widget/wishlist_main/item_search_widget.dart';
-import 'package:tobehonest/wishlist_widget/wishlist_main/item_list_widget.dart';
-import 'package:tobehonest/wishlist_widget/wishlist_main/item_add_button_widget.dart';
-import '../wishlist_view/item_add_view.dart';
+import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_search_widget.dart';
+import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_list_widget.dart';
+import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_add_button_widget.dart';
+import '../wishlist_function/wishlist_view/item_add_view.dart';
 
 class WishListPage extends StatefulWidget {
   @override

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tobehonest/models/item.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
-import 'package:tobehonest/wishlist_widget/wishlist_add/item_add_search_widget.dart';
+import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_add/item_add_search_widget.dart';
 
 class NewItemPage extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
-import 'package:tobehonest/wishlist_view/item_contributed_view.dart';
+import 'package:tobehonest/wishlist_function/wishlist_view/item_contributed_view.dart';
 
 class ItemDetailed extends StatelessWidget {
   final WishItem wishItem;

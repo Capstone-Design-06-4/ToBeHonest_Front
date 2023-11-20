@@ -1,7 +1,7 @@
 //item_list.dart
 
 import 'package:flutter/material.dart';
-import 'package:tobehonest/wishlist_view/item_detailed_view.dart';
+import 'package:tobehonest/wishlist_function/wishlist_view/item_detailed_view.dart';
 import 'package:tobehonest/models/wishItem.dart';
 
 class WishItemList extends StatelessWidget {
