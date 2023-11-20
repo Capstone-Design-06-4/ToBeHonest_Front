@@ -19,6 +19,14 @@ class _ProductSearchWidgetState extends State<ItemSearchBar> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    // initState에서 컨트롤러 초기화
+    _controller.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),

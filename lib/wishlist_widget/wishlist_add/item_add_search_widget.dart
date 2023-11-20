@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 
 class ItemAddSearchBar extends StatefulWidget {
-  final ValueChanged<String> onSearch;
+  final ValueChanged<String> handleSearch;
 
-  ItemAddSearchBar({required this.onSearch});
+  ItemAddSearchBar({required this.handleSearch});
 
   @override
   _ItemAddSearchWidgetState createState() => _ItemAddSearchWidgetState();
@@ -15,7 +15,7 @@ class _ItemAddSearchWidgetState extends State<ItemAddSearchBar> {
   final TextEditingController _controller = TextEditingController();
 
   void _handleSearch() {
-    widget.onSearch(_controller.text);
+    widget.handleSearch(_controller.text);
   }
 
   @override
@@ -24,8 +24,7 @@ class _ItemAddSearchWidgetState extends State<ItemAddSearchBar> {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextField(
         controller: _controller,
-        onSubmitted: (_) => _handleSearch(),  // 검색 버튼 눌렀을 때 호출
-        onChanged: (value) => widget.onSearch(value),
+        onSubmitted: (_) => _handleSearch(),
         style: TextStyle(fontSize: 14),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10),
@@ -34,7 +33,7 @@ class _ItemAddSearchWidgetState extends State<ItemAddSearchBar> {
             icon: Icon(Icons.clear),
             onPressed: () {
               _controller.clear();
-              widget.onSearch('');
+              widget.handleSearch('');
             },
           ),
           hintText: '상품 이름 검색하기',

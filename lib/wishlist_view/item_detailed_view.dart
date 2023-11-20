@@ -1,5 +1,3 @@
-//item_detailed_view.dart
-
 import 'package:flutter/material.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';

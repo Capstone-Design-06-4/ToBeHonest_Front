@@ -13,9 +13,9 @@ class NewItemPage extends StatefulWidget {
 class _NewItemPageState extends State<NewItemPage> {
   final WishListController wishListController = Get.put(WishListController());
   int? selectedTileIndex;
-  Item? selectedItem; // 추가된 부분
+  Item? selectedItem; // 선택된 아이템 저장 변수
 
-  void _onSearch(String text) {
+  void _handleSearch(String text) {
     print('검색어: $text');
     wishListController.ItemAddSearch(text);
   }
@@ -33,7 +33,8 @@ class _NewItemPageState extends State<NewItemPage> {
         child: Column(
           children: [
             SizedBox(height: 20.0),
-            ItemAddSearchBar(onSearch: _onSearch),
+            // 검색 위젯
+            ItemAddSearchBar(handleSearch: _handleSearch),
             Obx(
                   () {
                 return Expanded(
@@ -48,11 +49,11 @@ class _NewItemPageState extends State<NewItemPage> {
                             if (selectedTileIndex == index) {
                               // 이미 선택된 타일을 다시 누르면 선택 취소
                               selectedTileIndex = null;
-                              selectedItem = null; // 추가된 부분: 선택 취소 시 selectedItem도 초기화
+                              selectedItem = null; // 선택 취소 시 selectedItem도 초기화
                             } else {
                               // 다른 타일을 누르면 해당 타일 선택
                               selectedTileIndex = index;
-                              selectedItem = item; // 추가된 부분: 선택한 아이템 저장
+                              selectedItem = item; // 선택한 아이템 저장
                             }
                           });
                         },
@@ -88,16 +89,15 @@ class _NewItemPageState extends State<NewItemPage> {
               },
             ),
             SizedBox(height: 15.0),
+            // 위시리스트에 추가 버튼
             Container(
               width: MediaQuery.of(context).size.width * 0.6,
               child: ElevatedButton(
                 onPressed: selectedTileIndex != null
                     ? () async {
-                  // Only enable the button if a ListTile is selected
-                  // Implement your logic here when the button is pressed
+                  // ListTile이 선택된 경우에만 버튼 동작
+                  // 버튼 동작 시 로직 추가
                   if (selectedItem != null) {
-                    // Do something with the selected item (e.g., add it to the wishlist)
-                    // You can use 'selectedItem' to access the details of the selected item
                     print('선택한 상품 추가: ${selectedItem!.name}');
                     print('선택한 상품 가격: ${selectedItem!.price}');
 

@@ -29,29 +29,31 @@ class WishListController extends GetxController {
       // 이미 추가된 상품인지 확인
       if (isItemAlreadyAdded(selectedItem.id)) {
         // 이미 추가된 상품이면 Snackbar를 표시하고 함수 종료
-        Get.snackbar("알림", "이미 추가된 상품입니다.",
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("알림", "이미 추가된 상품입니다.", snackPosition: SnackPosition.BOTTOM);
         return;
       }
 
+      // 추가되지 않은 상품이면 Wishlist에 추가
       await addWishlist(selectedItem.id, token);
 
       // 데이터 갱신 및 UI 갱신
       await fetchProgressWishItems_Con();
-      update();
+
+      // 추가 성공 시 Snackbar 표시
+      Get.snackbar("알림", "상품이 위시리스트에 추가되었습니다.", snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       print('오류 발생: $e');
+
+      // 실패 시 Snackbar 표시
+      Get.snackbar("알림", "상품 추가에 실패했습니다.", snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading(false);
     }
   }
 
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchProgressWishItems_Con();
-  }
+
+
 
   Future<void> fetchProgressWishItems_Con({String? searchText}) async {
     try {
@@ -80,8 +82,8 @@ class WishListController extends GetxController {
     }
   }
 
-  // 나머지 메서드...
 
+// 위시리스트에 상품을 추가하는 메서드
   Future<void> addToWishlist_Con(int itemID) async {
     try {
       isLoading(true);
@@ -90,6 +92,7 @@ class WishListController extends GetxController {
       print('토큰: $token');
       if (token == null) throw Exception("토큰이 없습니다.");
 
+      // 위시리스트에 상품 추가
       await addWishlist(itemID, token);
 
       // 데이터 갱신 및 UI 갱신
@@ -103,7 +106,7 @@ class WishListController extends GetxController {
     }
   }
 
-
+// 검색어를 사용하여 상품을 추가하고 UI 갱신하는 메서드
   Future<void> ItemAddSearch(String searchText) async {
     try {
       isLoading(true);
@@ -114,6 +117,7 @@ class WishListController extends GetxController {
 
       print('검색어로 상품을 찾는 중...');
 
+      // 검색어를 사용하여 상품을 찾음
       List<Item> searchedItems = await findItemByKeyword(searchText, token);
 
       // RxList의 assignAll 메서드로 데이터를 할당
@@ -121,8 +125,6 @@ class WishListController extends GetxController {
 
       // RxList의 refresh 메서드로 UI를 갱신
       Items.refresh();
-
-      // 나머지 디버깅 및 로그 출력 부분...
 
     } catch (e) {
       print('오류 발생: $e');
