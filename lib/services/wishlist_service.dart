@@ -249,3 +249,22 @@ Future<void> addWishlist(int itemID, String token) async {
     throw Exception('오류 발생: $e');
   }
 }
+
+Future<void> deleteWishlist(int wishItemID, String token) async {
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/delete/$wishItemID');
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': "Bearer $token",
+  };
+  try {
+    final response = await http.delete(url, headers: headers);
+    if(response.statusCode == 200) {
+      print('위시리스트가 정상적으로 삭제되었습니다.');
+    } else {
+      print('위시리스트 삭제에 실패했습니다.');
+    }
+  }
+  catch(e) {
+    throw Exception('오류 발생: $e');
+  }
+}
