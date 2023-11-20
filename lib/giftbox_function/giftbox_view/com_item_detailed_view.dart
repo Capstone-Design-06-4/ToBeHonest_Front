@@ -1,14 +1,10 @@
-// item_detailed_view.dart
-
 import 'package:flutter/material.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/wishlist_function/wishlist_view/item_contributed_view.dart';
-import 'package:tobehonest/controllers/contributor_controller.dart';
 
 class ItemDetailed extends StatelessWidget {
   final WishItem wishItem;
-  final ContributorController contributorController = ContributorController();
 
   ItemDetailed({required this.wishItem});
 
@@ -124,7 +120,7 @@ class ItemDetailed extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: ElevatedButton(
-                      onPressed: () async {
+                      onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

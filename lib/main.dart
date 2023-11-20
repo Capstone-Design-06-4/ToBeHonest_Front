@@ -14,6 +14,7 @@ import 'package:tuple/tuple.dart';
 import 'models/friend.dart';
 import 'models/item.dart';
 import 'models/wishItem.dart';
+import 'models/contributor.dart';
 
 import '../services/login_service.dart';
 import '../services/friend_service.dart';
@@ -28,6 +29,7 @@ import 'navigation bar/giftbox_page.dart';
 import 'navigation bar/memorybox_page.dart';
 import 'navigation bar/myprofile_page.dart';
 import 'navigation bar/wishlist_page.dart';
+import 'thanks_message/thanks_message_view.dart';
 import 'navigation_bar.dart';
 
 
@@ -38,6 +40,7 @@ void main() async {
   Hive.registerAdapter(FriendAdapter());
   Hive.registerAdapter(ItemAdapter());
   Hive.registerAdapter(WishItemAdapter());
+  Hive.registerAdapter(ContributorAdapter());
 
 
   // GetX를 사용하여 FriendController 인스턴스를 생성하고 의존성 시스템에 저장합니다

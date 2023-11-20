@@ -10,7 +10,7 @@ import '../services/login_service.dart';
 class WishListController extends GetxController {
   var wishItems = <WishItem>[].obs;
   var Items = <Item>[].obs;
-  var isLoading = true.obs;
+  var isLoading = false.obs;
 
   bool isItemAlreadyAdded(int itemId) {
     // 이미 추가된 상품인지 여부를 확인하는 로직

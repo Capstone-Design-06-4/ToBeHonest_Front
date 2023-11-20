@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
-import 'package:tobehonest/controllers/contributor_controller.dart';
-import 'package:get/get.dart';
 
 class ItemContributed extends StatefulWidget {
   final WishItem wishItem;
-  final ContributorController contributorController = Get.put(ContributorController());
 
   ItemContributed({required this.wishItem});
 
@@ -15,11 +12,20 @@ class ItemContributed extends StatefulWidget {
 }
 
 class _ItemContributedState extends State<ItemContributed> {
+  List<Map<String, dynamic>> contributors = [
+    // Dummy data for contributors
+    {'name': 'Robert', 'amount': 30000, 'imageUrl': 'assets/robert.jpg'},
+    {'name': 'Emily', 'amount': 15000, 'imageUrl': 'assets/emily.jpg'},
+    {'name': 'Justin', 'amount': 11000, 'imageUrl': 'assets/justin.jpg'},
+  ];
+
   String formatCurrency(int amount) {
     final formatter = NumberFormat('#,###', 'ko_KR');
     String formattedAmount = formatter.format(amount);
+    // '₩' 기호를 뒤에 추가
     return '$formattedAmount 원';
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class _ItemContributedState extends State<ItemContributed> {
                       width: 120,
                       height: 120,
                       child: Card(
-                        elevation: 4,
+                        elevation: 4, // 그림자 크기 조절
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -97,27 +103,23 @@ class _ItemContributedState extends State<ItemContributed> {
           ),
 
           Expanded(
-            child: Obx(() {
-              widget.contributorController.getContributorList(widget.wishItem.wishItemId); // 데이터를 가져오는 메서드 호출 추가
-              return ListView.builder(
-                itemCount: widget.contributorController.ContributorList.length,
-                itemBuilder: (context, index) {
-                  final contributor = widget.contributorController.ContributorList[index];
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage(contributor.ProfileURL),
-                      ),
-                      title: Text(contributor.friendName),
-                      trailing: Text(formatCurrency(contributor.contribution)),
+            child: ListView.builder(
+              itemCount: contributors.length,
+              itemBuilder: (context, index) {
+                final contributor = contributors[index];
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(contributor['imageUrl']),
                     ),
-                  );
-                },
-              );
-            }),
+                    title: Text(contributor['name']),
+                    trailing: Text(formatCurrency(contributor['amount'])),
+                  ),
+                );
+              },
+            ),
           ),
-
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
@@ -193,6 +195,7 @@ class _ItemContributedState extends State<ItemContributed> {
                   ),
                 ),
               ],
+
             ),
           ),
         ],
