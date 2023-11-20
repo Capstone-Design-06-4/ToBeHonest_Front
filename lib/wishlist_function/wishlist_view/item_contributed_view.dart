@@ -15,6 +15,12 @@ class ItemContributed extends StatefulWidget {
 }
 
 class _ItemContributedState extends State<ItemContributed> {
+  @override
+  void initState() {
+    super.initState();
+    widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
+  }
+
   String formatCurrency(int amount) {
     final formatter = NumberFormat('#,###', 'ko_KR');
     String formattedAmount = formatter.format(amount);
@@ -98,7 +104,7 @@ class _ItemContributedState extends State<ItemContributed> {
 
           Expanded(
             child: Obx(() {
-              widget.contributorController.getContributorList(widget.wishItem.wishItemId); // 데이터를 가져오는 메서드 호출 추가
+              //controller 호출 자리
               return ListView.builder(
                 itemCount: widget.contributorController.ContributorList.length,
                 itemBuilder: (context, index) {

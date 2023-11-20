@@ -29,7 +29,7 @@ class WishListController extends GetxController {
       // 이미 추가된 상품인지 확인
       if (isItemAlreadyAdded(selectedItem.id)) {
         // 이미 추가된 상품이면 Snackbar를 표시하고 함수 종료
-        Get.snackbar("알림", "이미 추가된 상품입니다.", snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("알림", "이미 추가된 상품입니다.", snackPosition: SnackPosition.TOP);
         return;
       }
 
@@ -40,12 +40,12 @@ class WishListController extends GetxController {
       await fetchProgressWishItems_Con();
 
       // 추가 성공 시 Snackbar 표시
-      Get.snackbar("알림", "상품이 위시리스트에 추가되었습니다.", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("알림", "상품이 위시리스트에 추가되었습니다.", snackPosition: SnackPosition.TOP);
     } catch (e) {
       print('오류 발생: $e');
 
       // 실패 시 Snackbar 표시
-      Get.snackbar("알림", "상품 추가에 실패했습니다.", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("알림", "상품 추가에 실패했습니다.", snackPosition: SnackPosition.TOP);
     } finally {
       isLoading(false);
     }
