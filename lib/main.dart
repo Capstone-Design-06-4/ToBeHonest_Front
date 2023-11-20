@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _pages = [
     FriendPage(), // 친구 페이지
     WishListPage(), // 위시리스트 페이지
-    PlaceholderWidget(Colors.green), // 선물함 페이지
+    GiftBoxPage(), // 선물함 페이지
     PlaceholderWidget(Colors.yellow), // 기억함 페이지
     PlaceholderWidget(Colors.purple), // MY 페이지
   ];

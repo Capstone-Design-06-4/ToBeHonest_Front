@@ -51,10 +51,6 @@ class WishListController extends GetxController {
     }
   }
 
-
-
-
-
   Future<void> fetchProgressWishItems_Con({String? searchText}) async {
     try {
       isLoading(true);
