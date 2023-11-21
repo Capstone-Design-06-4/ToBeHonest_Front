@@ -12,9 +12,12 @@ class WishListController extends GetxController {
   var Items = <Item>[].obs;
   var isLoading = false.obs;
 
-  bool isItemAlreadyAdded(int itemId) {
+  Future<bool> isItemAlreadyAdded(int itemId) async {
     // 이미 추가된 상품인지 여부를 확인하는 로직
-    return wishItems.any((item) => item.wishItemId == itemId);
+    String? token = await getToken() ?? "";
+    await fetchProgressWishItems(token);
+    List<WishItem> progressWishItems = await getProgressWishItems();
+    return progressWishItems.any((item) => item.itemId == itemId);//itemId로 바꿔야함
   }
 
 
@@ -27,7 +30,7 @@ class WishListController extends GetxController {
       if (token == null) throw Exception("토큰이 없습니다.");
 
       // 이미 추가된 상품인지 확인
-      if (isItemAlreadyAdded(selectedItem.id)) {
+      if (await isItemAlreadyAdded(selectedItem.id)) {
         // 이미 추가된 상품이면 Snackbar를 표시하고 함수 종료
         Get.snackbar("알림", "이미 추가된 상품입니다.", snackPosition: SnackPosition.TOP);
         return;
