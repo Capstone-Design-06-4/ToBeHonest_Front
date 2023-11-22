@@ -22,6 +22,9 @@ class WishItem {
   @HiveField(5)
   final int fundAmount;
 
+  @HiveField(6)
+  final int itemId;
+
   WishItem({
     required this.wishItemId,
     required this.itemBrand,
@@ -29,6 +32,7 @@ class WishItem {
     required this.image,
     required this.itemPrice,
     required this.fundAmount,
+    required this.itemId,
   });
 
   factory WishItem.fromJson(Map<String, dynamic> json) {
@@ -47,7 +51,8 @@ class WishItem {
       itemName: itemName,
       image: json['image'] as String,
       itemPrice: json['itemPrice'] as int,
-      fundAmount: json['fundAmount'] != null ? json['fundAmount'] as int : 0
+      fundAmount: json['fundAmount'] != null ? json['fundAmount'] as int : 0,
+      itemId: json['itemId'] as int
     );
   }
 
@@ -59,6 +64,7 @@ class WishItem {
       'image': image,
       'itemPrice': itemPrice,
       'fundAmount': fundAmount,
+      'itemId': itemId,
     };
   }
 
@@ -70,6 +76,7 @@ class WishItem {
         'itemName: $itemName, '
         'image: $image, '
         'itemPrice: $itemPrice, '
-        'fundAmount: $fundAmount}';
+        'fundAmount: $fundAmount'
+        'itemId: $itemId}';
   }
 }
