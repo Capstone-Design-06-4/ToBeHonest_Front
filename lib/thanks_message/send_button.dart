@@ -43,6 +43,7 @@ class SendButton extends StatelessWidget {
       onPressed: () async {
         if (controller.selectedImage.value != null) {
           File selectedFile = File(controller.selectedImage.value!.path);
+          await createMessage();
           await sendThanksMessage(message, selectedFile, token!);
         } else {
           // 이미지가 선택되지 않았을 경우 처리
