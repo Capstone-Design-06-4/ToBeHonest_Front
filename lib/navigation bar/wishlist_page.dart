@@ -27,9 +27,14 @@ class _WishListPageState extends State<WishListPage> {
 
   void _updateWishItems() async {
     try {
+      wishListController.isLoading(true);  // 로딩 시작
       await wishListController.fetchProgressWishItems_Con(searchText: _searchText);
+      // RxList를 refresh하여 UI를 갱신
+      wishListController.wishItems.refresh();
     } catch (e) {
       print('오류 발생: $e');
+    } finally {
+      wishListController.isLoading(false);  // 로딩 종료
     }
   }
 
@@ -37,6 +42,7 @@ class _WishListPageState extends State<WishListPage> {
   void initState() {
     super.initState();
 
+    // 페이지가 열릴 때 자동으로 새로고침
     _updateWishItems();
   }
 

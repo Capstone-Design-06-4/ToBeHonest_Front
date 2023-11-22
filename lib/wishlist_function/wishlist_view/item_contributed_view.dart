@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/controllers/contributor_controller.dart';
+import 'package:tobehonest/navigation bar/wishlist_page.dart';
 import 'package:get/get.dart';
 
 class ItemContributed extends StatefulWidget {
   final WishItem wishItem;
   final ContributorController contributorController = Get.put(ContributorController());
+  final WishListController wishListController = Get.put(WishListController());
 
   ItemContributed({required this.wishItem});
 
@@ -158,7 +161,38 @@ class _ItemContributedState extends State<ItemContributed> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              // 위시리스트에서 삭제하기 기능 구현
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('진짜 삭제할거?'),
+                                    insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () async {
+                                          // 확인 버튼을 눌렀을 때의 동작
+                                          Navigator.of(context).pop();  // 다이얼로그를 닫음
+                                          await widget.wishListController.deleteFromWishlist_Con(widget.wishItem.wishItemId);
+                                          print("Before popping twice");
+                                          Navigator.popUntil(context, (route) => route.isFirst);  // 현재 페이지를 닫고 두 번 뒤로 이동
+                                          print("After popping twice");
+                                        },
+                                        child: Text('확인'),
+                                      ),
+
+
+                                      TextButton(
+                                        onPressed: () {
+                                          // 아니오 버튼을 눌렀을 때의 동작
+                                          Navigator.of(context).pop();  // 다이얼로그를 닫음
+
+                                        },
+                                        child: Text('아니오'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.orange.shade400,

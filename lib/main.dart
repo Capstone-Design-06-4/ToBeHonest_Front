@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xFFF4A261),
       ),
       home: MyHomePage(),
+      routes: {
+        '/wishlist': (context) => WishListPage(),
+      },
     );
   }
 }

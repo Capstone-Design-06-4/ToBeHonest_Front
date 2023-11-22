@@ -17,7 +17,8 @@ class WishListController extends GetxController {
     String? token = await getToken() ?? "";
     await fetchProgressWishItems(token);
     List<WishItem> progressWishItems = await getProgressWishItems();
-    return progressWishItems.any((item) => item.itemId == itemId);//itemId로 바꿔야함
+    return progressWishItems.any((item) =>
+    item.itemId == itemId); //itemId로 바꿔야함
   }
 
 
@@ -43,7 +44,8 @@ class WishListController extends GetxController {
       await fetchProgressWishItems_Con();
 
       // 추가 성공 시 Snackbar 표시
-      Get.snackbar("알림", "상품이 위시리스트에 추가되었습니다.", snackPosition: SnackPosition.TOP);
+      Get.snackbar(
+          "알림", "상품이 위시리스트에 추가되었습니다.", snackPosition: SnackPosition.TOP);
     } catch (e) {
       print('오류 발생: $e');
 
@@ -64,7 +66,6 @@ class WishListController extends GetxController {
 
       await fetchProgressWishItems(token);
 
-      List<WishItem> progressWishItems = await getProgressWishItems();
       List<WishItem> allWishItems = [];
       allWishItems.addAll(await getProgressWishItems());
 
@@ -73,14 +74,12 @@ class WishListController extends GetxController {
 
       // RxList의 refresh 메서드로 UI를 갱신
       wishItems.refresh();
-
     } catch (e) {
       print('오류 발생: $e');
     } finally {
       isLoading(false);
     }
   }
-
 
 // 위시리스트에 상품을 추가하는 메서드
   Future<void> addToWishlist_Con(int itemID) async {
@@ -124,11 +123,39 @@ class WishListController extends GetxController {
 
       // RxList의 refresh 메서드로 UI를 갱신
       Items.refresh();
-
     } catch (e) {
       print('오류 발생: $e');
     } finally {
       isLoading(false);
     }
   }
+
+  Future<void> deleteFromWishlist_Con(int wishItemID) async {
+    try {
+      isLoading(true);
+
+      String? token = await getToken();
+      print('토큰: $token');
+      if (token == null) throw Exception("토큰이 없습니다.");
+
+      await deleteWishlist(wishItemID, token);
+
+      // 삭제 후에 fetchProgressWishItems_Con 메서드로 데이터를 다시 가져옴
+      await fetchProgressWishItems_Con();
+
+      // RxList의 assignAll 메서드로 데이터를 할당
+      wishItems.assignAll(await getProgressWishItems());
+
+      // RxList의 refresh 메서드로 UI를 갱신
+      wishItems.refresh();
+      update();
+      Get.snackbar(
+          "알림", "상품이 위시리스트에서 삭제되었습니다.", snackPosition: SnackPosition.TOP);
+    } catch (e) {
+      print('오류 발생: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
 }
