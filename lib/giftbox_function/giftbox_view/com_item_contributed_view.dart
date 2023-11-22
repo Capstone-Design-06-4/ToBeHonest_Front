@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
+import 'package:tobehonest/controllers/contributor_controller.dart';
+import 'package:tobehonest/navigation bar/wishlist_page.dart';
+import 'package:get/get.dart';
+import 'package:tobehonest/thanks_message/thanks_message_view.dart';
 
-class ItemContributed extends StatefulWidget {
+class ComItemContributed extends StatefulWidget {
   final WishItem wishItem;
+  final ContributorController contributorController = Get.put(ContributorController());
+  final WishListController wishListController = Get.put(WishListController());
 
-  ItemContributed({required this.wishItem});
+  ComItemContributed({required this.wishItem});
 
   @override
-  _ItemContributedState createState() => _ItemContributedState();
+  _ComItemContributedState createState() => _ComItemContributedState();
 }
 
-class _ItemContributedState extends State<ItemContributed> {
-  List<Map<String, dynamic>> contributors = [];
+class _ComItemContributedState extends State<ComItemContributed> {
+  @override
+  void initState() {
+    super.initState();
+    widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
+  }
 
   String formatCurrency(int amount) {
-    final formatter = NumberFormat('#,###');
+    final formatter = NumberFormat('#,###', 'ko_KR');
     String formattedAmount = formatter.format(amount);
     return '$formattedAmount 원';
   }
@@ -43,7 +54,7 @@ class _ItemContributedState extends State<ItemContributed> {
                         width: 120,
                         height: 120,
                         child: Card(
-                          elevation: 4, // 그림자 크기 조절
+                          elevation: 4,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -97,23 +108,27 @@ class _ItemContributedState extends State<ItemContributed> {
             ),
 
             Expanded(
-              child: ListView.builder(
-                itemCount: contributors.length,
-                itemBuilder: (context, index) {
-                  final contributor = contributors[index];
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage(contributor['imageUrl']),
+              child: Obx(() {
+                //controller 호출 자리
+                return ListView.builder(
+                  itemCount: widget.contributorController.ContributorList.length,
+                  itemBuilder: (context, index) {
+                    final contributor = widget.contributorController.ContributorList[index];
+                    return Card(
+                      margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage(contributor.ProfileURL),
+                        ),
+                        title: Text(contributor.friendName),
+                        trailing: Text(formatCurrency(contributor.contribution)),
                       ),
-                      title: Text(contributor['name']),
-                      trailing: Text(formatCurrency(contributor['amount'])),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
             ),
+
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
@@ -126,28 +141,12 @@ class _ItemContributedState extends State<ItemContributed> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              // 다른 상품 보기 기능 구현
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.orange.shade200,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: FittedBox(
-                              child: Text(
-                                '다른 상품과 합치기',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // 공유하기 기능 구현
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ThanksMessage(wishItem: widget.wishItem), // 이동하고 싶은 페이지의 위젯을 넣어주세요
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.orange.shade300,
@@ -158,33 +157,13 @@ class _ItemContributedState extends State<ItemContributed> {
                             ),
                             child: FittedBox(
                               child: Text(
-                                '금액 채우기',
+                                '감사메시지 전하기',
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // 위시리스트에서 삭제하기 기능 구현
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.orange.shade400,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: FittedBox(
-                              child: Text(
-                                '위시리스트에서 삭제하기',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ),
-                        ),
+                        
                       ],
                     ),
                   ),

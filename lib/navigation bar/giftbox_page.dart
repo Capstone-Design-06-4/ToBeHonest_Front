@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tobehonest/controllers/giftbox_controller.dart';
 import 'package:tobehonest/giftbox_function/giftbox_widgets/completeted_item_search_widget.dart';
 import 'package:tobehonest/giftbox_function/giftbox_widgets/com_item_list_widget.dart';
+import 'package:tobehonest/giftbox_function/giftbox_view/com_item_detailed_view.dart';
 import 'package:get/get.dart';
 
 class GiftBoxPage extends StatefulWidget {

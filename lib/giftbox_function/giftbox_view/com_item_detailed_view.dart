@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
-import 'package:tobehonest/wishlist_function/wishlist_view/item_contributed_view.dart';
+import 'package:tobehonest/giftbox_function/giftbox_view/com_item_contributed_view.dart';
 
-class ItemDetailed extends StatelessWidget {
+class ComItemDetailed extends StatelessWidget {
   final WishItem wishItem;
 
-  ItemDetailed({required this.wishItem});
+  ComItemDetailed({required this.wishItem});
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +125,7 @@ class ItemDetailed extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ItemContributed(wishItem: wishItem),
+                              builder: (context) => ComItemContributed(wishItem: wishItem),
                             ),
                           );
                         },
