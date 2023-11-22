@@ -71,10 +71,10 @@ class WishItemList extends StatelessWidget {
                       ),
                     ),
                     Opacity(
-                      opacity: 0.75,
+                      opacity: 0.6,
                       child: Container(
                         height: 20,
-                        width: (MediaQuery.of(ctx).size.width - 255) *
+                        width: (MediaQuery.of(ctx).size.width - 245) *
                             (filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice),
                         decoration: BoxDecoration(
                           color: Colors.green,

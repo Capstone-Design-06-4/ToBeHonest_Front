@@ -132,27 +132,7 @@ class _ItemContributedState extends State<ItemContributed> {
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: Column(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // 다른 상품 보기 기능 구현
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.orange.shade200,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: FittedBox(
-                            child: Text(
-                              '다른 상품과 합치기',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                      ),
+
                       Container(
                         width: double.infinity,
                         child: ElevatedButton(
