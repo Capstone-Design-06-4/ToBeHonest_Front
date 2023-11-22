@@ -117,18 +117,28 @@ class ThanksMessage extends StatelessWidget {
                 ),
               ),
               child: Row(
-                children: <Widget>[
+                children: // Widget 배열 구성
+                <Widget>[
                   Icon(
                     Icons.message, // 메시지 아이콘 추가
                     color: Colors.grey, // 아이콘 색상 설정
                   ),
-                  SizedBox(width: 10.0), // 아이콘과 텍스트 사이 간격 추가
-                  Text(
-                    '메시지를 작성하세요.',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                      // 텍스트 색상 설정
+                  SizedBox(width: 10.0), // 아이콘과 TextFormField 사이 간격 추가
+                  Expanded( // TextFormField를 Expanded로 감싸서 남은 공간을 채우게 함
+                    child: TextFormField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        hintText: '메시지를 작성하세요.', // placeholder 텍스트
+                        border: InputBorder.none, // 밑줄 없애기
+                        hintStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey, // 힌트 텍스트 색상 설정
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black, // 입력 텍스트 색상
+                      ),
                     ),
                   ),
                 ],
