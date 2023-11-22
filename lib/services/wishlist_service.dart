@@ -127,6 +127,29 @@ Future<List<WishItem>> getUsedWishItems() async {
   return wishItems;
 }
 
+Future<void> saveFriendItemsToLocal(dynamic wishItems) async {
+  var box = await Hive.openBox<WishItem>('friendWishItemBox');
+
+  if(wishItems is List<WishItem>) {
+    await box.clear();
+    for (var wishItem in wishItems) {
+      await box.put(wishItem.wishItemId, wishItem);
+    }
+  } else if (wishItems is WishItem) {
+    await box.put(wishItems.wishItemId, wishItems);
+  } else {
+    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  }
+  await box.close();
+}
+
+Future<List<WishItem>> getFriendWishItems() async {
+  var box = await Hive.openBox<WishItem>('friendWishItemBox');
+  List<WishItem> wishItems = box.values.toList();
+  await box.close();
+  return wishItems;
+}
+
 Future<void> fetchWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
@@ -230,6 +253,31 @@ Future<void> fetchUsedWishItems(String token) async {
     print('오류 발생: $e');
   }
 }
+
+Future<void> fetchFriendWishItems(int friendID, String token) async {
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$friendID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+  try {
+    final response = await http.get(url, headers: headers);
+    if(response.statusCode == 200) {
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> wishItemJsonList = json.decode(decodedResponse);
+      List<WishItem> wishItemList =
+      wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
+      await saveUsedItemsToLocal(wishItemList);
+      print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
+    } else {
+      print('위시 아이템 가져오기 실패: ${response.statusCode}');
+    }
+  } catch(e) {
+    print('오류 발생: $e');
+  }
+}
+
 
 Future<void> addWishlist(int itemID, String token) async {
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/add/$itemID');
