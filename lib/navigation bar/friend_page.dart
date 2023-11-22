@@ -36,29 +36,31 @@ class _FriendPageState extends State<FriendPage> {
     });
 
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          SearchFriendWidget(controller: searchController),
-          Obx(() => Visibility(
-            visible: friendController.isAddingAllowed.value,
-              child: const AddFriendTile(),
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            SearchFriendWidget(controller: searchController),
+            Obx(() => Visibility(
+              visible: friendController.isAddingAllowed.value,
+                child: const AddFriendTile(),
+              ),
             ),
-          ),
-          const FriendCategorized(title: '친구 목록'),
-          Expanded(
-            child: Obx(() {
-              if (friendController.isLoading.isTrue) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return ListView.builder(
-                itemCount: friendController.friendsList.length,
-                itemBuilder: (context, index) {
-                  return buildFriendContainer(context, friendController.friendsList[index]);
-                },
-              );
-            }),
-          ),
-        ],
+            const FriendCategorized(title: '친구 목록'),
+            Expanded(
+              child: Obx(() {
+                if (friendController.isLoading.isTrue) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return ListView.builder(
+                  itemCount: friendController.friendsList.length,
+                  itemBuilder: (context, index) {
+                    return buildFriendContainer(context, friendController.friendsList[index]);
+                  },
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

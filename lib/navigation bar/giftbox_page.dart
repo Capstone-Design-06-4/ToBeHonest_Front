@@ -40,25 +40,29 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ItemSearchBar(onSearch: _onSearch),
-        Expanded(
-          child: Obx(() {
-            if (giftBoxController.isLoading.isTrue) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return ListView(
-              children: <Widget>[
-                 WishItemList(
-                   wishItems: giftBoxController.wishItems,
-                   searchText: _searchText,
-                 ),
-              ],
-            );
-          }),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            ItemSearchBar(onSearch: _onSearch),
+            Expanded(
+              child: Obx(() {
+                if (giftBoxController.isLoading.isTrue) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return ListView(
+                  children: <Widget>[
+                    WishItemList(
+                      wishItems: giftBoxController.wishItems,
+                      searchText: _searchText,
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

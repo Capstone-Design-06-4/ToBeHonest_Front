@@ -42,26 +42,30 @@ class _WishListPageState extends State<WishListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ItemSearchBar(onSearch: _onSearch),
-        Expanded(
-          child: Obx(() {
-            if (wishListController.isLoading.isTrue) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return ListView(
-              children: <Widget>[
-                ItemAddBar(context),
-                WishItemList(
-                  wishItems: wishListController.wishItems,
-                  searchText: _searchText,
-                ),
-              ],
-            );
-          }),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            ItemSearchBar(onSearch: _onSearch),
+            Expanded(
+              child: Obx(() {
+                if (wishListController.isLoading.isTrue) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return ListView(
+                  children: <Widget>[
+                    ItemAddBar(context),
+                    WishItemList(
+                      wishItems: wishListController.wishItems,
+                      searchText: _searchText,
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
