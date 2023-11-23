@@ -40,59 +40,70 @@ class _EmailAddPageState extends State<EmailAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: '이메일 입력',
-                  border: OutlineInputBorder(),
-                  hintText: 'yourname@example.com',
-                  suffixIcon: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: _selectedDomain,
-                      items: _domainList.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value == '직접 입력' ? value : '@' + value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedDomain = newValue!;
-                          _emailController.text = newValue == '직접 입력'
-                              ? ''
-                              : _emailController.text.split('@').first + '@' + newValue;
-                        });
-                      },
+              Container(
+                margin: EdgeInsets.only(bottom: 16.0), // 아래쪽 마진 추가
+                child: TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: '이메일 입력',
+                    border: OutlineInputBorder(),
+                    hintText: 'yourname@example.com',
+                    suffixIcon: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: _selectedDomain,
+                        items: _domainList.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value == '직접 입력' ? value : '@' + value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedDomain = newValue!;
+                            _emailController.text = newValue == '직접 입력'
+                                ? ''
+                                : _emailController.text.split('@').first + '@' + newValue;
+                          });
+                        },
+                      ),
                     ),
+                    errorText: errorText.isNotEmpty ? errorText : null,
                   ),
-                  errorText: errorText.isNotEmpty ? errorText : null, // 오류 메시지 표시
+                  keyboardType: TextInputType.emailAddress,
                 ),
-                keyboardType: TextInputType.emailAddress,
               ),
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        primary: Colors.orange.shade400,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                      child: Text('추가하기'),
+                      child: FittedBox(
+                        child: Text(
+                          '이메일로 추가하기',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
                       onPressed: () {
                         if (!_validateForm()) {
                           setState(() {
-                            errorText = '올바른 이메일을 입력해주세요.'; // 이메일이 유효하지 않을 때 오류 메시지 설정
+                            errorText = '올바른 이메일을 입력해주세요.';
                           });
                         } else {
                           setState(() {
-                            errorText = ''; // 이메일이 유효하면 오류 메시지 초기화
+                            errorText = '';
                           });
                           String fullEmail = _emailController.text;
                           print('전체 이메일: $fullEmail');
-
-                          // AddController의 searchFriendsByEmail 메서드 호출
                           _addController.searchFriendsByEmail(fullEmail);
                         }
                       },
+
                     ),
                   ),
                 ],
