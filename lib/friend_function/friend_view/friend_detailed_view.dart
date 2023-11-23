@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/models/friend.dart';
+import 'package:tobehonest/friend_function/friend_view/friend_wishlist_view.dart';
 
 class FriendDetailPage extends StatelessWidget {
   final Friend friend;
@@ -101,6 +102,13 @@ class FriendDetailPage extends StatelessWidget {
                               onPressed: () {
                                 // 버튼이 눌렸을 때 수행할 동작 구현
                                 print('위시리스트 버튼이 눌렸습니다.');
+                                // FriendWishlistPage로 네비게이션
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FriendWishlistPage(friendID: friend.id),
+                                  ),
+                                );
                                 // 여기에 위시리스트 관련 동작을 추가하세요.
                               },
                               style: ElevatedButton.styleFrom(
