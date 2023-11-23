@@ -19,7 +19,7 @@ class friendWishListController extends GetxController {
       String? token = await getToken();
       print('토큰: $token');
       if (token == null) throw Exception("토큰이 없습니다.");
-
+      if(friendID == null) throw Exception("friendID가 없습니다.");
       await fetchFriendWishItems(friendID, token);
 
       List<WishItem> allWishItems = [];
