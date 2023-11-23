@@ -39,20 +39,41 @@ class SendButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
-        if (controller.selectedImage.value != null) {
-          File selectedFile = File(controller.selectedImage.value!.path);
-          await createMessage();
-          await sendThanksMessage(message, selectedFile, token!);
-        } else {
-          // 이미지가 선택되지 않았을 경우 처리
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('사진을 선택해주세요.')),
-          );
-        }
-      },
-      child: Text('전송하기'),
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.6,
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () async {
+                if (controller.selectedImage.value != null) {
+                  File selectedFile = File(controller.selectedImage.value!.path);
+                  await createMessage();
+                  await sendThanksMessage(message, selectedFile, token!);
+                } else {
+                  // 이미지가 선택되지 않았을 경우 처리
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('사진을 선택해주세요.')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.orange.shade400,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                minimumSize: Size(0, 36),
+              ),
+              child: Text(
+                '감사 메시지 보내기',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

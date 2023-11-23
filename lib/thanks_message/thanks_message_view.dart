@@ -32,6 +32,8 @@ class ThanksMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const borderColor = Color(0xFFD3D3D3);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -42,7 +44,7 @@ class ThanksMessage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              margin: EdgeInsets.all(12.0),
+              margin: EdgeInsets.all(16.0),
               width: double.infinity,
               child: Card(
                 child: Padding(
@@ -107,65 +109,56 @@ class ThanksMessage extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(12.0),
+              margin: EdgeInsets.all(16.0),
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                  width: 1.0, // 테두리 두께 설정
-                ),
-              ),
-              child: Row(
-                children: // Widget 배열 구성
-                <Widget>[
-                  Icon(
-                    Icons.message, // 메시지 아이콘 추가
-                    color: Colors.grey, // 아이콘 색상 설정
-                  ),
-                  SizedBox(width: 10.0), // 아이콘과 TextFormField 사이 간격 추가
-                  Expanded( // TextFormField를 Expanded로 감싸서 남은 공간을 채우게 함
-                    child: TextFormField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                        hintText: '메시지를 작성하세요.', // placeholder 텍스트
-                        border: InputBorder.none, // 밑줄 없애기
-                        hintStyle: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey, // 힌트 텍스트 색상 설정
-                        ),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: titleController,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                      prefixIcon: const Icon(Icons.title, size: 30),
+                      hintText: '제목을 적어주세요!',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: borderColor, width: 1.0), // 연한 회색 테두리 적용
                       ),
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black, // 입력 텍스트 색상
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: borderColor, width: 1.0), // 연한 회색 테두리 적용
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2.0, color: Theme.of(context).primaryColor),
                       ),
                     ),
+                    keyboardType: TextInputType.text,
                   ),
                 ],
               ),
             ),
             Flexible(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Obx(() => controller.selectedImage.value == null
-                    ? Text('사진을 선택해주세요.')
-                    : Image.file(File(controller
-                        .selectedImage.value!.path))), // Obx를 사용하여 반응형으로 이미지 표시
-              ),
-            ),
-            Flexible(
               flex: 5,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextFormField(
                   controller: textEditingController,
                   decoration: InputDecoration(
-                    labelText: '내용',
+                    labelText: '내용을 적어주세요.',
                     border: OutlineInputBorder(),
                   ),
                   maxLines: 5,
                 ),
+              ),
+            ),
+            Flexible(
+              flex: 3,
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Obx(() => controller.selectedImage.value == null
+                    ? Text('사진을 추가해주세요.')
+                    : Image.file(File(controller
+                    .selectedImage.value!.path))), // Obx를 사용하여 반응형으로 이미지 표시
               ),
             ),
             Flexible(
@@ -186,6 +179,7 @@ class ThanksMessage extends StatelessWidget {
           onPressed: _pickImage,
           tooltip: '사진 선택',
           child: Icon(Icons.add_a_photo),
+          backgroundColor: Colors.orange[300],
         ),
       ),
     );
