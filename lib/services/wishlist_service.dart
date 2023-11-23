@@ -255,7 +255,7 @@ Future<void> fetchUsedWishItems(String token) async {
 }
 
 Future<void> fetchFriendWishItems(int friendID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$friendID');
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$friendID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -268,7 +268,7 @@ Future<void> fetchFriendWishItems(int friendID, String token) async {
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList =
       wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
-      await saveUsedItemsToLocal(wishItemList);
+      await saveFriendItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
