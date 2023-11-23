@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/models/friend.dart';
 
 class FriendDetailPage extends StatelessWidget {
@@ -32,31 +33,151 @@ class FriendDetailPage extends StatelessWidget {
                     radius: 60.0, // 원하는 크기로 조절
                   ),
                   SizedBox(height: 10.0),
-                  Text(
-                    friend.name, // 친구의 이름
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.0,
+                  Container(
+                    child: Text(
+                      friend.name, // 친구의 이름
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                  Container(
+                    child: Text(
+                      friend.birthDate,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.star_border, color: Colors.yellow[700]), // 위시리스트 버튼
-                        iconSize: 40.0, // 아이콘 크기 조절
-                        onPressed: () {
-                          // 위시리스트 기능 구현
-                        },
+                      Column(
+                        children: [
+                          Text(
+                            'Give', // 친구의 이름
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Icon(
+                            friend.myGive ? FontAwesomeIcons.gift : FontAwesomeIcons.gifts,
+                            color: friend.myGive ? Colors.red : Colors.grey,
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 40),
-                      IconButton(
-                        icon: Icon(Icons.bookmark_border, color: Colors.teal), // 추억함 버튼
-                        iconSize: 40.0, // 아이콘 크기 조절
-                        onPressed: () {
-                          // 추억함 기능 구현
-                        },
+                      SizedBox(width: 40.0,),
+                      Column(
+                        children: [
+                          Text(
+                            'Take', // 친구의 이름
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Icon(
+                            friend.myTake ? FontAwesomeIcons.gift : FontAwesomeIcons.gifts,
+                            color: friend.myTake ? Colors.green : Colors.grey,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(30, 10, 30, 10), // 마진 설정
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // 버튼이 눌렸을 때 수행할 동작 구현
+                                print('위시리스트 버튼이 눌렸습니다.');
+                                // 여기에 위시리스트 관련 동작을 추가하세요.
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0), // 원하는 모양의 모서리 설정
+                                ),
+                                primary: Colors.orange[300], // 배경색 설정
+                                elevation: 5.0, // 그림자 설정
+                                padding: const EdgeInsets.all(20.0), // 패딩 설정
+                              ),
+                              child: Container(
+                                width: double.infinity,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      friend.name + '의',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '위시리스트 목록 보기',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(30, 10, 30, 10), // 마진 설정
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // 버튼이 눌렸을 때 수행할 동작 구현
+                                print('위시리스트 버튼이 눌렸습니다.');
+                                // 여기에 위시리스트 관련 동작을 추가하세요.
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0), // 원하는 모양의 모서리 설정
+                                ),
+                                primary: Colors.orange[300], // 배경색 설정
+                                elevation: 5.0, // 그림자 설정
+                                padding: const EdgeInsets.all(20.0), // 패딩 설정
+                              ),
+                              child: Container(
+                                width: double.infinity,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      friend.name + '의',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '추억함 열어보기',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
