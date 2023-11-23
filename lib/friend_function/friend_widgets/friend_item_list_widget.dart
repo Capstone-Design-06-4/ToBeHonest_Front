@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_item_detailed_view.dart';
 import 'package:tobehonest/models/wishItem.dart';
 
-class WishItemList extends StatelessWidget {
+class FriendWishItemList extends StatelessWidget {
   final List<WishItem> wishItems;
+  final int friendID;
   final String searchText;
 
-  WishItemList({required this.wishItems, required this.searchText});
+  FriendWishItemList({required this.wishItems, required this.friendID, required this.searchText});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class WishItemList extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ItemDetailed(wishItem: filteredWishItems[index]),
+              builder: (context) => FriendItemDetailed(wishItem: filteredWishItems[index], friendID: friendID,),
             ),
           );
         },

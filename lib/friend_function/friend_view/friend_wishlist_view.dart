@@ -2,25 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/controllers/friend_wishlist_controller.dart';
+import 'package:tobehonest/friend_function/friend_widgets/friend_item_list_widget.dart';
 import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_search_widget.dart';
-import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_list_widget.dart';
-import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_add_button_widget.dart';
-import 'package:tobehonest/wishlist_function/wishlist_view/item_add_view.dart';
 
-class friendWishlistPage extends StatefulWidget {
+class FriendWishlistPage extends StatefulWidget {
   final int friendID;
 
-  friendWishlistPage({Key? key, required this.friendID}) : super(key: key);
+  FriendWishlistPage({Key? key, required this.friendID}) : super(key: key);
 
   @override
-  _friendWishlistPageState createState() => _friendWishlistPageState();
+  _FriendWishlistPageState createState() => _FriendWishlistPageState();
 }
 
-class _friendWishlistPageState extends State<friendWishlistPage> {
+class _FriendWishlistPageState extends State<FriendWishlistPage> {
   String _searchText = '';
-  final friendWishListController wishListController = Get.put(friendWishListController());
+  final FriendWishListController wishListController = Get.put(FriendWishListController());
 
   void _onSearch(String text) {
     setState(() {
@@ -65,8 +62,9 @@ class _friendWishlistPageState extends State<friendWishlistPage> {
                 }
                 return ListView(
                   children: <Widget>[
-                    WishItemList(
+                    FriendWishItemList(
                       wishItems: wishListController.wishItems,
+                      friendID: widget.friendID,
                       searchText: _searchText,
                     ),
                   ],

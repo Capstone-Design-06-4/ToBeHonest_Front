@@ -7,7 +7,7 @@ import 'package:tobehonest/services/wishlist_service.dart';
 import 'package:tobehonest/services/item_service.dart';
 import '../services/login_service.dart';
 
-class friendWishListController extends GetxController {
+class FriendWishListController extends GetxController {
   var wishItems = <WishItem>[].obs;
   var Items = <Item>[].obs;
   var isLoading = false.obs;
