@@ -106,7 +106,7 @@ class FriendDetailPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => FriendWishlistPage(friendID: friend.id),
+                                    builder: (context) => FriendWishlistPage(friendName: friend.name, friendID: friend.id),
                                   ),
                                 );
                                 // 여기에 위시리스트 관련 동작을 추가하세요.

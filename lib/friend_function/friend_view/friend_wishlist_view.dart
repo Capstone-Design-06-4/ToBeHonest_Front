@@ -8,8 +8,9 @@ import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item
 
 class FriendWishlistPage extends StatefulWidget {
   final int friendID;
+  final String friendName;
 
-  FriendWishlistPage({Key? key, required this.friendID}) : super(key: key);
+  FriendWishlistPage({Key? key, required this.friendName, required this.friendID}) : super(key: key);
 
   @override
   _FriendWishlistPageState createState() => _FriendWishlistPageState();
@@ -17,7 +18,8 @@ class FriendWishlistPage extends StatefulWidget {
 
 class _FriendWishlistPageState extends State<FriendWishlistPage> {
   String _searchText = '';
-  final FriendWishListController wishListController = Get.put(FriendWishListController());
+  final FriendWishListController wishListController = Get.put(
+      FriendWishListController());
 
   void _onSearch(String text) {
     setState(() {
@@ -29,14 +31,15 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
 
   void _updateWishItems() async {
     try {
-      wishListController.isLoading(true);  // 로딩 시작
-      await wishListController.fetchFriendWishItems_Con(friendID: widget.friendID, searchText: _searchText);
+      wishListController.isLoading(true); // 로딩 시작
+      await wishListController.fetchFriendWishItems_Con(
+          friendID: widget.friendID, searchText: _searchText);
       // RxList를 refresh하여 UI를 갱신
       wishListController.wishItems.refresh();
     } catch (e) {
       print('오류 발생: $e');
     } finally {
-      wishListController.isLoading(false);  // 로딩 종료
+      wishListController.isLoading(false); // 로딩 종료
     }
   }
 
@@ -51,10 +54,23 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFFF4A261),
+        title: Text('${widget.friendName}님의 위시리스트', style: TextStyle(fontWeight: FontWeight.normal)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            ItemSearchBar(onSearch: _onSearch),
+            Container(
+              margin: EdgeInsets.all(16.0), // Add margin here
+              child: ItemSearchBar(onSearch: _onSearch),
+            ),
             Expanded(
               child: Obx(() {
                 if (wishListController.isLoading.isTrue) {
