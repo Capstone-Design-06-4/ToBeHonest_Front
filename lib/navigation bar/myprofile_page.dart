@@ -148,81 +148,99 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 열 간의 간격을 균등하게 조절
                 children: [
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center, // 내용을 세로로 가운데 정렬
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.yellow, // 배경색 설정
-                          radius: 35, // 반지름 설정
-                          child: Icon(
-                            FontAwesomeIcons.gift, // P 아이콘
-                            size: 40,
-                            color: Colors.white, // 아이콘 색상
+                    child: GestureDetector(
+                      onTap: () {
+                        // 첫 번째 컨테이너를 탭했을 때 수행되는 동작 추가
+                        print('1');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center, // 내용을 세로로 가운데 정렬
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.yellow, // 배경색 설정
+                            radius: 35, // 반지름 설정
+                            child: Icon(
+                              FontAwesomeIcons.gift, // P 아이콘
+                              size: 40,
+                              color: Colors.white, // 아이콘 색상
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10), // 간격 조절
-                        Text(
-                          '위시리스트',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 5), // 간격 조절
-                        Text(
-                          '10개',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                          SizedBox(height: 10), // 간격 조절
+                          Text(
+                            '위시리스트',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5), // 간격 조절
+                          Text(
+                            '10개',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          radius: 35, // 반지름 설정
-                          child: Icon(
-                            FontAwesomeIcons.qrcode,
-                            size: 40,
-                            color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        // 첫 번째 컨테이너를 탭했을 때 수행되는 동작 추가
+                        print('1');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.blue,
+                            radius: 35, // 반지름 설정
+                            child: Icon(
+                              FontAwesomeIcons.qrcode,
+                              size: 40,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10), // 간격 조절
-                        Text(
-                          '선물함',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 5), // 간격 조절
-                        Text(
-                          '10개',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                          SizedBox(height: 10), // 간격 조절
+                          Text(
+                            '선물함',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5), // 간격 조절
+                          Text(
+                            '10개',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 35, // 반지름 설정
-                          child: Icon(
-                            FontAwesomeIcons.star,
-                            size: 40,
-                            color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        // 첫 번째 컨테이너를 탭했을 때 수행되는 동작 추가
+                        print('1');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 35, // 반지름 설정
+                            child: Icon(
+                              FontAwesomeIcons.star,
+                              size: 40,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10), // 간격 조절
-                        Text(
-                          '기억함',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 5), // 간격 조절
-                        Text(
-                          '10개',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                          SizedBox(height: 10), // 간격 조절
+                          Text(
+                            '기억함',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5), // 간격 조절
+                          Text(
+                            '10개',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
