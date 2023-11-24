@@ -43,16 +43,14 @@ Future<http.Response> sendThanksMessage(Message message, io.File selectedImage, 
 
 Future<void> sendCelebrateMessage(Message message, String token) async {
   final url = Uri.parse('http://10.0.2.2:8080/message/send-celebrate');
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': "Bearer $token",
+  };
+  final body = json.encode({'request': message.toJson()});
 
   try {
-    // MultipartRequest 생성
-    var request = http.MultipartRequest('POST', url)
-      ..headers['Authorization'] = "Bearer $token"
-      ..fields['request'] = json.encode(message.toJson());
-
-    // 요청 보내기
-    var streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
+    final response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
       print('메시지가 정상적으로 전송되었습니다.');
