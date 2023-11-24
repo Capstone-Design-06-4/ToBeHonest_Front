@@ -118,7 +118,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                       margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundImage: AssetImage(contributor.ProfileURL),
+                          backgroundImage: NetworkImage(contributor.ProfileURL),
                         ),
                         title: Text(contributor.friendName),
                         trailing: Text(formatCurrency(contributor.contribution)),

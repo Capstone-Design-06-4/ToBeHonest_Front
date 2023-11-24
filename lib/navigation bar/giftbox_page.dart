@@ -26,6 +26,7 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
 
   void _updateWishItems() async {
     try {
+      giftBoxController.isLoading(true);  // 로딩 시작
       await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
     } catch (e) {
       print('오류 발생: $e');

@@ -3,14 +3,17 @@ import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/controllers/contributor_controller.dart';
+import 'package:tobehonest/controllers/giftbox_controller.dart';
 import 'package:tobehonest/navigation bar/wishlist_page.dart';
 import 'package:get/get.dart';
+import 'package:tobehonest/navigation bar/memorybox_page.dart';
 import 'package:tobehonest/thanks_message/thanks_message_view.dart';
 
 class ComItemContributed extends StatefulWidget {
   final WishItem wishItem;
   final ContributorController contributorController = Get.put(ContributorController());
   final WishListController wishListController = Get.put(WishListController());
+  final GiftBoxController giftBoxController = Get.put(GiftBoxController()); // 추가된 부분
 
   ComItemContributed({required this.wishItem});
 
@@ -19,6 +22,8 @@ class ComItemContributed extends StatefulWidget {
 }
 
 class _ComItemContributedState extends State<ComItemContributed> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -31,10 +36,63 @@ class _ComItemContributedState extends State<ComItemContributed> {
     return '$formattedAmount 원';
   }
 
+  Widget buildBottomSheet() {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '송금 확인',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Text('계좌로 송금하시겠습니까?'),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('취소'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await widget.giftBoxController.SendtoMyAccount(wishItemID: widget.wishItem.wishItemId);
+                    Navigator.pop(context); // 이전 경로로 돌아가기
+                    Navigator.pop(context); // 이전 경로로 돌아가기
+                    Navigator.pop(context); // 이전 경로로 돌아가기
+
+                    // 여기에 다른 페이지로 이동하는 코드 추가
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MemoryBoxPage()),
+                    );
+                  },
+                  child: Text('확인'),
+                ),
+
+
+
+
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text('참여한 사람들'),
           backgroundColor: Colors.orange,
@@ -109,7 +167,6 @@ class _ComItemContributedState extends State<ComItemContributed> {
 
             Expanded(
               child: Obx(() {
-                //controller 호출 자리
                 return ListView.builder(
                   itemCount: widget.contributorController.ContributorList.length,
                   itemBuilder: (context, index) {
@@ -118,7 +175,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                       margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundImage: AssetImage(contributor.ProfileURL),
+                          backgroundImage: NetworkImage(contributor.ProfileURL),
                         ),
                         title: Text(contributor.friendName),
                         trailing: Text(formatCurrency(contributor.contribution)),
@@ -141,11 +198,8 @@ class _ComItemContributedState extends State<ComItemContributed> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ThanksMessage(wishItem: widget.wishItem), // 이동하고 싶은 페이지의 위젯을 넣어주세요
-                                ),
+                              _scaffoldKey.currentState!.showBottomSheet(
+                                    (context) => buildBottomSheet(),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -157,7 +211,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                             ),
                             child: FittedBox(
                               child: Text(
-                                '감사메시지 전하기',
+                                '내 계좌로 송금하기',
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),

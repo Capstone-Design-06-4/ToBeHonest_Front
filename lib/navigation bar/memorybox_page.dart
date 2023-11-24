@@ -94,7 +94,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                       );
                     })
                         : Obx(() {
-                      if (memoryBoxController.isLoading.isTrue) {
+                      if (thankBoxController.isLoading.isTrue) {
                         return Center(child: CircularProgressIndicator());
                       }
                       return ListView(
