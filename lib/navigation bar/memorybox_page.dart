@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tobehonest/controllers/memorybox_controller.dart';
+import 'package:tobehonest/controllers/usedbox_controller.dart';
 import 'package:tobehonest/memorybox_function/memorybox_widgets/used_item_list_widget.dart';
 import 'package:tobehonest/memorybox_function/memorybox_widgets/messaged_item_list_widget.dart';
 import 'package:tobehonest/memorybox_function/memorybox_widgets/used_item_search_widget.dart';
@@ -17,6 +18,8 @@ class MemoryBoxPage extends StatefulWidget {
 class _MemoryBoxPageState extends State<MemoryBoxPage> {
   String _searchText = ''; // 추가: 검색어 저장 변수
   final MemoryBoxController memoryBoxController = Get.put(MemoryBoxController());
+  final ThankBoxController thankBoxController = Get.put(ThankBoxController());
+
   // 필터 옵션 목록
   List<String> filterOptions = ['메시지 작성하지 않은 선물리스트', '메시지 작성한 선물리스트'];
 
@@ -97,7 +100,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                       return ListView(
                         children: <Widget>[
                           MessagedWishItemList(
-                            wishItems: memoryBoxController.wishItems,
+                            wishItems: thankBoxController.wishItems,
                             searchText: _searchText,
                           ),
                         ],
