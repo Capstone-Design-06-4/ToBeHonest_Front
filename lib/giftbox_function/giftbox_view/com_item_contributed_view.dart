@@ -163,7 +163,6 @@ class _ComItemContributedState extends State<ComItemContributed> {
                             ),
                           ),
                         ),
-                        
                       ],
                     ),
                   ),

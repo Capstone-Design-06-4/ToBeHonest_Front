@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:tobehonest/controllers/friend_add_controller.dart';
 
 class PhoneNumberInputFormatter extends TextInputFormatter {
   @override
@@ -34,6 +36,7 @@ class PhoneNumberAddPage extends StatefulWidget {
 
 class _PhoneNumberAddPageState extends State<PhoneNumberAddPage> {
   final TextEditingController _phoneController = TextEditingController();
+  final AddController _addController = Get.find<AddController>(); // AddController 인스턴스
   String errorText = '';
 
   @override
@@ -84,9 +87,18 @@ class _PhoneNumberAddPageState extends State<PhoneNumberAddPage> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        primary: Colors.orange.shade400,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                      child: Text('추가하기'),
+                      child: FittedBox(
+                        child: Text(
+                          '전화번호로 추가하기',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
                       onPressed: () {
                         final String digitOnly = _phoneController.text.replaceAll(RegExp(r'[^0-9]'), '');
                         if (digitOnly.length != 11) {
@@ -98,8 +110,10 @@ class _PhoneNumberAddPageState extends State<PhoneNumberAddPage> {
                           setState(() {
                             errorText = ''; // 오류 메시지 초기화
                           });
-                          print('Phone number added: ${_phoneController.text}');
-                          // Add your phone number addition logic here
+                          String fullNumber = _phoneController.text;
+                          print('전체 전화번호: $fullNumber');
+                          _addController.searchFriendsByNumber(fullNumber);
+
                         }
                       },
                     ),
