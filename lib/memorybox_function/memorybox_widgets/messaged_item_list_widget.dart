@@ -1,14 +1,14 @@
 //item_list.dart
 
 import 'package:flutter/material.dart';
-import 'package:tobehonest/giftbox_function/giftbox_view/com_item_detailed_view.dart';
+import 'package:tobehonest/memorybox_function/memorybox_view/messaged_item_detailed_view.dart';
 import 'package:tobehonest/models/wishItem.dart';
 
-class UsedWishItemList extends StatelessWidget {
+class MessagedWishItemList extends StatelessWidget {
   final List<WishItem> wishItems;
   final String searchText;
 
-  UsedWishItemList({required this.wishItems, required this.searchText});
+  MessagedWishItemList({required this.wishItems, required this.searchText});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class UsedWishItemList extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ComItemDetailed(wishItem: filteredWishItems[index]),
+              builder: (context) => MessagedItemDetailed(wishItem: filteredWishItems[index]),
             ),
           );
         },

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:tobehonest/controllers/memorybox_controller.dart';
 import 'package:tobehonest/memorybox_function/memorybox_widgets/used_item_list_widget.dart';
+import 'package:tobehonest/memorybox_function/memorybox_widgets/messaged_item_list_widget.dart';
 import 'package:tobehonest/memorybox_function/memorybox_widgets/used_item_search_widget.dart';
 import 'package:tobehonest/memorybox_function/memorybox_view/used_item_detailed_view.dart';
 import 'package:tobehonest/giftbox_function/giftbox_view/com_item_detailed_view.dart';
@@ -82,14 +83,26 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                       }
                       return ListView(
                         children: <Widget>[
-                          WishItemList(
+                          UsedWishItemList(
                             wishItems: memoryBoxController.wishItems,
                             searchText: _searchText,
                           ),
                         ],
                       );
                     })
-                        : _buildGiftListWithoutMessage(),
+                        : Obx(() {
+                      if (memoryBoxController.isLoading.isTrue) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return ListView(
+                        children: <Widget>[
+                          MessagedWishItemList(
+                            wishItems: memoryBoxController.wishItems,
+                            searchText: _searchText,
+                          ),
+                        ],
+                      );
+                    })
                   ),
                 ],
               ),
