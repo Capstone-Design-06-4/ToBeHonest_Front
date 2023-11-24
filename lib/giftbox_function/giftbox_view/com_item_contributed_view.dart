@@ -69,10 +69,6 @@ class _ComItemContributedState extends State<ComItemContributed> {
                     Navigator.pop(context); // 이전 경로로 돌아가기
 
                     // 여기에 다른 페이지로 이동하는 코드 추가
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => MemoryBoxPage()),
-                    );
                   },
                   child: Text('확인'),
                 ),
