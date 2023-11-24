@@ -1,6 +1,7 @@
 // friend_page.dart
 
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import '../controllers/friend_search_controller.dart';
@@ -20,9 +21,29 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     const borderColor = Color(0xFFD3D3D3);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColor.objectColor,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBar(
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            leadingWidth: 10,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+            ),
+            backgroundColor: AppColor.objectColor,
+            title: Text(
+              '마이페이지',
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: AppColor.textColor,
+              ),
+            ),
+          ),
+        ),
+        body: Column(
           children: [
             Container(
               height: 150,

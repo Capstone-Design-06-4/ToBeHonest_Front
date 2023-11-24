@@ -16,27 +16,24 @@ class FriendCategorized extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          SizedBox(width: 10),
           Text(
             title,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text(
-                'GIVE',
-                style: TextStyle(color: Colors.grey),
-              ),
-              SizedBox(width: 20.0),
-              Text(
-                'TAKE',
-                style: TextStyle(color: Colors.grey),
-              ),
-              SizedBox(width: 60.0),
-            ],
+          SizedBox(width: 135),
+          Text(
+            'GIVE',
+            style: TextStyle(color: Colors.grey),
           ),
+          SizedBox(width: 20.0),
+          Text(
+            'TAKE',
+            style: TextStyle(color: Colors.grey),
+          ),
+          SizedBox(width: 10.0),
         ],
       ),
     );

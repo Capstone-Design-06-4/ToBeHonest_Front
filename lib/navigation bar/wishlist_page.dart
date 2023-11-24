@@ -1,6 +1,7 @@
 // wishlist_page.dart
 
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_main/item_search_widget.dart';
@@ -48,28 +49,53 @@ class _WishListPageState extends State<WishListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            ItemSearchBar(onSearch: _onSearch),
-            Expanded(
-              child: Obx(() {
-                if (wishListController.isLoading.isTrue) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                return ListView(
-                  children: <Widget>[
-                    ItemAddBar(context),
-                    WishItemList(
-                      wishItems: wishListController.wishItems,
-                      searchText: _searchText,
-                    ),
-                  ],
-                );
-              }),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColor.objectColor,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBar(
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            leadingWidth: 10,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
             ),
-          ],
+            backgroundColor: AppColor.objectColor,
+            title: Text(
+              '친구',
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: AppColor.textColor,
+              ),
+            ),
+          ),
+        ),
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                ItemSearchBar(onSearch: _onSearch),
+                Expanded(
+                  child: Obx(() {
+                    if (wishListController.isLoading.isTrue) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return ListView(
+                      children: <Widget>[
+                        ItemAddBar(context),
+                        WishItemList(
+                          wishItems: wishListController.wishItems,
+                          searchText: _searchText,
+                        ),
+                      ],
+                    );
+                  }),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
