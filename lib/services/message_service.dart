@@ -47,7 +47,7 @@ Future<void> sendCelebrateMessage(Message message, String token) async {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
   };
-  final body = json.encode({'request': message.toJson()});
+  final body = json.encode(message.toJson());
 
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -58,6 +58,6 @@ Future<void> sendCelebrateMessage(Message message, String token) async {
       print('메시지 전송에 실패했습니다. 상태 코드: ${response.statusCode}');
     }
   } catch (e) {
-    throw Exception('오류 발생: $e');
+    throw Exception('메세지 오류 발생: $e');
   }
 }
