@@ -355,7 +355,7 @@ Future<List<WishItem>> getFriendWishItemByWishItemID(
 
       List<WishItem> wishItems = wishItemJsonList
           .where((jsonItem) =>
-              jsonItem['wishItemId'] == '$wishItemID') // 조건에 맞는 항목만 필터링
+              jsonItem['wishItemId'] == wishItemID) // 조건에 맞는 항목만 필터링
           .map((jsonItem) => WishItem.fromJson(jsonItem))
           .toList();
       print('위시 아이템 가져오기 성공: ${wishItems.length}개의 아이템이 있습니다.');
