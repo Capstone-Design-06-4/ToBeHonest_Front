@@ -21,6 +21,19 @@ class _FriendPageState extends State<FriendPage> {
   void initState() {
     super.initState();
     friendController.getFriendsList();
+    _updateWishItems();
+  }
+
+  void _updateWishItems() async {
+    try {
+      friendController.isLoading(true);  // 로딩 시작
+      await friendController.getFriendsList();
+      friendController.friendsList.refresh();
+    } catch (e) {
+      print('오류 발생: $e');
+    } finally {
+      friendController.isLoading(false);  // 로딩 종료
+    }
   }
 
   @override
@@ -38,56 +51,45 @@ class _FriendPageState extends State<FriendPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.objectColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(0),
           child: AppBar(
-            elevation: 0,
             automaticallyImplyLeading: false,
             leadingWidth: 10,
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.objectColor,
-            title: Text(
-              '친구',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: AppColor.textColor,
-              ),
-            ),
+            backgroundColor: AppColor.backgroundColor,
+            title: Text('친구', style: TextStyle(color: Colors.white)),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                SearchFriendWidget(controller: searchController),
-                Obx(() {
-                  return Visibility(
-                    visible: friendController.isAddingAllowed.value,
-                    child: AddFriendTile(),
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              SearchFriendWidget(controller: searchController),
+              Obx(() {
+                return Visibility(
+                  visible: friendController.isAddingAllowed.value,
+                  child: AddFriendTile(),
+                );
+              }),
+              FriendCategorized(title: '친구 목록'),
+              SizedBox(height: 5),
+              Expanded(
+                child: Obx(() {
+                  if (friendController.isLoading.isTrue) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.builder(
+                    itemCount: friendController.friendsList.length,
+                    itemBuilder: (context, index) {
+                      return buildFriendContainer(
+                          context, friendController.friendsList[index]);
+                    },
                   );
                 }),
-                FriendCategorized(title: '친구 목록'),
-                SizedBox(height: 5),
-                Expanded(
-                  child: Obx(() {
-                    if (friendController.isLoading.isTrue) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    return ListView.builder(
-                      itemCount: friendController.friendsList.length,
-                      itemBuilder: (context, index) {
-                        return buildFriendContainer(
-                            context, friendController.friendsList[index]);
-                      },
-                    );
-                  }),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

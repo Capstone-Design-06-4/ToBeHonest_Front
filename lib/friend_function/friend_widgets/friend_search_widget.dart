@@ -1,6 +1,7 @@
 // search_friend_widget.dart
 
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 
 class SearchFriendWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -13,13 +14,13 @@ class SearchFriendWidget extends StatelessWidget {
     const borderColor = Color(0xFFD3D3D3);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: TextField(
         controller: controller,
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
-          prefixIcon: const Icon(Icons.search, size: 30),
+          prefixIcon: const Icon(Icons.search, size: 25),
           hintText: '친구 이름 검색하기',
           filled: true,
           fillColor: Colors.white,

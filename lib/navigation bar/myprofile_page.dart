@@ -23,24 +23,16 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.objectColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(0),
           child: AppBar(
-            elevation: 0,
             automaticallyImplyLeading: false,
             leadingWidth: 10,
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.objectColor,
-            title: Text(
-              '마이페이지',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: AppColor.textColor,
-              ),
-            ),
+            backgroundColor: AppColor.backgroundColor,
+            title: Text('MY', style: TextStyle(color: Colors.white)),
           ),
         ),
         body: Column(
@@ -149,7 +141,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-
             Container(
               height: 180,
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -344,11 +335,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-
-
           ],
         ),
-
       ),
     );
   }

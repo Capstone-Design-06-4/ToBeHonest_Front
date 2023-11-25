@@ -29,6 +29,7 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
     try {
       giftBoxController.isLoading(true);  // 로딩 시작
       await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
+      giftBoxController.wishItems.refresh();
     } catch (e) {
       print('오류 발생: $e');
     } finally {
@@ -39,7 +40,6 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
   @override
   void initState() {
     super.initState();
-
     _updateWishItems();
   }
 
@@ -47,49 +47,38 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.objectColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(0),
           child: AppBar(
-            elevation: 0,
             automaticallyImplyLeading: false,
             leadingWidth: 10,
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.objectColor,
-            title: Text(
-              '선물함',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: AppColor.textColor,
-              ),
-            ),
+            backgroundColor: AppColor.backgroundColor,
+            title: Text('선물함', style: TextStyle(color: Colors.white)),
           ),
         ),
         body: Container(
-          child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              children: <Widget>[
-                ItemSearchBar(onSearch: _onSearch),
-                Expanded(
-                  child: Obx(() {
-                    if (giftBoxController.isLoading.isTrue) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    return ListView(
-                      children: <Widget>[
-                        WishItemList(
-                          wishItems: giftBoxController.wishItems,
-                          searchText: _searchText,
-                        ),
-                      ],
-                    );
-                  }),
-                ),
-              ],
-            ),
+          child: Column(
+            children: <Widget>[
+              ItemSearchBar(onSearch: _onSearch),
+              Expanded(
+                child: Obx(() {
+                  if (giftBoxController.isLoading.isTrue) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView(
+                    children: <Widget>[
+                      WishItemList(
+                        wishItems: giftBoxController.wishItems,
+                        searchText: _searchText,
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ],
           ),
         ),
       ),

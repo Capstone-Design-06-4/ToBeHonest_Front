@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:tobehonest/wishlist_function/wishlist_view/item_add_view.dart';
 
 Widget ItemAddBar(BuildContext context) {
@@ -14,7 +15,7 @@ Widget ItemAddBar(BuildContext context) {
           },
           child: Container(
             height: 70.0,
-            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15.0),
@@ -28,10 +29,10 @@ Widget ItemAddBar(BuildContext context) {
               ],
             ),
             child: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
               leading: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.add_box, color: Colors.white),
+                backgroundColor: AppColor.swatchColor,
+                child: Icon(Icons.favorite, color: Colors.white),
               ),
               title: Text('상품 추가하기'),
               subtitle: Text('위시리스트에 선물을 추가해요!'),

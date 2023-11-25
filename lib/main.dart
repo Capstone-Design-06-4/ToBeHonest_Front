@@ -1,5 +1,3 @@
-//main.dart
-
 import 'package:flutter/material.dart';
 import 'package:tobehonest/style.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,7 +31,6 @@ import 'navigation bar/wishlist_page.dart';
 import 'thanks_message/thanks_message_view.dart';
 import 'navigation_bar.dart';
 
-//main에서 처리하는 것이 아닌 추가 수정 필요
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -45,16 +42,16 @@ void main() async {
   // GetX를 사용하여 FriendController 인스턴스를 생성하고 의존성 시스템에 저장합니다
   final FriendController friendController = Get.put(FriendController());
   final AddController addController =
-      Get.put(AddController()); // AddController 추가
+  Get.put(AddController()); // AddController 추가
 
   // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
   await login('email1@example.com', 'password1');
   final String? token = await getToken();
   if (token != null) {
     await fetchFriends(token);
-
     await friendController.getFriendsList(); // fetchFriends 메서드 호출
   }
+
   // 앱 실행
   runApp(MyApp());
 }
@@ -62,10 +59,15 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
+      title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'AppleSDGothicNeo',
-        primaryColor: AppColor.backgroundColor,
+        primaryColor: AppColor.swatchColor,
+        primarySwatch: Colors.deepOrange,
+        appBarTheme: AppBarTheme(
+          color: AppColor.backgroundColor,
+        ),
       ),
       home: MyHomePage(),
       routes: {
@@ -74,6 +76,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -96,7 +100,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _pages[_currentIndex], // body 프로퍼티로 수정
+        appBar: AppBar(
+          backgroundColor: Color(0xFFF4A261),
+          title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _pages[_currentIndex],
+        ),
         bottomNavigationBar: BottomNav(
           onTap: (index) {
             setState(() {
@@ -106,19 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
           currentIndex: _currentIndex,
         ),
       ),
-    );
-  }
-}
-
-class PlaceholderWidget extends StatelessWidget {
-  final Color color;
-
-  PlaceholderWidget(this.color);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
     );
   }
 }

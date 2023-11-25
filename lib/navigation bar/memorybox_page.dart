@@ -55,87 +55,76 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.objectColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(0),
           child: AppBar(
-            elevation: 0,
             automaticallyImplyLeading: false,
             leadingWidth: 10,
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.objectColor,
-            title: Text(
-              '기억함',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: AppColor.textColor,
-              ),
-            ),
+            backgroundColor: AppColor.backgroundColor,
+            title: Text('기억함', style: TextStyle(color: Colors.white)),
           ),
         ),
         body: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              children: <Widget>[
-                ItemSearchBar(onSearch: _onSearch),
-                Expanded(
-                  child: Column(
-                    children: [
-                      DropdownButtonFormField(
-                        value: selectedFilter,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedFilter = value;
-                          });
-                        },
-                        items: filterOptions.map((option) {
-                          return DropdownMenuItem(
-                            value: option,
-                            child: Text(option),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          labelText: '감사메시지',
-                        ),
+          child: Column(
+            children: <Widget>[
+              ItemSearchBar(onSearch: _onSearch),
+              Expanded(
+                child: Column(
+                  children: [
+                    DropdownButtonFormField(
+                      value: selectedFilter,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedFilter = value;
+                        });
+                      },
+                      items: filterOptions.map((option) {
+                        return DropdownMenuItem(
+                          value: option,
+                          child: Text(option),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        labelText: '감사메시지',
                       ),
-                      // 선택된 필터에 따른 내용 표시
-                      Expanded(
-                        child: selectedFilter == '메시지 작성하지 않은 선물리스트'
-                            ? Obx(() {
-                          if (memoryBoxController.isLoading.isTrue) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          return ListView(
-                            children: <Widget>[
-                              UsedWishItemList(
-                                wishItems: memoryBoxController.wishItems,
-                                searchText: _searchText,
-                              ),
-                            ],
-                          );
-                        })
-                            : Obx(() {
-                          if (thankBoxController.isLoading.isTrue) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          return ListView(
-                            children: <Widget>[
-                              MessagedWishItemList(
-                                wishItems: thankBoxController.wishItems,
-                                searchText: _searchText,
-                              ),
-                            ],
-                          );
-                        })
-                      ),
-                    ],
-                  ),
+                    ),
+                    // 선택된 필터에 따른 내용 표시
+                    Expanded(
+                      child: selectedFilter == '메시지 작성하지 않은 선물리스트'
+                          ? Obx(() {
+                        if (memoryBoxController.isLoading.isTrue) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView(
+                          children: <Widget>[
+                            UsedWishItemList(
+                              wishItems: memoryBoxController.wishItems,
+                              searchText: _searchText,
+                            ),
+                          ],
+                        );
+                      })
+                          : Obx(() {
+                        if (thankBoxController.isLoading.isTrue) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView(
+                          children: <Widget>[
+                            MessagedWishItemList(
+                              wishItems: thankBoxController.wishItems,
+                              searchText: _searchText,
+                            ),
+                          ],
+                        );
+                      })
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

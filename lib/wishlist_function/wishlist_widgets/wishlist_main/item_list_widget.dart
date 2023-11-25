@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:tobehonest/wishlist_function/wishlist_view/item_detailed_view.dart';
 import 'package:tobehonest/models/wishItem.dart';
 
-class WishItemList extends StatelessWidget {
+class WishItemList extends StatefulWidget {
   final List<WishItem> wishItems;
   final String searchText;
 
   WishItemList({required this.wishItems, required this.searchText});
 
+  @override
+  State<WishItemList> createState() => _WishItemListState();
+}
+
+class _WishItemListState extends State<WishItemList> {
   @override
   Widget build(BuildContext context) {
     List<WishItem> filteredWishItems = _filterWishItems();
@@ -17,7 +22,7 @@ class WishItemList extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.8,
@@ -36,7 +41,7 @@ class WishItemList extends StatelessWidget {
         child: Card(
           elevation: 10,
           child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(6.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -45,18 +50,23 @@ class WishItemList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(color: Colors.grey.shade300, width: 1),
                   ),
-                  padding: EdgeInsets.all(8.0),
-                  child: Image.network(
-                    filteredWishItems[index].image,
-                    fit: BoxFit.contain,
-                    width: 110,
-                    height: 110,
+
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        filteredWishItems[index].image,
+                        fit: BoxFit.fill,
+                        width: 120,
+                        height: 120,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
                   '${filteredWishItems[index].itemName}',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
@@ -99,9 +109,9 @@ class WishItemList extends StatelessWidget {
   }
 
   List<WishItem> _filterWishItems() {
-    return wishItems
+    return widget.wishItems
         .where((item) =>
-        item.itemName.toLowerCase().contains(searchText.toLowerCase()))
+        item.itemName.toLowerCase().contains(widget.searchText.toLowerCase()))
         .toList();
   }
 }

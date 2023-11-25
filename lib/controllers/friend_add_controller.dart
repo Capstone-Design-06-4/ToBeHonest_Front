@@ -42,7 +42,7 @@ class AddController extends GetxController {
               "알림", "친구 추가가 완료되었습니다.", snackPosition: SnackPosition.TOP);// 데이터베이스에 해당 사용자 없음
           addFriend(results.item1.id.toString(), token);// 검색된 친구 정보 출력
         default:
-          print('UNKNOWN: 알 수 없는 오류 발생'); // 알 수 없는 오류 발생
+          print('UNKNOWN: 알 수 없는 오류 발생'); // 알1 수 없는 오류 발생
       }
     } catch (e) {
       print('친구를 검색하는 데 실패했습니다: $e'); // 친구 검색 실패
