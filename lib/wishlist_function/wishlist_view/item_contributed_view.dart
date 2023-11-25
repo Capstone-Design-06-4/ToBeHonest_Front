@@ -155,15 +155,13 @@ class _ItemContributedState extends State<ItemContributed> {
                                     actions: [
                                       TextButton(
                                         onPressed: () async {
-                                          Navigator.of(context).pop();  // 다이얼로그를 닫음
                                           await widget.wishListController.deleteFromWishlist_Con(widget.wishItem.wishItemId);
-
+                                          Navigator.pop(context);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                         },
                                         child: Text('확인'),
                                       ),
-
 
                                       TextButton(
                                         onPressed: () {

@@ -164,7 +164,7 @@ class _NewItemPageState extends State<NewItemPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: 30.0),
             ],
           ),
         ),
