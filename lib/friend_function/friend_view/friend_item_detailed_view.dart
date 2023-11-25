@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:tobehonest/services/contribute_service.dart';
 import 'package:tobehonest/services/login_service.dart';
 import 'package:intl/intl.dart';
+import 'package:tobehonest/friend_function/friend_widgets/friend_product_widget.dart';
+import 'package:tobehonest/friend_function/friend_widgets/friend_contribute_widget.dart';
+import 'package:tobehonest/controllers/friend_product_controller.dart';
 
 class FriendItemDetailed extends StatefulWidget {
   final WishItem wishItem;
@@ -15,6 +19,15 @@ class FriendItemDetailed extends StatefulWidget {
 }
 
 class _ItemDetailedState extends State<FriendItemDetailed> {
+
+  late FriendProductController friendProductController;
+
+  @override
+  void initState() {
+    super.initState();
+    friendProductController = Get.put(FriendProductController(widget.wishItem, widget.friendID));
+  }
+
   Future<void> onContributeButtonPressed() async {
     final WishItem wishItem = widget.wishItem;
     // 펀딩 금액을 입력받기 위한 TextEditingController
@@ -57,6 +70,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
       // 펀딩 금액이 유효한 경우 펀딩 처리
       try {
         final response = await contributeToFriend(wishItem, fundAmount, widget.friendID, token);
+        await friendProductController.updateWishItem();
         // 이후의 로직은 위와 동일
       } catch (e) {
         // 오류 처리
@@ -93,112 +107,13 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
               Expanded(
                 child: Column(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: MediaQuery.of(context).size.height * 0.35,
-                      margin: EdgeInsets.symmetric(horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          wishItem.image,
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              wishItem.itemBrand,
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 0.0),
-                      child: Text(
-                        wishItem.itemName,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        Container(
-                          height: 20,
-                          width: MediaQuery.of(context).size.width * fundingProgress,
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '펀딩 모금액',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          '${formatNumber(wishItem.fundAmount)}원 / ${formatNumber(wishItem.itemPrice)}원',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 70),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await onContributeButtonPressed();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orange.shade400,
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(0, 36),
-                        ),
-                        child: FittedBox(
-                          child: Text(
-                            '펀딩하기',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
+                    Obx(() => FriendProductWidget(
+                      friendID: widget.friendID,
+                      wishItem: friendProductController.wishItem.value,
+                    )),
+                    FriendContributeWidget(onContribute: () async {
+                      await onContributeButtonPressed();
+                    }),
                   ],
                 ),
               ),
