@@ -38,14 +38,14 @@ import './login_service.dart';
 Future<void> saveWishItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('wishItemBox');
 
-  if(wishItems is List<WishItem>) {
+  if (wishItems is List<WishItem>) {
     await box.clear();
     for (var wishItem in wishItems) {
       await box.put(wishItem.wishItemId, wishItem);
     }
   } else if (wishItems is WishItem) {
-      await box.put(wishItems.wishItemId, wishItems);
-    } else {
+    await box.put(wishItems.wishItemId, wishItems);
+  } else {
     throw ArgumentError('The argument must be a WishItem or List<WishItem>');
   }
   await box.close();
@@ -61,7 +61,7 @@ Future<List<WishItem>> getAllWishItems() async {
 Future<void> saveProgressItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('progressWishItemBox');
 
-  if(wishItems is List<WishItem>) {
+  if (wishItems is List<WishItem>) {
     await box.clear();
     for (var wishItem in wishItems) {
       await box.put(wishItem.wishItemId, wishItem);
@@ -84,7 +84,7 @@ Future<List<WishItem>> getProgressWishItems() async {
 Future<void> saveCompletedItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('completedWishItemBox');
 
-  if(wishItems is List<WishItem>) {
+  if (wishItems is List<WishItem>) {
     await box.clear();
     for (var wishItem in wishItems) {
       await box.put(wishItem.wishItemId, wishItem);
@@ -107,7 +107,7 @@ Future<List<WishItem>> getCompletedWishItems() async {
 Future<void> saveUsedItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('usedWishItemBox');
 
-  if(wishItems is List<WishItem>) {
+  if (wishItems is List<WishItem>) {
     await box.clear();
     for (var wishItem in wishItems) {
       await box.put(wishItem.wishItemId, wishItem);
@@ -130,7 +130,7 @@ Future<List<WishItem>> getUsedWishItems() async {
 Future<void> saveThankItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('thankWishItemBox');
 
-  if(wishItems is List<WishItem>) {
+  if (wishItems is List<WishItem>) {
     await box.clear();
     for (var wishItem in wishItems) {
       await box.put(wishItem.wishItemId, wishItem);
@@ -153,7 +153,7 @@ Future<List<WishItem>> getThankWishItems() async {
 Future<void> saveFriendItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('friendWishItemBox');
 
-  if(wishItems is List<WishItem>) {
+  if (wishItems is List<WishItem>) {
     await box.clear();
     for (var wishItem in wishItems) {
       await box.put(wishItem.wishItemId, wishItem);
@@ -175,7 +175,7 @@ Future<List<WishItem>> getFriendWishItems() async {
 
 Future<void> fetchWishItems(String token) async {
   final String memberID = await getID() ?? '0';
-  if(memberID == '0') throw Exception('다시 로그인해주세요.');
+  if (memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -183,25 +183,26 @@ Future<void> fetchWishItems(String token) async {
   };
   try {
     final response = await http.get(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       // UTF-8로 디코딩한 후 JSON으로 파싱
       String decodedResponse = utf8.decode(response.bodyBytes);
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
-      List<WishItem> wishItemList =
-        wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
+      List<WishItem> wishItemList = wishItemJsonList
+          .map((jsonItem) => WishItem.fromJson(jsonItem))
+          .toList();
       await saveWishItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
-  } catch(e) {
+  } catch (e) {
     print('오류 발생: $e');
   }
 }
 
 Future<void> fetchProgressWishItems(String token) async {
   final String memberID = await getID() ?? '0';
-  if(memberID == '0') throw Exception('다시 로그인해주세요.');
+  if (memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -209,25 +210,26 @@ Future<void> fetchProgressWishItems(String token) async {
   };
   try {
     final response = await http.get(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       // UTF-8로 디코딩한 후 JSON으로 파싱
       String decodedResponse = utf8.decode(response.bodyBytes);
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
-      List<WishItem> wishItemList =
-      wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
+      List<WishItem> wishItemList = wishItemJsonList
+          .map((jsonItem) => WishItem.fromJson(jsonItem))
+          .toList();
       await saveProgressItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
-  } catch(e) {
+  } catch (e) {
     print('오류 발생: $e');
   }
 }
 
 Future<void> fetchCompletedWishItems(String token) async {
   final String memberID = await getID() ?? '0';
-  if(memberID == '0') throw Exception('다시 로그인해주세요.');
+  if (memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/completed/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -235,25 +237,26 @@ Future<void> fetchCompletedWishItems(String token) async {
   };
   try {
     final response = await http.get(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       // UTF-8로 디코딩한 후 JSON으로 파싱
       String decodedResponse = utf8.decode(response.bodyBytes);
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
-      List<WishItem> wishItemList =
-      wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
+      List<WishItem> wishItemList = wishItemJsonList
+          .map((jsonItem) => WishItem.fromJson(jsonItem))
+          .toList();
       await saveCompletedItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
-  } catch(e) {
+  } catch (e) {
     print('오류 발생: $e');
   }
 }
 
 Future<void> fetchUsedWishItems(String token) async {
   final String memberID = await getID() ?? '0';
-  if(memberID == '0') throw Exception('다시 로그인해주세요.');
+  if (memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -261,27 +264,29 @@ Future<void> fetchUsedWishItems(String token) async {
   };
   try {
     final response = await http.get(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       // UTF-8로 디코딩한 후 JSON으로 파싱
       String decodedResponse = utf8.decode(response.bodyBytes);
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList = wishItemJsonList
-          .where((jsonItem) => jsonItem['isMessaged'] == 'NOT_MESSAGED') // 조건에 맞는 항목만 필터링
-          .map((jsonItem) => WishItem.fromJson(jsonItem)) // 필터링된 항목을 WishItem 객체로 변환
+          .where((jsonItem) =>
+              jsonItem['isMessaged'] == 'NOT_MESSAGED') // 조건에 맞는 항목만 필터링
+          .map((jsonItem) =>
+              WishItem.fromJson(jsonItem)) // 필터링된 항목을 WishItem 객체로 변환
           .toList(); // 결과를 리스트로 변환
       await saveUsedItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
-  } catch(e) {
+  } catch (e) {
     print('오류 발생: $e');
   }
 }
 
 Future<void> fetchThankWishItems(String token) async {
   final String memberID = await getID() ?? '0';
-  if(memberID == '0') throw Exception('다시 로그인해주세요.');
+  if (memberID == '0') throw Exception('다시 로그인해주세요.');
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
@@ -289,20 +294,22 @@ Future<void> fetchThankWishItems(String token) async {
   };
   try {
     final response = await http.get(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       // UTF-8로 디코딩한 후 JSON으로 파싱
       String decodedResponse = utf8.decode(response.bodyBytes);
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
       List<WishItem> wishItemList = wishItemJsonList
-          .where((jsonItem) => jsonItem['isMessaged'] == 'MESSAGED') // 조건에 맞는 항목만 필터링
-          .map((jsonItem) => WishItem.fromJson(jsonItem)) // 필터링된 항목을 WishItem 객체로 변환
+          .where((jsonItem) =>
+              jsonItem['isMessaged'] == 'MESSAGED') // 조건에 맞는 항목만 필터링
+          .map((jsonItem) =>
+              WishItem.fromJson(jsonItem)) // 필터링된 항목을 WishItem 객체로 변환
           .toList(); // 결과를 리스트로 변환
       await saveThankItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
-  } catch(e) {
+  } catch (e) {
     print('오류 발생: $e');
   }
 }
@@ -315,22 +322,53 @@ Future<void> fetchFriendWishItems(int friendID, String token) async {
   };
   try {
     final response = await http.get(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       // UTF-8로 디코딩한 후 JSON으로 파싱
       String decodedResponse = utf8.decode(response.bodyBytes);
       List<dynamic> wishItemJsonList = json.decode(decodedResponse);
-      List<WishItem> wishItemList =
-      wishItemJsonList.map((jsonItem) => WishItem.fromJson(jsonItem)).toList();
+      List<WishItem> wishItemList = wishItemJsonList
+          .map((jsonItem) => WishItem.fromJson(jsonItem))
+          .toList();
       await saveFriendItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
-  } catch(e) {
+  } catch (e) {
     print('오류 발생: $e');
   }
 }
 
+Future<List<WishItem>> getFriendWishItemByWishItemID(
+    int friendID, int wishItemID, String token) async {
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/$friendID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      // UTF-8로 디코딩한 후 JSON으로 파싱
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> wishItemJsonList = json.decode(decodedResponse);
+
+      List<WishItem> wishItems = wishItemJsonList
+          .where((jsonItem) =>
+              jsonItem['wishItemId'] == '$wishItemID') // 조건에 맞는 항목만 필터링
+          .map((jsonItem) => WishItem.fromJson(jsonItem))
+          .toList();
+      print('위시 아이템 가져오기 성공: ${wishItems.length}개의 아이템이 있습니다.');
+      return wishItems;
+    } else {
+      print('위시 아이템 가져오기 실패: ${response.statusCode}');
+      return [];
+    }
+  } catch (e) {
+    print('오류 발생: $e');
+    return [];
+  }
+}
 
 Future<void> addWishlist(int itemID, String token) async {
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/add/$itemID');
@@ -340,13 +378,12 @@ Future<void> addWishlist(int itemID, String token) async {
   };
   try {
     final response = await http.post(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       print('위시리스트에 정상적으로 등록되었습니다.');
     } else {
       print('위시리스트 등록에 실패했습니다.');
     }
-  }
-  catch(e) {
+  } catch (e) {
     throw Exception('오류 발생: $e');
   }
 }
@@ -359,13 +396,12 @@ Future<void> deleteWishlist(int wishItemID, String token) async {
   };
   try {
     final response = await http.delete(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       print('위시리스트가 정상적으로 삭제되었습니다.');
     } else {
       print('위시리스트 삭제에 실패했습니다.');
     }
-  }
-  catch(e) {
+  } catch (e) {
     throw Exception('오류 발생: $e');
   }
 }
@@ -378,13 +414,12 @@ Future<void> useWishlist(int wishItemID, String token) async {
   };
   try {
     final response = await http.post(url, headers: headers);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       print('위시리스트가 정상적으로 사용되었습니다.');
     } else {
       print('위시리스트 사용에 실패했습니다.');
     }
-  }
-  catch(e) {
+  } catch (e) {
     throw Exception('오류 발생: $e');
   }
 }
