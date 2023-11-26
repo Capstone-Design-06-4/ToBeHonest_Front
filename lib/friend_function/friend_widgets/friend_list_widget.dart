@@ -75,20 +75,29 @@ class ModalUtils {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 250, // 모달 높이 크기
+          height: 260, // 모달 높이 크기
           margin: const EdgeInsets.only(
             left: 25,
             right: 25,
             bottom: 40,
           ), // 모달 좌우하단 여백 크기
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white, // 모달 배경색
             borderRadius: BorderRadius.all(
               Radius.circular(20), // 모달 전체 라운딩 처리
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
           ),
           child: Column(
             children: [
+              SizedBox(height: 5,),
               Container(
                 height: 70.0,
                 margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),

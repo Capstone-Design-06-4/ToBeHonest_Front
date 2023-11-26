@@ -153,12 +153,25 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
               padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '펀딩 완료!',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${widget.friendName}',
+                          style: TextStyle(fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.textColor),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          ' 님의 위시리스트 펀딩 중!',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 5,),
                   Row(
@@ -175,7 +188,7 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
                             color: AppColor.textColor),
                       ),
                       Text(
-                        '  쌓였어요.',
+                        '  모였어요.',
                         style: TextStyle(fontSize: 20),
                       ),
                     ],

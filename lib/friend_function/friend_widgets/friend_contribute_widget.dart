@@ -16,14 +16,6 @@ class FriendContributeWidget extends StatelessWidget {
           onPressed: () async {
             await onContribute();
             print('펀딩하기 눌렸음');
-            Get.snackbar(
-              "알림",
-              "펀딩이 완료되었습니다.",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.transparent,
-            );
-
-
           },
           style: ElevatedButton.styleFrom(
             primary: AppColor.backgroundColor,
