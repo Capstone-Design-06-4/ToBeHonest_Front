@@ -52,7 +52,6 @@ class SendButton extends StatelessWidget {
                   File selectedFile = File(controller.selectedImage.value!.path);
                   await createMessage();
                   await sendThanksMessage(message, selectedFile, token!);
-
                   Navigator.pop(context); // 현재 페이지 닫기
                   Navigator.pop(context); // 이전 페이지 닫기
                   Navigator.pop(context);
