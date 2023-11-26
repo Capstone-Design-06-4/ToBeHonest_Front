@@ -73,7 +73,7 @@ Future<void> login(String email, String password) async {
       //print('Token before saved: ' + accessToken);
       await saveToken(accessToken);
       await saveEmail(email);
-      await getMyInfo(email, accessToken);
+      await getMyInfoFirst(email, accessToken);
       print('로그인 성공: ${response.statusCode}');
       //print('Token saved: ' + accessToken);
     } else {
@@ -84,7 +84,7 @@ Future<void> login(String email, String password) async {
   }
 }
 
-Future<void> getMyInfo(String email, String token) async {
+Future<void> getMyInfoFirst(String email, String token) async {
   final String url = 'http://10.0.2.2:8080/members/search/email/$email';
   final response = await http.get(
     Uri.parse(url),
