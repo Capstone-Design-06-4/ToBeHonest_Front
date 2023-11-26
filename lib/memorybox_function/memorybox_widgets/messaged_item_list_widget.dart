@@ -17,7 +17,7 @@ class MessagedWishItemList extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.8,
@@ -36,7 +36,7 @@ class MessagedWishItemList extends StatelessWidget {
         child: Card(
           elevation: 10,
           child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(6.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -45,18 +45,23 @@ class MessagedWishItemList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(color: Colors.grey.shade300, width: 1),
                   ),
-                  padding: EdgeInsets.all(8.0),
-                  child: Image.network(
-                    filteredWishItems[index].image,
-                    fit: BoxFit.contain,
-                    width: 110,
-                    height: 110,
+
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        filteredWishItems[index].image,
+                        fit: BoxFit.fill,
+                        width: 120,
+                        height: 120,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  '${filteredWishItems[index].itemName}',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ' ${filteredWishItems[index].itemName}',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
@@ -74,7 +79,7 @@ class MessagedWishItemList extends StatelessWidget {
                       opacity: 0.6,
                       child: Container(
                         height: 20,
-                        width: (MediaQuery.of(ctx).size.width -245) *
+                        width: (MediaQuery.of(ctx).size.width - 245) *
                             (filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice),
                         decoration: BoxDecoration(
                           color: Colors.green,

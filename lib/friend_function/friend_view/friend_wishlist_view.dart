@@ -1,6 +1,7 @@
 // friend_wishlist_view.dart
 
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/controllers/friend_wishlist_controller.dart';
 import 'package:tobehonest/friend_function/friend_widgets/friend_item_list_widget.dart';
@@ -53,41 +54,43 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFFF4A261),
-        title: Text('${widget.friendName}님의 위시리스트', style: TextStyle(fontWeight: FontWeight.normal)),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColor.backgroundColor,
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text('${widget.friendName} 님의 위시리스트', style: TextStyle(color: Colors.white)),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(16.0), // Add margin here
-              child: ItemSearchBar(onSearch: _onSearch),
-            ),
-            Expanded(
-              child: Obx(() {
-                if (wishListController.isLoading.isTrue) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                return ListView(
-                  children: <Widget>[
-                    FriendWishItemList(
-                      wishItems: wishListController.wishItems,
-                      friendID: widget.friendID,
-                      searchText: _searchText,
-                    ),
-                  ],
-                );
-              }),
-            ),
-          ],
+        body: Container(
+          margin: EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: ItemSearchBar(onSearch: _onSearch),
+              ),
+              Expanded(
+                child: Obx(() {
+                  if (wishListController.isLoading.isTrue) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView(
+                    children: <Widget>[
+                      FriendWishItemList(
+                        wishItems: wishListController.wishItems,
+                        friendID: widget.friendID,
+                        searchText: _searchText,
+                        friendName: widget.friendName,
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/giftbox_function/giftbox_view/com_item_contributed_view.dart';
@@ -20,135 +21,201 @@ class ComItemDetailed extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: AppColor.backgroundColor,
+          centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text('상세보기', style: TextStyle(color: Colors.white)),
+          title: Text('상세 보기', style: TextStyle(color: Colors.white)),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: MediaQuery.of(context).size.height * 0.41,
-                      margin: EdgeInsets.symmetric(horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          wishItem.image,
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          fit: BoxFit.fill,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      Container(
+                        width: 320,
+                        height: 320,
+                        margin: EdgeInsets.symmetric(vertical:10, horizontal: 15.0),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              wishItem.itemBrand,
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              wishItem.image,
+                              fit: BoxFit.fill,
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 0.0),
-                      child: Text(
-                        wishItem.itemName,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        Container(
-                          height: 20,
-                          width: MediaQuery.of(context).size.width * fundingProgress,
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '펀딩 모금액',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          '${formatNumber(wishItem.fundAmount)}원 / ${formatNumber(wishItem.itemPrice)}원',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 70),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ComItemContributed(wishItem: wishItem),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orange.shade400,
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(0, 36),
-                        ),
-                        child: FittedBox(
-                          child: Text(
-                            '참여한 사람 보기',
-                            style: TextStyle(fontSize: 16),
+                      Container(
+                        height: 100,
+                        width: 360,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Text(
+                                    wishItem.itemBrand.length > 8
+                                        ? '${wishItem.itemBrand.substring(0, 8)}...'
+                                        : wishItem.itemBrand,
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                  Spacer(), // 여기서 Spacer를 사용하여 공간을 꽉 채웁니다.
+                                  Text(
+                                    '${formatNumber(wishItem.itemPrice)}',
+                                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                                  ),
+                                  Text(
+                                    ' 원',
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                wishItem.itemName,
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                            ],
                           ),
                         ),
                       ),
+                      Container(
+                        alignment: FractionalOffset(fundingProgress >= 1 ? 1 : fundingProgress, 0.0),
+                        child: FractionallySizedBox(
+                          child: Icon(
+                            Icons.arrow_drop_down, // 아이콘으로 대체
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 22,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              FractionallySizedBox(
+                                widthFactor: fundingProgress >= 1 ? 1 : fundingProgress,
+                                child: Container(
+                                  height: 22,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.green, Colors.greenAccent],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '펀딩 완료!',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '펀딩액의  ',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  Text(
+                                    '${(wishItem.fundAmount/wishItem.itemPrice*100).toStringAsFixed(2)}%',
+                                    style: TextStyle(fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColor.textColor),
+                                  ),
+                                  Text(
+                                    '  쌓였어요.',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ComItemContributed(wishItem: wishItem),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: AppColor.backgroundColor,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        minimumSize: Size(0, 36),
+                      ),
+                      child: FittedBox(
+                        child: Text(
+                          '참여한 사람 보기',
+                          style: TextStyle(fontSize: 18,
+                          ),
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

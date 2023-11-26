@@ -71,7 +71,6 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(),
       routes: {
-        '/wishlist': (context) => WishListPage(),
       },
     );
   }

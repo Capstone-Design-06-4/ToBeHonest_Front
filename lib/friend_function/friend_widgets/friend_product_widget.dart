@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/controllers/friend_product_controller.dart';
@@ -7,8 +8,8 @@ import 'package:tobehonest/models/wishItem.dart';
 class FriendProductWidget extends StatefulWidget {
   final int friendID;
   final WishItem wishItem;
-
-  FriendProductWidget({Key? key, required this.friendID, required this.wishItem}) : super(key: key);
+  final String friendName;
+  FriendProductWidget({Key? key, required this.friendName, required this.friendID, required this.wishItem}) : super(key: key);
 
   @override
   _FriendProductWidgetState createState() => _FriendProductWidgetState();
@@ -21,7 +22,8 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
   void initState() {
     super.initState();
     // 컨트롤러 초기화 및 상태 가져오기
-    controller = Get.put(FriendProductController(widget.wishItem, widget.friendID));
+    controller =
+        Get.put(FriendProductController(widget.wishItem, widget.friendID));
     controller.updateWishItem();
   }
 
@@ -39,15 +41,9 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
       return Column(
         children: [
           Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.7,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.35,
-            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            width: 320,
+            height: 320,
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(12),
@@ -60,82 +56,133 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
                 ),
               ],
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                wishItem.image,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height,
-                fit: BoxFit.fill,
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  wishItem.image,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 30),
           Container(
-            child: Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 10.0),
-                  child: Text(
+            height: 100,
+            width: 360,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     wishItem.itemBrand,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
+                  SizedBox(height: 5),
+                  Text(
+                    wishItem.itemName,
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.normal),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ],
+              ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 0.0),
-            child: Text(
-              wishItem.itemName,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+          Container(
+            alignment: FractionalOffset(
+                wishItem.fundAmount / wishItem.itemPrice,
+                1 - wishItem.fundAmount / wishItem.itemPrice),
+            child: FractionallySizedBox(
+              child: Icon(
+                Icons.arrow_drop_down,
+                size: 30,
+                color: Colors.black,
+              ),
             ),
           ),
-          SizedBox(height: 16),
-          Stack(
-            children: [
-              Container(
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
+          Center(
+            child: Container(
+              height: 30,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 22,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    FractionallySizedBox(
+                      widthFactor: fundingProgress,
+                      child: Container(
+                        height: 22,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.green, Colors.greenAccent],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                height: 20,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * fundingProgress,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ],
+            ),
           ),
-          SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '펀딩 모금액',
-                style: TextStyle(fontSize: 16),
+          Center(
+            child: Container(
+              height: 100,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${widget.friendName}',
+                          style: TextStyle(fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.textColor),
+                        ),
+                        Text(
+                          ' 님의 펀딩 진행중!',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '지금까지  ',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Text(
+                          '${(wishItem.fundAmount / wishItem.itemPrice * 100)
+                              .toStringAsFixed(2)}%',
+                          style: TextStyle(fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.textColor),
+                        ),
+                        Text(
+                          '  모였어요.',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                '${formatNumber(wishItem.fundAmount)}원 / ${formatNumber(
-                    wishItem.itemPrice)}원',
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
+            ),
           ),
         ],
       );

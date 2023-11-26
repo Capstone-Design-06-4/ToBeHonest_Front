@@ -25,10 +25,9 @@ class _ItemContributedState extends State<ItemContributed> {
     widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
   }
 
-  String formatCurrency(int amount) {
-    final formatter = NumberFormat('#,###', 'ko_KR');
-    String formattedAmount = formatter.format(amount);
-    return '$formattedAmount 원';
+  String formatNumber(int number) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(number);
   }
 
   @override
@@ -79,31 +78,41 @@ class _ItemContributedState extends State<ItemContributed> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 15),
-                          Text(
-                            widget.wishItem.itemBrand,
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            widget.wishItem.itemName,
-                            style: TextStyle(fontSize: 16),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                           SizedBox(height: 10),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                '펀딩 모금액: ',
-                                style: TextStyle(fontSize: 16, color: Colors.grey),
-                              ),
-                              Text(
-                                formatCurrency(widget.wishItem.fundAmount),
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                widget.wishItem.itemBrand.length > 8
+                                    ? '${widget.wishItem.itemBrand.substring(0, 8)}...'
+                                    : widget.wishItem.itemBrand,
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
+                          SizedBox(height: 5),
+                          Text(
+                            widget.wishItem.itemName,
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Text(
+                                '펀딩 총액: ',
+                                style: TextStyle(fontSize: 18,),
+                              ),
+                              Text(
+                                '${formatNumber(widget.wishItem.fundAmount)}',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                              ),
+                              Text(
+                                ' 원',
+                                style: TextStyle(fontSize: 18,),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -111,29 +120,36 @@ class _ItemContributedState extends State<ItemContributed> {
                 ),
               ),
             ),
-
             Expanded(
               child: Obx(() {
-
-                return ListView.builder(
-                  itemCount: widget.contributorController.ContributorList.length,
-                  itemBuilder: (context, index) {
-                    final contributor = widget.contributorController.ContributorList[index];
-                    return Card(
-                      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(contributor.ProfileURL),
+                if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
+                  // contributors 리스트가 비어있을 때
+                  return Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(20.0),
+                    child: Text('아직 펀딩 참여자가 없습니다 :(',style: TextStyle(fontSize: 18,)),
+                  );
+                } else {
+                  // contributors 리스트가 비어있지 않을 때
+                  return ListView.builder(
+                    itemCount: widget.contributorController.ContributorList.length,
+                    itemBuilder: (context, index) {
+                      final contributor = widget.contributorController.ContributorList[index];
+                      return Card(
+                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(contributor.ProfileURL),
+                          ),
+                          title: Text(contributor.friendName),
+                          trailing: Text(formatNumber(contributor.contribution)),
                         ),
-                        title: Text(contributor.friendName),
-                        trailing: Text(formatCurrency(contributor.contribution)),
-                      ),
-                    );
-                  },
-                );
+                      );
+                    },
+                  );
+                }
               }),
             ),
-
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
@@ -198,7 +214,7 @@ class _ItemContributedState extends State<ItemContributed> {
                 ],
               ),
             ),
-            SizedBox(height: 30,),
+            SizedBox(height: 15,),
           ],
         ),
       ),

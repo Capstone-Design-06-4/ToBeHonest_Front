@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:get/get.dart';
@@ -59,7 +60,7 @@ class SendButton extends StatelessWidget {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.orange.shade400,
+                primary: AppColor.backgroundColor,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),

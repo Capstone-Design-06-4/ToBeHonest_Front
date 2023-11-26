@@ -65,7 +65,7 @@ class _WishItemListState extends State<WishItemList> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  '${filteredWishItems[index].itemName}',
+                  ' ${filteredWishItems[index].itemName}',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/style.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:tobehonest/services/contribute_service.dart';
@@ -11,8 +12,8 @@ import 'package:tobehonest/controllers/friend_product_controller.dart';
 class FriendItemDetailed extends StatefulWidget {
   final WishItem wishItem;
   final int friendID;
-
-  FriendItemDetailed({required this.wishItem, required this.friendID});
+  final String friendName;
+  FriendItemDetailed({required this.friendName, required this.wishItem, required this.friendID});
 
   @override
   _ItemDetailedState createState() => _ItemDetailedState();
@@ -50,14 +51,14 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
             TextButton(
               child: Text("취소"),
               onPressed: () {
-                Navigator.of(context).pop(); // 취소시 대화 상자 닫기
+                Navigator.of(context).pop();// 취소시 대화 상자 닫기
               },
             ),
             TextButton(
               child: Text("확인"),
               onPressed: () {
-                int? amount = int.tryParse(amountController.text); // 입력된 금액을 int로 변환
-                Navigator.of(context).pop(amount); // 확인시 금액 반환
+                int? amount = int.tryParse(amountController.text);
+                Navigator.of(context).pop(amount);
               },
             ),
           ],
@@ -82,7 +83,6 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
   @override
   Widget build(BuildContext context) {
     final WishItem wishItem = widget.wishItem;
-
     final double fundingProgress = wishItem.fundAmount / wishItem.itemPrice;
 
     String formatNumber(int number) {
@@ -93,31 +93,35 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: AppColor.backgroundColor,
+          centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text('상세보기', style: TextStyle(color: Colors.white)),
+          title: Text('${widget.friendName} 님의 상품', style: TextStyle(color: Colors.white)),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
                     Obx(() => FriendProductWidget(
                       friendID: widget.friendID,
                       wishItem: friendProductController.wishItem.value,
+                      friendName: widget.friendName,
                     )),
                     FriendContributeWidget(onContribute: () async {
                       await onContributeButtonPressed();
                     }),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
