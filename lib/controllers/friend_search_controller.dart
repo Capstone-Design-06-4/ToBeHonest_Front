@@ -13,8 +13,10 @@ class FriendController extends GetxController {
   Future<void> getFriendsList() async {
     isLoading(true); // 로딩 상태를 true로 설정
     try {
-      String? token = await getToken(); // 로그인 서비스에서 토큰을 가져옵니다.
+      String? token = await getToken();
+      print('토큰: $token');// 로그인 서비스에서 토큰을 가져옵니다.
       if (token != null) {
+        await fetchFriends(token);
         var friends = await getAllFriends(); // 서비스에서 친구 목록을 가져옵니다.
         if (friends.isNotEmpty) {
           friendsList.assignAll(friends);
@@ -22,6 +24,7 @@ class FriendController extends GetxController {
       } else {
         print('토큰이 없습니다.');
       }
+      friendsList.refresh();
     } catch (e) {
       print('친구 목록을 가져오는 데 실패했습니다: $e');
     } finally {

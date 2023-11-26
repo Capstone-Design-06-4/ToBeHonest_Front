@@ -43,7 +43,7 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
           Container(
             width: 320,
             height: 320,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
+            margin: EdgeInsets.symmetric(vertical:10, horizontal: 15.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(12),
@@ -75,15 +75,30 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    wishItem.itemBrand,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Text(
+                        wishItem.itemBrand.length > 8
+                            ? '${wishItem.itemBrand.substring(0, 8)}...'
+                            : wishItem.itemBrand,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(), // 여기서 Spacer를 사용하여 공간을 꽉 채웁니다.
+                      Text(
+                        '${formatNumber(wishItem.itemPrice)}',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                      ),
+                      Text(
+                        ' 원',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 5),
                   Text(
                     wishItem.itemName,
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.normal),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
@@ -92,95 +107,80 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
             ),
           ),
           Container(
-            alignment: FractionalOffset(
-                wishItem.fundAmount / wishItem.itemPrice,
-                1 - wishItem.fundAmount / wishItem.itemPrice),
+            alignment: FractionalOffset(fundingProgress >= 1 ? 1 : fundingProgress, 0.0),
             child: FractionallySizedBox(
               child: Icon(
-                Icons.arrow_drop_down,
+                Icons.arrow_drop_down, // 아이콘으로 대체
                 size: 30,
                 color: Colors.black,
               ),
             ),
           ),
-          Center(
-            child: Container(
-              height: 30,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Stack(
-                  children: [
-                    Container(
+          Container(
+            height: 30,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 22,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: fundingProgress >= 1 ? 1 : fundingProgress,
+                    child: Container(
                       height: 22,
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    FractionallySizedBox(
-                      widthFactor: fundingProgress,
-                      child: Container(
-                        height: 22,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.green, Colors.greenAccent],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(15),
+                        gradient: LinearGradient(
+                          colors: [Colors.green, Colors.greenAccent],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
                         ),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-          Center(
-            child: Container(
-              height: 100,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${widget.friendName}',
-                          style: TextStyle(fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.textColor),
-                        ),
-                        Text(
-                          ' 님의 펀딩 진행중!',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
+          Container(
+            height: 100,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '펀딩 완료!',
+                      style: TextStyle(fontSize: 20),
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '지금까지  ',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          '${(wishItem.fundAmount / wishItem.itemPrice * 100)
-                              .toStringAsFixed(2)}%',
-                          style: TextStyle(fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.textColor),
-                        ),
-                        Text(
-                          '  모였어요.',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '펀딩액의  ',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        '${(wishItem.fundAmount/wishItem.itemPrice*100).toStringAsFixed(2)}%',
+                        style: TextStyle(fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.textColor),
+                      ),
+                      Text(
+                        '  쌓였어요.',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

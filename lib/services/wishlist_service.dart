@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -339,8 +340,7 @@ Future<void> fetchFriendWishItems(int friendID, String token) async {
   }
 }
 
-Future<List<WishItem>> getFriendWishItemByWishItemID(
-    int friendID, int wishItemID, String token) async {
+Future<List<WishItem>> getFriendWishItemByWishItemID(int friendID, int wishItemID, String token) async {
   final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/$friendID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',

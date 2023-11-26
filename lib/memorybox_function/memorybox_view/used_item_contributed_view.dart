@@ -180,8 +180,8 @@ class _ComItemContributedState extends State<UsedItemContributed> {
                             ),
                             child: FittedBox(
                               child: Text(
-                                '감사메시지 전하기',
-                                style: TextStyle(fontSize: 16),
+                                '감사메시지 쓰기',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ),
                           ),

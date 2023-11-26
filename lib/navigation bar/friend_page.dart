@@ -17,16 +17,10 @@ class FriendPage extends StatefulWidget {
 class _FriendPageState extends State<FriendPage> {
   final FriendController friendController = Get.find<FriendController>();
 
-  @override
-  void initState() {
-    super.initState();
-    friendController.getFriendsList();
-    _updateWishItems();
-  }
-
-  void _updateWishItems() async {
+  void _updateFriendList() async {
     try {
-      friendController.isLoading(true);  // 로딩 시작
+      friendController.isLoading(true);
+      // 로딩 시작
       await friendController.getFriendsList();
       friendController.friendsList.refresh();
     } catch (e) {
@@ -34,6 +28,12 @@ class _FriendPageState extends State<FriendPage> {
     } finally {
       friendController.isLoading(false);  // 로딩 종료
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _updateFriendList();
   }
 
   @override

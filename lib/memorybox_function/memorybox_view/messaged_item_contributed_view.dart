@@ -167,7 +167,7 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MessagedShowPage(), // Use the correct class name
+                                  builder: (context) => MessagedShowPage(wishItem: widget.wishItem,), // Use the correct class name
                                 ),
                               );
                             },

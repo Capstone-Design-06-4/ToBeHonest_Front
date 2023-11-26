@@ -21,7 +21,6 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
     setState(() {
       _searchText = text;
     });
-
     _updateWishItems();
   }
 

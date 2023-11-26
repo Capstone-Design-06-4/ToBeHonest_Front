@@ -21,7 +21,6 @@ class WishListController extends GetxController {
     item.itemId == itemId); //itemId로 바꿔야함
   }
 
-
   Future<void> addToWishlistWithSnackbar(Item selectedItem) async {
     try {
       isLoading(true);

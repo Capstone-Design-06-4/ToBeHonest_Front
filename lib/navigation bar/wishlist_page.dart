@@ -22,7 +22,6 @@ class _WishListPageState extends State<WishListPage> {
     setState(() {
       _searchText = text;
     });
-
     _updateWishItems();
   }
 

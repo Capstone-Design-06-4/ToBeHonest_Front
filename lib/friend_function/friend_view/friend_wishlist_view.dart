@@ -19,14 +19,12 @@ class FriendWishlistPage extends StatefulWidget {
 
 class _FriendWishlistPageState extends State<FriendWishlistPage> {
   String _searchText = '';
-  final FriendWishListController wishListController = Get.put(
-      FriendWishListController());
+  final FriendWishListController wishListController = Get.put(FriendWishListController());
 
   void _onSearch(String text) {
     setState(() {
       _searchText = text;
     });
-
     _updateWishItems();
   }
 
@@ -47,8 +45,6 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
   @override
   void initState() {
     super.initState();
-
-    // 페이지가 열릴 때 자동으로 새로고침
     _updateWishItems();
   }
 

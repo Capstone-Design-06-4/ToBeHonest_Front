@@ -31,6 +31,15 @@ class _ComItemContributedState extends State<ComItemContributed> {
     widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
   }
 
+  // 페이지 초기화 함수
+  void _resetPage() {
+    // 현재 페이지를 팝하고 다시 푸시하여 페이지를 초기화하고 다시 그림
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ComItemContributed(wishItem: widget.wishItem)),
+    );
+  }
+
   String formatNumber(int number) {
     final formatter = NumberFormat('#,###');
     return formatter.format(number);
@@ -64,11 +73,9 @@ class _ComItemContributedState extends State<ComItemContributed> {
                 ElevatedButton(
                   onPressed: () async {
                     await widget.giftBoxController.SendtoMyAccount(wishItemID: widget.wishItem.wishItemId);
-                    Navigator.pop(context); // 이전 경로로 돌아가기
-                    Navigator.pop(context); // 이전 경로로 돌아가기
-                    Navigator.pop(context); // 이전 경로로 돌아가기
-
-                    // 여기에 다른 페이지로 이동하는 코드 추가
+                    _resetPage();
+                    Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                   child: Text('확인'),
                 ),
@@ -216,6 +223,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                               _scaffoldKey.currentState!.showBottomSheet(
                                     (context) => buildBottomSheet(context),
                               );
+
                             },
                             style: ElevatedButton.styleFrom(
                               primary: AppColor.backgroundColor,

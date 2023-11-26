@@ -52,6 +52,10 @@ class SendButton extends StatelessWidget {
                   File selectedFile = File(controller.selectedImage.value!.path);
                   await createMessage();
                   await sendThanksMessage(message, selectedFile, token!);
+
+                  Navigator.pop(context); // 현재 페이지 닫기
+                  Navigator.pop(context); // 이전 페이지 닫기
+                  Navigator.pop(context);
                 } else {
                   // 이미지가 선택되지 않았을 경우 처리
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -69,7 +73,7 @@ class SendButton extends StatelessWidget {
               ),
               child: Text(
                 '감사 메시지 보내기',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18),
               ),
             ),
           ),
