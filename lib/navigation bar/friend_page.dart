@@ -20,7 +20,6 @@ class _FriendPageState extends State<FriendPage> {
   @override
   void initState() {
     super.initState();
-    friendController.getFriendsList();
     _updateWishItems();
   }
 
