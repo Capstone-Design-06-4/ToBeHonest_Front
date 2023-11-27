@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_add/item_add_search_widget.dart';
 
-class NewItemPage extends StatefulWidget {
+class NewItemPagebyCategory extends StatefulWidget {
   @override
   _NewItemPageState createState() => _NewItemPageState();
 }
 
-class _NewItemPageState extends State<NewItemPage> {
+class _NewItemPageState extends State<NewItemPagebyCategory> {
   final WishListController wishListController = Get.put(WishListController());
   int? selectedTileIndex;
   Item? selectedItem;
@@ -29,22 +29,12 @@ class _NewItemPageState extends State<NewItemPage> {
     wishListController.Items.clear(); // 전체 리스트 초기화
   }
 
-  // 페이지 초기화 함수
-  void _resetPage() {
-    // 현재 페이지를 팝하고 다시 푸시하여 페이지를 초기화하고 다시 그림
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => NewItemPage()),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("상품명으로 추가하기"),
+          title: Text("카테고리로 추가하기"),
           centerTitle: true,
         ),
         body: Padding(
@@ -143,7 +133,6 @@ class _NewItemPageState extends State<NewItemPage> {
 
                       // 여기에 위시리스트에 추가하는 로직을 추가하세요.
                       await wishListController.addToWishlistWithSnackbar(selectedItem!);
-                      _resetPage(); // 페이지 초기화 호출
                       Navigator.pop(context);
                       Navigator.pop(context);
                     }
@@ -173,6 +162,3 @@ class _NewItemPageState extends State<NewItemPage> {
     );
   }
 }
-
-
-

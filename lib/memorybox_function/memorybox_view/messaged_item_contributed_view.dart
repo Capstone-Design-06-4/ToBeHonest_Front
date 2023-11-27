@@ -122,6 +122,25 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                 ),
               ),
             ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '펀딩 참여자 수: ',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                    '${widget.contributorController.ContributorList.length}',
+                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                  ),
+                  Text(
+                    ' 명',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
@@ -143,8 +162,8 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(contributor.ProfileURL),
                           ),
-                          title: Text(contributor.friendName),
-                          trailing: Text(formatNumber(contributor.contribution)),
+                          title: Text(contributor.friendName + ' 님'),
+                          trailing: Text(formatNumber(contributor.contribution)+' 원'),
                         ),
                       );
                     },

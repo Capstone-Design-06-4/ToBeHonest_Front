@@ -32,8 +32,6 @@ class ContributorController extends GetxController {
           update();
         } else {
           print('너 친구없잖아');
-          Get.snackbar(
-              "알림", "등록되지 않은 사용자입니다.", snackPosition: SnackPosition.TOP);
         }
       } else {
         print('토큰이 없습니다.');

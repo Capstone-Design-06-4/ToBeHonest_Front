@@ -178,6 +178,25 @@ class _ComItemContributedState extends State<ComItemContributed> {
                 ),
               ),
             ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '펀딩 참여자 수: ',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                    '${widget.contributorController.ContributorList.length}',
+                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                  ),
+                  Text(
+                    ' 명',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
@@ -185,7 +204,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                   return Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(20.0),
-                    child: Text('아직 펀딩 참여자가 없습니다 :(',style: TextStyle(fontSize: 18,)),
+                    child: Text('',style: TextStyle(fontSize: 18,)),
                   );
                 } else {
                   // contributors 리스트가 비어있지 않을 때
@@ -199,8 +218,8 @@ class _ComItemContributedState extends State<ComItemContributed> {
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(contributor.ProfileURL),
                           ),
-                          title: Text(contributor.friendName),
-                          trailing: Text(formatNumber(contributor.contribution)),
+                          title: Text(contributor.friendName + ' 님'),
+                          trailing: Text(formatNumber(contributor.contribution)+' 원'),
                         ),
                       );
                     },
@@ -220,10 +239,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              _scaffoldKey.currentState!.showBottomSheet(
-                                    (context) => buildBottomSheet(context),
-                              );
-
+                              ModalUtils.showFriendModal(context, widget.wishItem.wishItemId);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: AppColor.backgroundColor,
@@ -251,6 +267,83 @@ class _ComItemContributedState extends State<ComItemContributed> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ModalUtils {
+  static void showFriendModal(BuildContext context, int wishItemId,) {
+    final WishListController wishListController = Get.put(WishListController());
+    final GiftBoxController giftBoxController = Get.put(GiftBoxController());
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 150, // 모달 높이 크기
+            decoration: BoxDecoration(
+              color: Colors.white, // 모달 배경색
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 70.0,
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Center(
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                      leading: CircleAvatar(
+                        backgroundColor: AppColor.swatchColor,
+                        child: Icon(Icons.question_mark, color: Colors.white),
+                      ),
+                      title: Text('계좌로 송금하시겠어요?',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          Navigator.pop(context); // 예시: 현재 페이지를 닫음
+                        },
+                      ),
+                    ),
+                  ),
+
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await giftBoxController.SendtoMyAccount(wishItemID: wishItemId);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+
+                    child: FittedBox(
+                      child: Text(
+                        '송금하기',
+                        style: TextStyle(fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        backgroundColor: Colors.transparent
     );
   }
 }

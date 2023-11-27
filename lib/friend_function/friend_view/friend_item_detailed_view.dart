@@ -44,16 +44,12 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: Container(
-              height: 200, // 모달 높이 크기
-              margin: const EdgeInsets.only(
-                left: 25,
-                right: 25,
-                bottom: 40,
-              ), // 모달 좌우하단 여백 크기
+              height: 220, // 모달 높이 크기
               decoration: BoxDecoration(
                 color: Colors.white, // 모달 배경색
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20), // 모달 전체 라운딩 처리
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -78,21 +74,13 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                       child: Center(
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                          title: Row(
-                            children: [
-                              Icon(
-                                Icons.money, // Replace 'your_icon' with the desired icon
-                                color: AppColor.swatchColor,
-                              ),
-                              SizedBox(width: 8.0), // Adjust the spacing between icon and text
-                              Text(
-                                '펀딩하실 금액을 적어주세요.',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ],
+                          leading: CircleAvatar(
+                            backgroundColor: AppColor.swatchColor,
+                            child: Icon(Icons.attach_money, color: Colors.white),
+                          ),
+                          title: Text(
+                            '펀딩하실 금액을 적어주세요.',
+                            style: TextStyle(fontSize: 20),
                           ),
                           trailing: GestureDetector(
                             onTap: () {
@@ -136,7 +124,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                         ),
                       ),
                     ),
-
+                    SizedBox(height: 10,),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: ElevatedButton(
@@ -189,6 +177,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 10,),
                   ],
                 ),
               ),

@@ -19,6 +19,13 @@ class _EmailAddPageState extends State<EmailAddPage> {
   String friendName = '';
   String friendBirthdate = '';
   String friendImage = '';
+  int status = 0;
+
+  void updateStatus(int newStatus) {
+    setState(() {
+      status = newStatus;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +36,7 @@ class _EmailAddPageState extends State<EmailAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 10.0),
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -59,52 +67,132 @@ class _EmailAddPageState extends State<EmailAddPage> {
                 keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 35.0),
-              if (friendName.isNotEmpty)
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
+              Expanded(
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Container(
-                        height: 40.0,
-                        child: Center(
-                          child: Text(
-                            '친구 목록에 추가되었어요!',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 70.0,
-                        child: Center(
-                          child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                            leading: CircleAvatar(
-                              backgroundColor: AppColor.swatchColor,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.black,
-                                backgroundImage: NetworkImage(friendImage),
-                                radius: 60.0,
-                              ),
-                            ),
-                            title: Text(
-                              friendName,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22.0,
-                              ),
-                            ),
-                            subtitle: Text(friendBirthdate),
-                          ),
-                        ),
+                        height: 300,
+                        child: (() {
+                          switch (status) {
+                            case 1:
+                              return Container(
+                                height: 100.0,
+                                child: Center(
+                                  child: Text(
+                                    '등록되지 않은 사용자에요.',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ),
+                              );
+                            case 2:
+                              return Container(
+                                height: 100.0,
+                                child: Center(
+                                  child: Text(
+                                    '본인의 이메일을 입력했어요.',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ),
+                              );
+                            case 3:
+                              return Container(
+                                height: 100.0,
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 70,),
+                                      Text(
+                                        '이미 친구인 사용자에요.',
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                      SizedBox(height: 20,),
+                                      Container(
+                                        height: 70.0,
+                                        child: Center(
+                                          child: ListTile(
+                                            contentPadding: EdgeInsets.symmetric(horizontal: 32.0),
+                                            leading: CircleAvatar(
+                                              backgroundColor: AppColor.swatchColor,
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.black,
+                                                backgroundImage: NetworkImage(
+                                                  friendImage,
+                                                ), // Provide the friend's profile image URL
+                                                radius: 60.0,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              friendName,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 22.0,
+                                              ),
+                                            ),
+                                            subtitle: Text(friendBirthdate),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            case 4:
+                              return Container(
+                                height: 170.0,
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 70,),
+                                    Text(
+                                      '친구 목록에 추가했어요.',
+                                      style: TextStyle(fontSize: 18.0),
+                                    ),
+                                    Container(
+                                      height: 70.0,
+                                      child: Center(
+                                        child: ListTile(
+                                          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                                          leading: CircleAvatar(
+                                            backgroundColor: AppColor.swatchColor,
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.black,
+                                              backgroundImage: NetworkImage(
+                                                friendImage,
+                                              ), // Provide the friend's profile image URL
+                                              radius: 60.0,
+                                            ),
+                                          ),
+                                          title: Text(
+                                            friendName,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 22.0,
+                                            ),
+                                          ),
+                                          subtitle: Text(friendBirthdate),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            default:
+                              return Container(
+                                height: 100.0,
+                                child: Center(
+                                  child: Text(
+                                    '이메일를 입력해주세요.',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ),
+                              );
+                          }
+                        })(),
                       ),
                     ],
                   ),
                 ),
+              ),
               Center(
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.6,
@@ -134,21 +222,32 @@ class _EmailAddPageState extends State<EmailAddPage> {
 
                         switch (searchResult.item2) {
                           case 'EMPTY':
-                          // Handle empty result
+                            updateStatus(1);
                             break;
                           case 'ME':
-                          // Handle result when the searched user is the current user
+                            print('검색된 친구 정보: ${searchResult.item1.name}');
+                            setState(() {
+                              friendName = searchResult.item1.name;
+                              friendBirthdate = searchResult.item1.birthDate;
+                              updateStatus(2);
+                            });
                             break;
                           case 'FRIEND':
-                          // Handle result when the searched user is already a friend
-                            break;
-                          case 'NOT_FRIEND':
-                          // Handle result when the searched user is not a friend
                             print('검색된 친구 정보: ${searchResult.item1.name}');
                             setState(() {
                               friendName = searchResult.item1.name;
                               friendBirthdate = searchResult.item1.birthDate;
                               friendImage = searchResult.item1.profileURL;
+                              updateStatus(3);
+                            });
+                            break;
+                          case 'NOT_FRIEND':
+                            print('검색된 친구 정보: ${searchResult.item1.name}');
+                            setState(() {
+                              friendName = searchResult.item1.name;
+                              friendBirthdate = searchResult.item1.birthDate;
+                              friendImage = searchResult.item1.profileURL;
+                              updateStatus(4);
                             });
                             break;
                           default:
@@ -164,6 +263,7 @@ class _EmailAddPageState extends State<EmailAddPage> {
                   ),
                 ),
               ),
+              SizedBox(height: 15,)
             ],
           ),
         ),

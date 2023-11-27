@@ -120,6 +120,25 @@ class _ItemContributedState extends State<ItemContributed> {
                 ),
               ),
             ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '펀딩 참여자 수: ',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                    '${widget.contributorController.ContributorList.length}',
+                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                  ),
+                  Text(
+                    ' 명',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
@@ -127,7 +146,7 @@ class _ItemContributedState extends State<ItemContributed> {
                   return Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(20.0),
-                    child: Text('아직 펀딩 참여자가 없습니다 :(',style: TextStyle(fontSize: 18,)),
+                    child: Text('아직 펀딩 참여자가 없어요.',style: TextStyle(fontSize: 18,)),
                   );
                 } else {
                   // contributors 리스트가 비어있지 않을 때
@@ -141,8 +160,8 @@ class _ItemContributedState extends State<ItemContributed> {
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(contributor.ProfileURL),
                           ),
-                          title: Text(contributor.friendName),
-                          trailing: Text(formatNumber(contributor.contribution)),
+                          title: Text(contributor.friendName+ ' 님'),
+                          trailing: Text(formatNumber(contributor.contribution)+' 원'),
                         ),
                       );
                     },
@@ -162,34 +181,7 @@ class _ItemContributedState extends State<ItemContributed> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('진짜 삭제할거?'),
-                                    insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () async {
-                                          await widget.wishListController.deleteFromWishlist_Con(widget.wishItem.wishItemId);
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('확인'),
-                                      ),
-
-                                      TextButton(
-                                        onPressed: () {
-                                          // 아니오 버튼을 눌렀을 때의 동작
-                                          Navigator.of(context).pop();  // 다이얼로그를 닫음
-                                        },
-                                        child: Text('아니오'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              ModalUtils.showFriendModal(context, widget.wishItem.fundAmount, widget.contributorController.ContributorList.length, widget.wishItem.wishItemId);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: AppColor.backgroundColor,
@@ -218,6 +210,87 @@ class _ItemContributedState extends State<ItemContributed> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ModalUtils {
+  static void showFriendModal(BuildContext context, int fundAmount, int length, int wishItemId,) {
+    final WishListController wishListController = Get.put(WishListController());
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 160, // 모달 높이 크기
+            decoration: BoxDecoration(
+              color: Colors.white, // 모달 배경색
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: 5,),
+                Container(
+                  height: 70.0,
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Center(
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                      leading: CircleAvatar(
+                        backgroundColor: AppColor.swatchColor,
+                        child: Icon(Icons.question_mark, color: Colors.white),
+                      ),
+                      title: Text(
+                        length == 1
+                            ? '위시리스트에서 삭제하시겠어요?'
+                            : '위시리스트에서 삭제하시겠어요?\n펀딩액은 각자에게 돌아가요.',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          Navigator.pop(context); // 예시: 현재 페이지를 닫음
+                        },
+                      ),
+                    ),
+                  ),
+
+                ),
+                SizedBox(height: 5),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await wishListController.deleteFromWishlist_Con(wishItemId);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+
+                    child: FittedBox(
+                      child: Text(
+                        '삭제하기',
+                        style: TextStyle(fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        backgroundColor: Colors.transparent
     );
   }
 }

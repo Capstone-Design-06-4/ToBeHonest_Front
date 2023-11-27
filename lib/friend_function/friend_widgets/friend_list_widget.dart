@@ -119,7 +119,7 @@ class ModalUtils {
                       friend.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22.0,
+                        fontSize: 18.0,
                       ),
                     ),
                     subtitle: Text(friend.birthDate),

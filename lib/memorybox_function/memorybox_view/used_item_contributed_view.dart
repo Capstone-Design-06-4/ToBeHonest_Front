@@ -121,6 +121,25 @@ class _ComItemContributedState extends State<UsedItemContributed> {
                 ),
               ),
             ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '펀딩 참여자 수: ',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                    '${widget.contributorController.ContributorList.length}',
+                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                  ),
+                  Text(
+                    ' 명',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
@@ -128,7 +147,7 @@ class _ComItemContributedState extends State<UsedItemContributed> {
                   return Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(20.0),
-                    child: Text('아직 펀딩 참여자가 없습니다 :(',style: TextStyle(fontSize: 18,)),
+                    child: Text('',style: TextStyle(fontSize: 18,)),
                   );
                 } else {
                   // contributors 리스트가 비어있지 않을 때
@@ -142,8 +161,8 @@ class _ComItemContributedState extends State<UsedItemContributed> {
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(contributor.ProfileURL),
                           ),
-                          title: Text(contributor.friendName),
-                          trailing: Text(formatNumber(contributor.contribution)),
+                          title: Text(contributor.friendName + ' 님'),
+                          trailing: Text(formatNumber(contributor.contribution)+' 원'),
                         ),
                       );
                     },

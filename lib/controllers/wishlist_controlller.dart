@@ -129,6 +129,32 @@ class WishListController extends GetxController {
     }
   }
 
+  Future<void> ItemAddSearchbyCategory(String searchText) async {
+    try {
+      isLoading(true);
+
+      String? token = await getToken();
+      print('토큰: $token');
+      if (token == null) throw Exception("토큰이 없습니다.");
+
+      print('검색어로 상품을 찾는 중...');
+
+      // 검색어를 사용하여 상품을 찾음
+      List<Item> searchedItems = await findItemByCategory(searchText, token);
+
+      // RxList의 assignAll 메서드로 데이터를 할당
+      Items.assignAll(searchedItems);
+
+      // RxList의 refresh 메서드로 UI를 갱신
+      Items.refresh();
+    } catch (e) {
+      print('오류 발생: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+
   Future<void> deleteFromWishlist_Con(int wishItemID) async {
     try {
       isLoading(true);

@@ -27,9 +27,10 @@ class ThanksMessage extends StatelessWidget {
 
   Future<void> _pickImage() async {
     final XFile? selected =
-        await _picker.pickImage(source: ImageSource.gallery);
+    await _picker.pickImage(source: ImageSource.gallery);
     controller.pickImage(selected);
   }
+
   String formatCurrency(int amount) {
     final formatter = NumberFormat('#,###', 'ko_KR');
     String formattedAmount = formatter.format(amount);
@@ -47,121 +48,112 @@ class ThanksMessage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: AppColor.backgroundColor,
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      child: Container(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            wishItem.image,
-                            fit: BoxFit.fill,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              wishItem.image,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 6),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Text(
-                                wishItem.itemBrand.length > 8
-                                    ? '${wishItem.itemBrand.substring(0, 8)}...'
-                                    : wishItem.itemBrand,
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            wishItem.itemName,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Text(
-                                '펀딩 총액: ',
-                                style: TextStyle(fontSize: 18,),
-                              ),
-                              Text(
-                                '${formatNumber(wishItem.fundAmount)}',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
-                              ),
-                              Text(
-                                ' 원',
-                                style: TextStyle(fontSize: 18,),
-                              ),
-                            ],
-                          )
-                        ],
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Text(
+                                  wishItem.itemBrand.length > 8
+                                      ? '${wishItem.itemBrand.substring(0, 8)}...'
+                                      : wishItem.itemBrand,
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              wishItem.itemName,
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Text(
+                                  '펀딩 총액: ',
+                                  style: TextStyle(fontSize: 18,),
+                                ),
+                                Text(
+                                  '${formatNumber(wishItem.fundAmount)}',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                                ),
+                                Text(
+                                  ' 원',
+                                  style: TextStyle(fontSize: 18,),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: titleController,
+                      style: const TextStyle(fontSize: 14),
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                        prefixIcon: const Icon(Icons.title, size: 30),
+                        hintText: '제목을 적어주세요!',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.text,
                     ),
                   ],
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.all(16.0),
-              width: double.infinity,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: titleController,
-                    style: const TextStyle(fontSize: 14),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                      prefixIcon: const Icon(Icons.title, size: 30),
-                      hintText: '제목을 적어주세요!',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: borderColor, width: 1.0), // 연한 회색 테두리 적용
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: borderColor, width: 1.0), // 연한 회색 테두리 적용
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2.0, color: Theme.of(context).primaryColor),
-                      ),
-                    ),
-                    keyboardType: TextInputType.text,
-                  ),
-                ],
-              ),
-            ),
-            Flexible(
-              flex: 5,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: TextFormField(
                   controller: textEditingController,
                   decoration: InputDecoration(
@@ -171,20 +163,20 @@ class ThanksMessage extends StatelessWidget {
                   maxLines: 5,
                 ),
               ),
-            ),
-            Flexible(
-              flex: 3,
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Obx(() => controller.selectedImage.value == null
-                    ? Text('사진을 추가해주세요.')
-                    : Image.file(File(controller
-                    .selectedImage.value!.path))), // Obx를 사용하여 반응형으로 이미지 표시
+              SizedBox(height: 20,),
+              Container(
+                width: 200,
+                height: 200,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Obx(() => controller.selectedImage.value == null
+                      ? Center(child: Text('사진을 추가해주세요.',style: TextStyle(fontSize: 18),))
+                      : Image.file(File(controller
+                      .selectedImage.value!.path))), // Obx를 사용하여 반응형으로 이미지 표시
+                ),
               ),
-            ),
-            Flexible(
-              flex: 2,
-              child: Padding(
+              SizedBox(height: 25,),
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: SendButton(
                   controller: controller,
@@ -193,14 +185,14 @@ class ThanksMessage extends StatelessWidget {
                   wishItem: this.wishItem,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: _pickImage,
           tooltip: '사진 선택',
           child: Icon(Icons.add_a_photo),
-          backgroundColor: Colors.orange[300],
+          backgroundColor: AppColor.objectColor,
         ),
       ),
     );

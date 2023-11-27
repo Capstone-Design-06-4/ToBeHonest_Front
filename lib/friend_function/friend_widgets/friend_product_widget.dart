@@ -167,10 +167,11 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          ' 님의 위시리스트 펀딩 중!',
+                          '${fundingProgress > 1 ? ' 님의 위시리스트 펀딩 완료' : '님의 위시리스트 펀딩 중'}',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
+
                     ],
                   ),
                   SizedBox(height: 5,),
