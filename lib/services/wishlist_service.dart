@@ -39,139 +39,166 @@ import './login_service.dart';
 Future<void> saveWishItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('wishItemBox');
 
-  if (wishItems is List<WishItem>) {
-    await box.clear();
-    for (var wishItem in wishItems) {
-      await box.put(wishItem.wishItemId, wishItem);
+  try {
+    if (wishItems is List<WishItem>) {
+      await box.clear();
+      for (var wishItem in wishItems) {
+        await box.put(wishItem.wishItemId, wishItem);
+      }
+    } else if (wishItems is WishItem) {
+      await box.put(wishItems.wishItemId, wishItems);
+    } else {
+      throw ArgumentError('The argument must be a WishItem or List<WishItem>');
     }
-  } else if (wishItems is WishItem) {
-    await box.put(wishItems.wishItemId, wishItems);
-  } else {
-    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  } finally {
+    await box.close();
   }
-  await box.close();
 }
+
 
 Future<List<WishItem>> getAllWishItems() async {
   var box = await Hive.openBox<WishItem>('wishItemBox');
   List<WishItem> wishItems = box.values.toList();
   await box.close();
-  return wishItems;
+  return wishItems.isNotEmpty ? wishItems : List<WishItem>.empty();
 }
 
 Future<void> saveProgressItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('progressWishItemBox');
 
-  if (wishItems is List<WishItem>) {
-    await box.clear();
-    for (var wishItem in wishItems) {
-      await box.put(wishItem.wishItemId, wishItem);
+  try {
+    if (wishItems is List<WishItem>) {
+      await box.clear();
+      for (var wishItem in wishItems) {
+        await box.put(wishItem.wishItemId, wishItem);
+      }
+    } else if (wishItems is WishItem) {
+      await box.put(wishItems.wishItemId, wishItems);
+    } else {
+      throw ArgumentError('The argument must be a WishItem or List<WishItem>');
     }
-  } else if (wishItems is WishItem) {
-    await box.put(wishItems.wishItemId, wishItems);
-  } else {
-    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  } finally {
+    await box.close();
   }
-  await box.close();
 }
 
 Future<List<WishItem>> getProgressWishItems() async {
   var box = await Hive.openBox<WishItem>('progressWishItemBox');
   List<WishItem> wishItems = box.values.toList();
   await box.close();
-  return wishItems;
+  return wishItems.isNotEmpty ? wishItems : List<WishItem>.empty();
 }
 
 Future<void> saveCompletedItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('completedWishItemBox');
 
-  if (wishItems is List<WishItem>) {
-    await box.clear();
-    for (var wishItem in wishItems) {
-      await box.put(wishItem.wishItemId, wishItem);
+  try {
+    if (wishItems is List<WishItem>) {
+      await box.clear();
+      for (var wishItem in wishItems) {
+        await box.put(wishItem.wishItemId, wishItem);
+      }
+    } else if (wishItems is WishItem) {
+      await box.put(wishItems.wishItemId, wishItems);
+    } else {
+      throw ArgumentError('The argument must be a WishItem or List<WishItem>');
     }
-  } else if (wishItems is WishItem) {
-    await box.put(wishItems.wishItemId, wishItems);
-  } else {
-    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  } finally {
+    await box.close();
   }
-  await box.close();
 }
+
 
 Future<List<WishItem>> getCompletedWishItems() async {
   var box = await Hive.openBox<WishItem>('completedWishItemBox');
   List<WishItem> wishItems = box.values.toList();
   await box.close();
-  return wishItems;
+  return wishItems.isNotEmpty ? wishItems : List<WishItem>.empty();
 }
+
 
 Future<void> saveUsedItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('usedWishItemBox');
 
-  if (wishItems is List<WishItem>) {
-    await box.clear();
-    for (var wishItem in wishItems) {
-      await box.put(wishItem.wishItemId, wishItem);
+  try {
+    if (wishItems is List<WishItem>) {
+      await box.clear();
+      for (var wishItem in wishItems) {
+        await box.put(wishItem.wishItemId, wishItem);
+      }
+    } else if (wishItems is WishItem) {
+      await box.put(wishItems.wishItemId, wishItems);
+    } else {
+      throw ArgumentError('The argument must be a WishItem or List<WishItem>');
     }
-  } else if (wishItems is WishItem) {
-    await box.put(wishItems.wishItemId, wishItems);
-  } else {
-    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  } finally {
+    await box.close();
   }
-  await box.close();
 }
 
 Future<List<WishItem>> getUsedWishItems() async {
   var box = await Hive.openBox<WishItem>('usedWishItemBox');
   List<WishItem> wishItems = box.values.toList();
   await box.close();
-  return wishItems;
+  return wishItems.isNotEmpty ? wishItems : List<WishItem>.empty();
 }
 
 Future<void> saveThankItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('thankWishItemBox');
 
-  if (wishItems is List<WishItem>) {
-    await box.clear();
-    for (var wishItem in wishItems) {
-      await box.put(wishItem.wishItemId, wishItem);
+  try {
+    if (wishItems is List<WishItem>) {
+      await box.clear();
+      for (var wishItem in wishItems) {
+        await box.put(wishItem.wishItemId, wishItem);
+      }
+    } else if (wishItems is WishItem) {
+      await box.put(wishItems.wishItemId, wishItems);
+    } else {
+      throw ArgumentError('The argument must be a WishItem or List<WishItem>');
     }
-  } else if (wishItems is WishItem) {
-    await box.put(wishItems.wishItemId, wishItems);
-  } else {
-    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  } catch (e) {
+    // 예외 처리 (필요한 경우)
+    print('오류 발생: $e');
+  } finally {
+    await box.close();
   }
-  await box.close();
 }
 
 Future<List<WishItem>> getThankWishItems() async {
   var box = await Hive.openBox<WishItem>('thankWishItemBox');
   List<WishItem> wishItems = box.values.toList();
   await box.close();
-  return wishItems;
+  return wishItems.isNotEmpty ? wishItems : List<WishItem>.empty();
 }
 
 Future<void> saveFriendItemsToLocal(dynamic wishItems) async {
   var box = await Hive.openBox<WishItem>('friendWishItemBox');
 
-  if (wishItems is List<WishItem>) {
-    await box.clear();
-    for (var wishItem in wishItems) {
-      await box.put(wishItem.wishItemId, wishItem);
+  try {
+    if (wishItems is List<WishItem>) {
+      await box.clear();
+      for (var wishItem in wishItems) {
+        await box.put(wishItem.wishItemId, wishItem);
+      }
+    } else if (wishItems is WishItem) {
+      await box.put(wishItems.wishItemId, wishItems);
+    } else {
+      throw ArgumentError('The argument must be a WishItem or List<WishItem>');
     }
-  } else if (wishItems is WishItem) {
-    await box.put(wishItems.wishItemId, wishItems);
-  } else {
-    throw ArgumentError('The argument must be a WishItem or List<WishItem>');
+  } catch (e) {
+    // 예외 처리 (필요한 경우)
+    print('오류 발생: $e');
+  } finally {
+    await box.close();
   }
-  await box.close();
 }
 
 Future<List<WishItem>> getFriendWishItems() async {
   var box = await Hive.openBox<WishItem>('friendWishItemBox');
   List<WishItem> wishItems = box.values.toList();
   await box.close();
-  return wishItems;
+  return wishItems.isNotEmpty ? wishItems : List<WishItem>.empty();
 }
 
 Future<void> fetchWishItems(String token) async {
