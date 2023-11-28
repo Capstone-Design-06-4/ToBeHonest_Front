@@ -128,10 +128,11 @@ class _ItemContributedState extends State<ItemContributed> {
                     '펀딩 참여자 수: ',
                     style: TextStyle(fontSize: 18),
                   ),
-                  Text(
+                  Obx(() {
+                    return Text(
                     '${widget.contributorController.ContributorList.length}',
-                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
-                  ),
+                    style: TextStyle(fontSize: 18, color: AppColor.textColor));
+                    }),
                   Text(
                     ' 명',
                     style: TextStyle(fontSize: 18),
