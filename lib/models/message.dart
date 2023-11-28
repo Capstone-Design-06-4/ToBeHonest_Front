@@ -47,13 +47,13 @@ class Message {
   Map<String, dynamic> toJson() {
     return {
       'wishItemId': wishItemId,
-      'senderId': senderId,
-      'receiverId': receiverId,
-      'messageTitle': title,
-      'messageContents': contents,
+      //'senderId': senderId,
+      //'receiverId': receiverId,
+      'title': title,
+      'contents': contents,
       'messageType': messageType.toString().split('.').last,
-      'fundMoney': fundMoney,
-      'messageImgURLs': messageImgURLs,
+      //'fundMoney': fundMoney,
+      //'messageImgURLs': messageImgURLs,
     };
   }
 }
