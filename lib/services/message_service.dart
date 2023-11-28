@@ -5,24 +5,33 @@ import 'package:path/path.dart';
 
 import '../models/message.dart'; // Ensure this is the correct import for your Message model
 
-Future<http.Response> sendThanksMessage(Message message, io.File selectedImage, String token) async {
+Future<http.Response> sendThanksMessage(Message message, List<io.File> selectedImages, String token) async {
   final uri = Uri.parse('http://10.0.2.2:8080/message/send-thanks');
+  var header = {
+    "Content-Type": 'multipart/form-data',
+    //"Accept": 'application/json',
+    'Authorization': "Bearer $token",
+  };
 
   try {
     var request = http.MultipartRequest('POST', uri)
-      ..headers['Authorization'] = "Bearer $token"
-      ..fields['request'] = json.encode(message.toJson()); // JSON 데이터를 인코딩하여 추가
+      ..headers.addAll(header)
+      ..fields['requestJson'] = json.encode(message.toJson()); // JSON 데이터를 인코딩하여 추가
 
-    var stream = http.ByteStream(selectedImage.openRead());
-    var length = await selectedImage.length();
-    var multipartFile = http.MultipartFile(
-      'images', // 서버에서 기대하는 필드 이름
-      stream,
-      length,
-      filename: basename(selectedImage.path),
-    );
+    // 여러 이미지를 처리
+    for (var image in selectedImages) {
+      var stream = http.ByteStream(image.openRead());
+      var length = await image.length();
 
-    request.files.add(multipartFile);
+      var multipartFile = http.MultipartFile(
+        'images', // 서버에서 기대하는 필드 이름
+        stream,
+        length,
+        filename: basename(image.path),
+      );
+
+      request.files.add(multipartFile);
+    }
 
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
