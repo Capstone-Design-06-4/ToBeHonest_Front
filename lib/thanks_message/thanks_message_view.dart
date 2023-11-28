@@ -9,6 +9,10 @@ import './send_button.dart';
 import '../controllers/image_picker_controller.dart';
 import '../models/wishItem.dart';
 import '../models/message.dart';
+import '../services/login_service.dart';
+import '../services/message_service.dart';
+import 'package:tobehonest/controllers/memorybox_controller.dart';
+import 'package:tobehonest/controllers/usedbox_controller.dart';
 
 class ThanksMessage extends StatelessWidget {
   final WishItem wishItem; // WishItem 인스턴스를 필수 파라미터로 추가
@@ -16,6 +20,9 @@ class ThanksMessage extends StatelessWidget {
   final controller = Get.put(ImagePickerController()); // 컨트롤러 인스턴스화
   final TextEditingController titleController = TextEditingController();
   final TextEditingController textEditingController = TextEditingController();
+  final MemoryBoxController memoryBoxController = Get.put(MemoryBoxController());
+  final ThankBoxController thankBoxController = Get.put(ThankBoxController());
+  String _searchText = '';
 
   String formatNumber(int number) {
     final formatter = NumberFormat('#,###');
@@ -35,6 +42,27 @@ class ThanksMessage extends StatelessWidget {
     final formatter = NumberFormat('#,###', 'ko_KR');
     String formattedAmount = formatter.format(amount);
     return '$formattedAmount 원';
+  }
+
+  Future<void> sendPressed(ImagePickerController controller, String titleContent,
+      String textFieldContent, WishItem wishItem) async {
+    Message message;
+    String? token;
+    token = await getToken();
+    String? myID = await getID();
+    if(token == null || myID == null) throw Exception('로그인 다시하세요.');
+    message = Message(wishItemId: wishItem.wishItemId,
+        senderId: int.parse(myID),
+        receiverId: 0,
+        title: titleContent,
+        contents: textFieldContent,
+        messageType: MessageType.THANKS_MSG,
+        fundMoney: wishItem.fundAmount);
+    List<File> selectedFile = [];
+    selectedFile.add(File(controller.selectedImage.value!.path));
+    await sendThanksMessage(message, selectedFile, token!);
+    await memoryBoxController.fetchUsedWishItems_Con(searchText: _searchText);
+    await thankBoxController.fetchThnakWishItems_Con(searchText: _searchText);
   }
 
   @override
@@ -179,10 +207,22 @@ class ThanksMessage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: SendButton(
-                  controller: controller,
-                  titleContent: titleController.text,
-                  textFieldContent: textEditingController.text,
-                  wishItem: this.wishItem,
+                  onPressed: () async {
+                    if (controller.selectedImage.value != null) {
+                      await sendPressed(controller,
+                          titleController.text,
+                          textEditingController.text,
+                          wishItem);
+                      Navigator.pop(context); // 현재 페이지 닫기
+                      Navigator.pop(context); // 이전 페이지 닫기
+                      Navigator.pop(context);
+                    } else {
+                      // 이미지가 선택되지 않았을 경우 처리
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('사진을 선택해주세요.')),
+                      );
+                    }
+                  }
                 ),
               ),
             ],
