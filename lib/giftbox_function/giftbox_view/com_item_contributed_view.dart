@@ -325,6 +325,7 @@ class ModalUtils {
                   child: ElevatedButton(
                     onPressed: () async {
                       await giftBoxController.SendtoMyAccount(wishItemID: wishItemId);
+                      await giftBoxController.refresh();
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pop(context);
