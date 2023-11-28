@@ -24,7 +24,7 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
     _updateWishItems();
   }
 
-  void _updateWishItems() async {
+  Future<void> _updateWishItems() async {
     try {
       giftBoxController.isLoading(true);  // 로딩 시작
       await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
@@ -39,7 +39,7 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
   @override
   void initState() {
     super.initState();
-    _updateWishItems();
+    Future.microtask(() => _updateWishItems()); //이건 명시하는거지 비동기로 실행하는 것이 아님. 수정 필요
   }
 
   @override
