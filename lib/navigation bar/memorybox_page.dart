@@ -39,6 +39,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
   void _updateWishItems() async {
     try {
       await memoryBoxController.fetchUsedWishItems_Con(searchText: _searchText);
+      await thankBoxController.fetchThnakWishItems_Con(searchText: _searchText);
     } catch (e) {
       print('오류 발생: $e');
     }
