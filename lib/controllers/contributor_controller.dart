@@ -8,8 +8,20 @@ import '../services/login_service.dart';
 class ContributorController extends GetxController {
   var ContributorList = <Contributor>[].obs; // 친구 목록을 저장하는 RxList
   var isLoading = false.obs; // 로딩 상태를 나타내는 RxBool
+  late int wishItemID;
+
+  ContributorController(int wishItemID) {
+    this.wishItemID = wishItemID;
+  }
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await setWishItemIDAndFetchContributors(); // refresh 함수를 비동기 방식으로 호출
+  }
+  
   // wishItemID를 설정하기 위한 메소드
-  void setWishItemIDAndFetchContributors(int wishItemID) async {
+  Future<void> setWishItemIDAndFetchContributors() async {
     if (isLoading.value) return;
     await getContributorList(wishItemID);
   }
