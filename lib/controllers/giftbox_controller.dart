@@ -12,6 +12,12 @@ class GiftBoxController extends GetxController {
   var Items = <Item>[].obs;
   var isLoading = true.obs;
 
+  @override
+  void onInit() async {
+    super.onInit();
+    await refresh(); // refresh 함수를 비동기 방식으로 호출
+  }
+
   Future<void> refresh() async {
     try {
       isLoading(true);
@@ -72,6 +78,7 @@ class GiftBoxController extends GetxController {
       await useWishlist(wishItemID, token);
 
       // RxList의 assignAll 메서드로 데이터를 할당
+      await fetchCompletedWishItems(token);
       wishItems.assignAll(await getCompletedWishItems());
 
       // RxList의 refresh 메서드로 UI를 갱신
