@@ -11,7 +11,7 @@ import 'package:tobehonest/memorybox_function/memorybox_view/messaged_show_view.
 
 class MessagedItemContributed extends StatefulWidget {
   final WishItem wishItem;
-  final ContributorController contributorController = Get.put(ContributorController());
+  late ContributorController contributorController;
   final WishListController wishListController = Get.put(WishListController());
 
   MessagedItemContributed({required this.wishItem});
@@ -24,7 +24,8 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
+    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
+    widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {

@@ -10,7 +10,7 @@ import 'package:tobehonest/thanks_message/thanks_message_view.dart';
 
 class UsedItemContributed extends StatefulWidget {
   final WishItem wishItem;
-  final ContributorController contributorController = Get.put(ContributorController());
+  late ContributorController contributorController;
   final WishListController wishListController = Get.put(WishListController());
 
   UsedItemContributed({required this.wishItem});
@@ -23,7 +23,8 @@ class _ComItemContributedState extends State<UsedItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
+    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
+    widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {
