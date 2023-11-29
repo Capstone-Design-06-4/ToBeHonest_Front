@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class ItemContributed extends StatefulWidget {
   final WishItem wishItem;
-  final ContributorController contributorController = Get.put(ContributorController());
+  late ContributorController contributorController;
   final WishListController wishListController = Get.put(WishListController());
 
   ItemContributed({required this.wishItem});
@@ -22,7 +22,8 @@ class _ItemContributedState extends State<ItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
+    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
+    widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {
