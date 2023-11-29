@@ -18,7 +18,7 @@ class _NewItemPageState extends State<NewItemPage> {
 
   void _handleSearch(String text) {
     print('검색어: $text');
-    wishListController.ItemAddSearchbyCategory(text);
+    wishListController.ItemAddSearch(text);
   }
 
   @override
