@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNav extends StatefulWidget {
   final Function(int) onTap;
@@ -38,9 +39,9 @@ class _BottomNavState extends State<BottomNav> {
           onTap: widget.onTap,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.people), label: '친구'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: '위시리스트'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: '선물함'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: '기억함'),
+            BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.t), label: '위시리스트'),
+            BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.b), label: '선물함'),
+            BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.h), label: '기억함'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'MY'),
           ],
         ),
