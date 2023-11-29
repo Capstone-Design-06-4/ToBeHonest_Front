@@ -272,13 +272,14 @@ Future<void> fetchCompletedWishItems(String token) async {
       List<WishItem> wishItemList = wishItemJsonList
           .map((jsonItem) => WishItem.fromJson(jsonItem))
           .toList();
+
       await saveCompletedItemsToLocal(wishItemList);
       print('위시 아이템 가져오기 성공: ${wishItemList.length}개의 아이템이 있습니다.');
     } else {
       print('위시 아이템 가져오기 실패: ${response.statusCode}');
     }
   } catch (e) {
-    print('오류 발생: $e');
+    print('fetch CompletedWishItems 오류 발생: $e');
   }
 }
 
