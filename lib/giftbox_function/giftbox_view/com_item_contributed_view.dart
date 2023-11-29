@@ -12,8 +12,8 @@ import 'package:tobehonest/thanks_message/thanks_message_view.dart';
 
 class ComItemContributed extends StatefulWidget {
   final WishItem wishItem;
-  final ContributorController contributorController = Get.put(ContributorController());
-  final WishListController wishListController = Get.put(WishListController());
+  late ContributorController contributorController;
+  //final WishListController wishListController = Get.put(WishListController());
   final GiftBoxController giftBoxController = Get.put(GiftBoxController());
 
   ComItemContributed({required this.wishItem});
@@ -28,7 +28,8 @@ class _ComItemContributedState extends State<ComItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController.setWishItemIDAndFetchContributors(widget.wishItem.wishItemId);
+    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
+    widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   // 페이지 초기화 함수
@@ -178,7 +179,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                 ),
               ),
             ),
-            Container(
+            Obx(() => Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -196,7 +197,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
                   ),
                 ],
               ),
-            ),
+            )),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
@@ -273,7 +274,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
 
 class ModalUtils {
   static void showFriendModal(BuildContext context, int wishItemId,) {
-    final WishListController wishListController = Get.put(WishListController());
+    //final WishListController wishListController = Get.put(WishListController());
     final GiftBoxController giftBoxController = Get.put(GiftBoxController());
     showModalBottomSheet(
         context: context,
