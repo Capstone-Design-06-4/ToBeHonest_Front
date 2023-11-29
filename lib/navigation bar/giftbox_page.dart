@@ -17,29 +17,16 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
   String _searchText = ''; // 추가: 검색어 저장 변수
   final GiftBoxController giftBoxController = Get.put(GiftBoxController());
 
-  void _onSearch(String text) {
+  Future<void> _onSearch(String text) async {
     setState(() {
       _searchText = text;
     });
-    _updateWishItems();
-  }
-
-  Future<void> _updateWishItems() async {
-    try {
-      giftBoxController.isLoading(true);  // 로딩 시작
-      await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
-      giftBoxController.wishItems.refresh();
-    } catch (e) {
-      print('오류 발생: $e');
-    } finally {
-      giftBoxController.isLoading(false);  // 로딩 종료
-    }
+    await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
   }
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => _updateWishItems()); //이건 명시하는거지 비동기로 실행하는 것이 아님. 수정 필요
   }
 
   @override

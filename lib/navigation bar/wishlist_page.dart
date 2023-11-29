@@ -18,29 +18,16 @@ class _WishListPageState extends State<WishListPage> {
   String _searchText = '';
   final WishListController wishListController = Get.put(WishListController());
 
-  void _onSearch(String text) {
+  Future<void> _onSearch(String text) async {
     setState(() {
       _searchText = text;
     });
-    _updateWishItems();
-  }
-
-  void _updateWishItems() async {
-    try {
-      wishListController.isLoading(true);  // 로딩 시작
-      await wishListController.fetchProgressWishItems_Con(searchText: _searchText);
-      wishListController.wishItems.refresh();
-    } catch (e) {
-      print('오류 발생: $e');
-    } finally {
-      wishListController.isLoading(false);  // 로딩 종료
-    }
+    await wishListController.fetchProgressWishItems_Con(searchText: _searchText);
   }
 
   @override
   void initState() {
     super.initState();
-    _updateWishItems();
   }
 
   @override
