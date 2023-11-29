@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/models/friend.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_detailed_view.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_wishlist_view.dart'; // Import the necessary file
+import 'package:tobehonest/friend_function/friend_view/friend_memory_page/friend_memory_page.dart';
 
 Widget buildFriendContainer(BuildContext context, Friend friend) {
   return GestureDetector(
@@ -140,7 +141,7 @@ class ModalUtils {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FriendWishlistPage(friendName: friend.name, friendID: friend.id),
+                        builder: (context) => FriendMemoryPage(friendName: friend.name, friendID: friend.id),
                       ));
                 },
                 child: Container(

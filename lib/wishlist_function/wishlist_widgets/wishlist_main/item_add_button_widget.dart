@@ -128,7 +128,7 @@ class ModalUtils {
                         contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                         leading: CircleAvatar(
                           backgroundColor: AppColor.swatchColor,
-                          child: Icon(FontAwesomeIcons.diceOne, color: Colors.white),
+                          child: Icon(FontAwesomeIcons.basketShopping, color: Colors.white),
                         ),
                         title: Text('상품명으로 검색하기'),
                         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[600]),
@@ -164,7 +164,7 @@ class ModalUtils {
                         contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                         leading: CircleAvatar(
                           backgroundColor: AppColor.swatchColor,
-                          child: Icon(FontAwesomeIcons.diceTwo, color: Colors.white),
+                          child: Icon(FontAwesomeIcons.tag, color: Colors.white),
                         ),
                         title: Text('카테고리로 검색하기'),
                         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[600]),

@@ -30,7 +30,7 @@ import 'navigation bar/myprofile_page.dart';
 import 'navigation bar/wishlist_page.dart';
 import 'thanks_message/thanks_message_view.dart';
 import 'navigation_bar.dart';
-
+import 'login_page/login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           color: AppColor.backgroundColor,
         ),
       ),
-      home: MyHomePage(),
+      home: loginPage(),
       routes: {
       },
     );
