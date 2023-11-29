@@ -12,6 +12,12 @@ class WishListController extends GetxController {
   var Items = <Item>[].obs;
   var isLoading = false.obs;
 
+  @override
+  void onInit() async {
+    super.onInit();
+    await fetchProgressWishItems_Con(); // refresh 함수를 비동기 방식으로 호출
+  }
+
   Future<bool> isItemAlreadyAdded(int itemId) async {
     // 이미 추가된 상품인지 여부를 확인하는 로직
     String? token = await getToken() ?? "";
