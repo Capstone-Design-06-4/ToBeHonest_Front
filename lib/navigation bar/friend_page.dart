@@ -17,35 +17,21 @@ class FriendPage extends StatefulWidget {
 class _FriendPageState extends State<FriendPage> {
   final FriendController friendController = Get.find<FriendController>();
 
-  void _updateFriendList() async {
-    try {
-      friendController.isLoading(true);
-      // 로딩 시작
-      await friendController.getFriendsList();
-      friendController.friendsList.refresh();
-    } catch (e) {
-      print('오류 발생: $e');
-    } finally {
-      friendController.isLoading(false);  // 로딩 종료
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _updateFriendList();
   }
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-    searchController.addListener(() {
+    searchController.addListener(() async {
       String searchQuery = searchController.text;
       friendController.isAddingAllowed.value = searchQuery.isEmpty;
       if (searchQuery.isNotEmpty) {
-        friendController.searchFriends(searchQuery);
+        await friendController.searchFriends(searchQuery);
       } else {
-        friendController.getFriendsList();
+        await friendController.getFriendsList();
       }
     });
 
