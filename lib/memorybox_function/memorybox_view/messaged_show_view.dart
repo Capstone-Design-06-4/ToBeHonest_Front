@@ -128,7 +128,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
               width: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.black,  // 원하는 테두리 색상 설정
+                  color: Colors.grey,  // 원하는 테두리 색상 설정
                   width: 1.0,  // 원하는 테두리 두께 설정
                 ),
                 borderRadius: BorderRadius.circular(8.0),  // 원하는 테두리의 둥근 정도 설정
@@ -163,7 +163,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
               height: 230,  // 원하는 세로 크기 설정
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.black,  // 원하는 테두리 색상 설정
+                  color: Colors.grey,  // 원하는 테두리 색상 설정
                   width: 1.0,  // 원하는 테두리 두께 설정
                 ),
                 borderRadius: BorderRadius.circular(8.0),  // 원하는 테두리의 둥근 정도 설정
@@ -190,22 +190,30 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
             Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage('https://via.placeholder.com/200'),  // 여기에 실제 이미지의 URL을 넣어주세요.
-                  fit: BoxFit.cover,
+              height: 130,  // 그리드뷰의 높이 설정
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
                 ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                // 필요한 경우 여기에 추가적인 위젯을 넣을 수 있습니다.
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage('https://via.placeholder.com/200'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-            SizedBox(height: 25,),
+            SizedBox(height: 15,),
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
