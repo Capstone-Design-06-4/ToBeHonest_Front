@@ -19,56 +19,12 @@ class FriendMemoryPage extends StatefulWidget {
 }
 
 class _FriendMemoryPageState extends State<FriendMemoryPage> {
-  final MessageController messageController =
-      Get.put(MessageController()); // Instantiate MessageController
-  List<Message> messages = [
-    Message(
-      wishItemId: 1,
-      senderId: 1,
-      receiverId: 1, // Set the receiverId to the friendID
-      title: '안녕하세요!',
-      contents: '친구와의 소중한 추억을 공유해보아요.',
-      messageType: MessageType.THANKS_MSG,
-      fundMoney: 100,
-      messageImgURLs: ['https://example.com/image1.jpg'],
-    ),
-    Message(
-      wishItemId: 1,
-      senderId: 1,
-      receiverId: 1, // Set the receiverId to the friendID
-      title: '오늘의 이야기',
-      contents: '함께한 순간들이 참 좋아서 기억 속에 간직하고 있어요.',
-      messageType: MessageType.CELEBRATION_MSG,
-      fundMoney: 150,
-      messageImgURLs: ['https://example.com/image2.jpg'],
-    ),
-    Message(
-      wishItemId: 1,
-      senderId: 1,
-      receiverId: 2, // Set the receiverId to the friendID
-      title: '안녕하세요!',
-      contents: '친구와의 소중한 추억을 공유해보아요.',
-      messageType: MessageType.THANKS_MSG,
-      fundMoney: 100,
-      messageImgURLs: ['https://example.com/image1.jpg'],
-    ),
-    Message(
-      wishItemId: 1,
-      senderId: 1,
-      receiverId: 2, // Set the receiverId to the friendID
-      title: '안녕하세요ds!',
-      contents: '친구와의 소중한 추억을 공유해보아요.',
-      messageType: MessageType.CELEBRATION_MSG,
-      fundMoney: 100,
-      messageImgURLs: ['https://example.com/image1.jpg'],
-    ),
-    // Add more messages as needed
-  ];
+  final MessageController messageController = Get.put(MessageController());
+  List<Message> messages = [];
 
   @override
   void initState() {
     super.initState();
-    // Call getMessageList when the page is entered
     messageController.getMessageList(widget.friendID);
   }
 
@@ -89,7 +45,7 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
         body: Container(
           margin: EdgeInsets.all(16.0),
           child: Obx(
-            () {
+                () {
               return messageController.isLoading.isTrue
                   ? Center(child: CircularProgressIndicator())
                   : buildMessagesListView();
@@ -101,16 +57,15 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
   }
 
   Widget buildMessagesListView() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: messages.length,
-        itemBuilder: (context, index) {
-          return ChatMessageWidget(
-              message: messages[index],
-              friendName: widget.friendName,
-              friendID: widget.friendID);
-        },
-      ),
+    return ListView.builder(
+      itemCount: messages.length,
+      itemBuilder: (context, index) {
+        return ChatMessageWidget(
+          message: messages[index],
+          friendName: widget.friendName,
+          friendID: widget.friendID,
+        );
+      },
     );
   }
 }
