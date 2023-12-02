@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           color: AppColor.backgroundColor,
         ),
       ),
-      home: loginPage(),
+      home: MyHomePage(),
       routes: {
       },
     );

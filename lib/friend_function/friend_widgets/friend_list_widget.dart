@@ -141,7 +141,7 @@ class ModalUtils {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FriendMemoryPage(friendName: friend.name, friendID: friend.id),
+                        builder: (context) => FriendWishlistPage(friendName: friend.name, friendID: friend.id),
                       ));
                 },
                 child: Container(
@@ -178,7 +178,7 @@ class ModalUtils {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FriendWishlistPage(friendName: friend.name, friendID: friend.id),
+                        builder: (context) => FriendMemoryPage(friendName: friend.name, friendID: friend.id),
                       ));
                 },
                 child: Container(
