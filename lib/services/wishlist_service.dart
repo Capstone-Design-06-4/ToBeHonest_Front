@@ -451,3 +451,67 @@ Future<void> useWishlist(int wishItemID, String token) async {
     throw Exception('오류 발생: $e');
   }
 }
+
+Future<WishItem?> getMyWishItem(int wishItemID, String token) async {
+  String memberID = await getID() ?? '0';
+  if(memberID == '0') throw Exception('다시 로그인해주세요.');
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/details/$memberID/$wishItemID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
+      List<dynamic> wishItemDetails = parsedJson['wishItemDetail'];
+
+      if (wishItemDetails.isNotEmpty) {
+        Map<String, dynamic> wishItemJson = wishItemDetails.first;
+        WishItem wishItem = WishItem.fromJson(wishItemJson);
+        return wishItem;
+      } else {
+        return null; // 데이터가 없을 경우
+      }
+    } else {
+      print('오류 발생: ${response.statusCode}');
+      return null; // 서버 오류가 발생했을 경우
+    }
+  } catch (e) {
+    print('예외 발생: $e');
+    return null; // 예외가 발생했을 경우
+  }
+}
+
+Future<WishItem?> getFriendWishItem(int friendID, int wishItemID, String token) async {
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/details/$friendID/$wishItemID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
+      List<dynamic> wishItemDetails = parsedJson['wishItemDetail'];
+
+      if (wishItemDetails.isNotEmpty) {
+        Map<String, dynamic> wishItemJson = wishItemDetails.first;
+        WishItem wishItem = WishItem.fromJson(wishItemJson);
+        return wishItem;
+      } else {
+        return null; // 데이터가 없을 경우
+      }
+    } else {
+      print('오류 발생: ${response.statusCode}');
+      return null; // 서버 오류가 발생했을 경우
+    }
+  } catch (e) {
+    print('예외 발생: $e');
+    return null; // 예외가 발생했을 경우
+  }
+}

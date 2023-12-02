@@ -13,7 +13,7 @@ class WishListController extends GetxController {
   var isLoading = false.obs;
 
   @override
-  void onInit() async {
+  Future<void> onInit() async {
     super.onInit();
     await fetchProgressWishItems_Con(); // refresh 함수를 비동기 방식으로 호출
   }
