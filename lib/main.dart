@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: _pages[_currentIndex],
         ),
         bottomNavigationBar: BottomNav(

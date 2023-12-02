@@ -178,38 +178,33 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.6,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MessagedShowPage(wishItem: widget.wishItem,), // Use the correct class name
-                                ),
-                              );
-                            },
-
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.orange.shade300,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: FittedBox(
-                              child: Text(
-                                '작성한 감사메시지 보기',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessagedShowPage(wishItem: widget.wishItem,), // Use the correct class name
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: AppColor.backgroundColor,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        minimumSize: Size(0, 36),
+                      ),
+                      child: FittedBox(
+                        child: Text(
+                          '참여한 사람 보기',
+                          style: TextStyle(fontSize: 18,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
+                  SizedBox(height: 15,)
                 ],
               ),
             ),
