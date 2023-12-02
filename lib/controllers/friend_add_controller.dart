@@ -67,27 +67,17 @@ class AddController extends GetxController {
       switch (results.item2) {
         case 'EMPTY':
           print('EMPTY: 데이터베이스에 해당 사용자가 없음');
-          Get.snackbar("알림", "등록되지 않은 사용자입니다.",
-              snackPosition: SnackPosition.TOP,
-              duration: Duration(seconds: 1),);
           break;
         case 'ME':
           print('ME: 검색 결과가 현재 사용자와 일치함');
-          Get.snackbar("알림", "본인의 전화번호를 입력하셨습니다.",
-              snackPosition: SnackPosition.TOP,
-            duration: Duration(seconds: 1),);
           break;
         case 'FRIEND':
           print('FRIEND: 이미 친구 목록에 있는 사람');
-          Get.snackbar("알림", "이미 친구목록에 있는 사용자입니다.",
-              snackPosition: SnackPosition.TOP,
-            duration: Duration(seconds: 1),);
+
           break;
         case 'NOT_FRIEND':
           print('검색된 친구 정보: ${results.item1.name}');
-          Get.snackbar("알림", "친구 추가가 완료되었습니다.",
-              snackPosition: SnackPosition.TOP,
-            duration: Duration(seconds: 1),);
+
           addFriend(results.item1.id.toString(), token);
           break;
         default:
