@@ -9,6 +9,12 @@ class FriendController extends GetxController {
   var friendsList = <Friend>[].obs; // 친구 목록을 저장하는 RxList
   var isLoading = false.obs; // 로딩 상태를 나타내는 RxBool
 
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await getFriendsList(); // refresh 함수를 비동기 방식으로 호출
+  }
+
   // 친구 목록을 가져오는 메소드
   Future<void> getFriendsList() async {
     isLoading(true); // 로딩 상태를 true로 설정
@@ -35,7 +41,7 @@ class FriendController extends GetxController {
   var isAddingAllowed = true.obs; // 친구 추가 가능 여부를 결정하는 상태 변수
 
   // 검색 쿼리를 실행하는 메소드
-  void searchFriends(String searchQuery) async {
+  Future<void> searchFriends(String searchQuery) async {
     isLoading(true); // 검색 시작 시 로딩 상태 활성화
     try {
       String? token = await getToken(); // 로그인 서비스에서 토큰을 가져옵니다.
