@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tobehonest/style.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,7 +71,7 @@ class MyApp extends StatelessWidget {
           color: AppColor.backgroundColor,
         ),
       ),
-      home: MyHomePage(),
+      home: LoginScreen(),
       routes: {
       },
     );
