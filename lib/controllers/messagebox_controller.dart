@@ -3,10 +3,12 @@ import '../models/friend.dart';
 import '../services/friend_service.dart';
 import '../services/login_service.dart'; // 로그인 서비스를 추가합니다.
 import '../services/message_service.dart';
+import '../models/message.dart';
 
 class MessageController extends GetxController {
   var friendID; // 친구 목록을 저장하는 RxList
   var isLoading = false.obs; // 로딩 상태를 나타내는 RxBool
+  var messages = <Message>[]; // Message의 리스트로 messages를 정의
 
   Future<void> getMessageList(friendID) async {
     isLoading(true); // 로딩 상태를 true로 설정
