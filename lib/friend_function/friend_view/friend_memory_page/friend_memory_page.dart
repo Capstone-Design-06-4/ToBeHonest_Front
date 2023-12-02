@@ -10,7 +10,6 @@ import 'package:tobehonest/models/message.dart';
 class FriendMemoryPage extends StatefulWidget {
   final int friendID;
   final String friendName;
-
   FriendMemoryPage({Key? key, required this.friendName, required this.friendID})
       : super(key: key);
 
@@ -19,17 +18,18 @@ class FriendMemoryPage extends StatefulWidget {
 }
 
 class _FriendMemoryPageState extends State<FriendMemoryPage> {
-  final MessageController messageController = Get.put(MessageController());
+
   List<Message> messages = [];
 
   @override
   void initState() {
     super.initState();
-    messageController.getMessageList(widget.friendID);
   }
 
   @override
   Widget build(BuildContext context) {
+    final MessageController messageController = Get.put(MessageController(widget.friendID));
+    messages = messageController.messages;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

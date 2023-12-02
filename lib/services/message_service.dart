@@ -72,7 +72,7 @@ Future<void> sendCelebrateMessage(Message message, String token) async {
 }
 
 Future<List<Message>> getMessageWithFriend(int friendID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/message/find/$friendID');
+  final url = Uri.parse('http://10.0.2.2:8080/message/find/friend-id/$friendID');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
