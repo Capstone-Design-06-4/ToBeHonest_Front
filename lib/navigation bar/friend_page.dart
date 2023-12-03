@@ -15,7 +15,8 @@ class FriendPage extends StatefulWidget {
 }
 
 class _FriendPageState extends State<FriendPage> {
-  final FriendController friendController = Get.find<FriendController>();
+  //final FriendController friendController = Get.find<FriendController>();
+  final FriendController friendController = Get.put(FriendController());
 
   @override
   void initState() {
