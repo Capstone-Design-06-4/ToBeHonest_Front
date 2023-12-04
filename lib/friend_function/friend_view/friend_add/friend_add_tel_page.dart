@@ -61,7 +61,7 @@ class _PhoneNumberAddPageState extends State<PhoneNumberAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 10.0),
+              SizedBox(height: 30.0),
               TextField(
                 controller: _phoneController,
                 decoration: InputDecoration(

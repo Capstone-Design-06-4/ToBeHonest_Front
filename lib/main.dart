@@ -101,12 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFFF4A261),
-          title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Color(0xFFF4A261),
+            title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
+          ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 0),
           child: _pages[_currentIndex],
         ),
         bottomNavigationBar: BottomNav(

@@ -8,33 +8,36 @@ class FriendCategorized extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1.0, color: Colors.grey),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16,left: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 2.0, color: Colors.black),
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(width: 10),
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(width: 135),
-          Text(
-            'GIVE',
-            style: TextStyle(color: Colors.grey),
-          ),
-          SizedBox(width: 20.0),
-          Text(
-            'TAKE',
-            style: TextStyle(color: Colors.grey),
-          ),
-          SizedBox(width: 10.0),
-        ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width: 10),
+            Text(
+              title,
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+            SizedBox(width: 140),
+            Text(
+              '받았음',
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+            SizedBox(width: 20.0),
+            Text(
+              '주었음',
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+            SizedBox(width: 10.0),
+          ],
+        ),
       ),
     );
   }

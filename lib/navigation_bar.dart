@@ -15,7 +15,7 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70.0,
+      height: 75.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15.0),
@@ -26,10 +26,6 @@ class _BottomNavState extends State<BottomNav> {
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15.0),
-          topRight: Radius.circular(15.0),
-        ),
         child: BottomNavigationBar(
           backgroundColor: Color(0xFFF4A261),
           selectedItemColor: Colors.white,

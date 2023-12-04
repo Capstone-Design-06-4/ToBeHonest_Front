@@ -32,11 +32,51 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.only(left: 10.0),
             ),
             backgroundColor: AppColor.backgroundColor,
-            title: Text('MY', style: TextStyle(color: Colors.white)),
+            //title: Text('${widget.friendName} 님의 위시리스트', style: TextStyle(color: Colors.white)),
           ),
         ),
         body: Column(
           children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20.0),
+                  bottomRight: Radius.circular(20.0),
+                ),
+                color: AppColor.backgroundColor.withAlpha(200),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 45.0, // 원형 이미지의 가로 크기
+                          height: 45.0, // 원형 이미지의 세로 크기
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle, // 원형 모양 지정
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/logo.png'), // 이미지 경로 지정
+                              fit: BoxFit.fill, // 이미지가 컨테이너를 완전히 채우도록 설정
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text('MY', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30, color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height:20),
+                    Text('00님, 오늘도 선물같은 하루되세요!', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
+                    SizedBox(height:20),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height:10),
             Container(
               height: 150,
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),

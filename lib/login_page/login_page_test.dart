@@ -19,9 +19,7 @@ class _LoginScreenState extends State<SignupScreen> {
         Text(
           '이름',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -42,7 +40,7 @@ class _LoginScreenState extends State<SignupScreen> {
           child: TextField(
             keyboardType: TextInputType.name,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -71,9 +69,7 @@ class _LoginScreenState extends State<SignupScreen> {
         Text(
           '전화번호',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -94,7 +90,7 @@ class _LoginScreenState extends State<SignupScreen> {
           child: TextField(
             keyboardType: TextInputType.phone,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -123,9 +119,7 @@ class _LoginScreenState extends State<SignupScreen> {
         Text(
           '이메일',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -146,7 +140,7 @@ class _LoginScreenState extends State<SignupScreen> {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -175,9 +169,7 @@ class _LoginScreenState extends State<SignupScreen> {
         Text(
           '비밀번호',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -198,7 +190,7 @@ class _LoginScreenState extends State<SignupScreen> {
           child: TextField(
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -227,9 +219,7 @@ class _LoginScreenState extends State<SignupScreen> {
         Text(
           '비밀번호 확인',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -250,7 +240,7 @@ class _LoginScreenState extends State<SignupScreen> {
           child: TextField(
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -327,7 +317,10 @@ class _LoginScreenState extends State<SignupScreen> {
       child: ElevatedButton(
         onPressed: () {
           print('Login Button Pressed');
-          // 로그인 버튼을 눌렀을 때 수행할 동작을 여기에 추가
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
         },
         style: ElevatedButton.styleFrom(
           elevation: 5.0,
@@ -363,7 +356,7 @@ class _LoginScreenState extends State<SignupScreen> {
         text: TextSpan(
           children: [
             TextSpan(
-              text: '계정이 있다면? ',
+              text: '계정이 이미 있다면?  ',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -415,23 +408,45 @@ class _LoginScreenState extends State<SignupScreen> {
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
+                    horizontal: 20.0,
                     vertical: 90.0,
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      _buildNameTF(),
-                      SizedBox(height: 10.0),
-                      _buildPhoneTF(),
-                      SizedBox(height: 10.0),
-                      _buildEmailTF(),
-                      SizedBox(height: 10.0),
-                      _buildPasswordTF(),
-                      SizedBox(height: 10.0),
-                      _buildPassword2TF(),
-                      SizedBox(height: 10.0),
-                      _buildLoginBtn(),
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white54,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(height: 30.0),
+                              _buildNameTF(),
+                              SizedBox(height: 20.0),
+                              _buildPhoneTF(),
+                              SizedBox(height: 20.0),
+                              _buildEmailTF(),
+                              SizedBox(height: 20.0),
+                              _buildPasswordTF(),
+                              SizedBox(height: 20.0),
+                              _buildPassword2TF(),
+                              SizedBox(height: 30.0),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ),
+                        child: _buildLoginBtn(),
+                      ),
                       _buildSignupBtn(),
                     ],
                   ),
