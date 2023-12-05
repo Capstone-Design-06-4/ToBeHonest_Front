@@ -74,7 +74,7 @@ Future<void> sendCelebrateMessage(Message message, String token) async {
 Future<List<Message>> getMessageWithFriend(int friendID, String token) async {
   final url = Uri.parse('http://10.0.2.2:8080/message/find/friend-id/$friendID');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
   };
   try {
@@ -82,7 +82,8 @@ Future<List<Message>> getMessageWithFriend(int friendID, String token) async {
 
     if (response.statusCode == 200) {
       // JSON 응답을 List 형태로 변환
-      List<dynamic> jsonData = json.decode(response.body);
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> jsonData = json.decode(decodedResponse);
       // 각 JSON 객체를 Message 객체로 변환
       List<Message> messages = jsonData.map((json) => Message.fromJson(json)).toList();
       return messages;
