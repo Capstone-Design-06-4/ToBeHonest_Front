@@ -22,14 +22,21 @@ class MessagedItemDetailed extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColor.backgroundColor,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 50,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            backgroundColor: Color(0xFFfbfbf2),
+            elevation: 0,
           ),
-          title: Text('상세 보기', style: TextStyle(color: Colors.white)),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -41,6 +48,18 @@ class MessagedItemDetailed extends StatelessWidget {
                 children: [
                   Column(
                     children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          child: Text(
+                            '   작성이 완료된 상품',
+                            style: TextStyle(
+                              fontSize: 28, // 글씨 크기 조절
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15,),
                       Container(
                         width: 320,
                         height: 320,
@@ -157,7 +176,7 @@ class MessagedItemDetailed extends StatelessWidget {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '펀딩 완료!',
+                                  '메시지 작성 완료!',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),

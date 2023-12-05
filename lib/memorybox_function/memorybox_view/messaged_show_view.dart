@@ -37,13 +37,35 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('참여한 사람들'),
-          centerTitle: true,
-          backgroundColor: AppColor.backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 50,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            backgroundColor: Color(0xFFfbfbf2),
+            elevation: 0,
+          ),
         ),
         body: Column(
           children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                child: Text(
+                  '     보낸 메시지',
+                  style: TextStyle(
+                    fontSize: 24, // 글씨 크기 조절
+                  ),
+                ),
+              ),
+            ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
               decoration: BoxDecoration(

@@ -32,18 +32,23 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
     //messages = messageController.messages;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColor.backgroundColor,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 50,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            backgroundColor: Color(0xFFfbfbf2),
+            elevation: 0,
           ),
-          title: Text('${widget.friendName} 님과의 추억',
-              style: TextStyle(color: Colors.white)),
         ),
         body: Container(
-          margin: EdgeInsets.all(16.0),
           child: Obx(
                 () {
               return messageController.isLoading.isTrue
@@ -60,10 +65,13 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
     return ListView.builder(
       itemCount: messageController.messages.length,
       itemBuilder: (context, index) {
-        return ChatMessageWidget(
-          message: messageController.messages[index],
-          friendName: widget.friendName,
-          friendID: widget.friendID,
+        return Padding(
+          padding: const EdgeInsets.only(right: 4,left: 4),
+          child: ChatMessageWidget(
+            message: messageController.messages[index],
+            friendName: widget.friendName,
+            friendID: widget.friendID,
+          ),
         );
       },
     );

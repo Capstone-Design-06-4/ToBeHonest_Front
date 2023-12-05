@@ -48,9 +48,9 @@ void main() async {
   KakaoSdk.init(nativeAppKey: '07150a42df86d834d5deb4c2cffbb9e9');
   // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
 
-  await login('email2@example.com', 'password2');
+  //await login('email2@example.com', 'password2');
 
-  //await login('email1@example.com', 'password1');
+  await login('email1@example.com', 'password1');
 
   //final String? token = await getToken();
   //if (token != null) {

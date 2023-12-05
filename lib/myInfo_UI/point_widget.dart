@@ -46,7 +46,7 @@ class PointWidget extends StatelessWidget {
                     SizedBox(width: 20),
                     Text(
                       '보유 포인트: ${point.toString()} 원', // 포인트를 표시
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
