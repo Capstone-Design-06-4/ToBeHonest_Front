@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tobehonest/style.dart';
-import 'package:tobehonest/login_page/login_page_test.dart';
+import 'package:tobehonest/login_page/sigun_up.dart';
 import 'package:tobehonest/main.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             color: Color(0xFFFFFF).withAlpha(250),
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
@@ -89,7 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
             obscureText: !_rememberMe,
             style: TextStyle(
               color: Colors.black,
-
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -101,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: '비밀번호를 입력해주세요',
               hintStyle: TextStyle(
                 color: Colors.black,
-
               ),
             ),
           ),
@@ -110,17 +108,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   Widget _buildRememberMeCheckbox() {
     return Container(
       height: 20.0,
       child: Row(
         children: <Widget>[
-          SizedBox(width: 10,),
+          SizedBox(
+            width: 10,
+          ),
           Theme(
             data: ThemeData(unselectedWidgetColor: Colors.black),
-            child:
-            Checkbox(
+            child: Checkbox(
               value: _rememberMe,
               checkColor: Colors.green,
               activeColor: Colors.white,
@@ -154,7 +152,8 @@ class _LoginScreenState extends State<LoginScreen> {
             context,
             PageRouteBuilder(
               pageBuilder: (context, animation1, animation2) => MyHomePage(),
-              transitionDuration: Duration.zero, // Set transition duration to zero
+              transitionDuration:
+                  Duration.zero, // Set transition duration to zero
             ),
           );
         },
@@ -213,6 +212,62 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _naverButton(String imagePath,
+      {double width = 100.0, double height = 45.0, BoxFit fit = BoxFit.fill}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            // 여기에 네이버 로그인 로직 추가!
+            print('Naver Button Clicked!');
+          },
+          child: Ink(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0), // 이미지 둥글게
+            ),
+            child: Image.asset(
+              imagePath,
+              width: width,
+              height: height,
+              fit: fit,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _kakaoButton(String imagePath,
+      {double width = 100.0, double height = 45.0, BoxFit fit = BoxFit.fill}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            // 여기에 카카오 로그인 로직 추가!
+            print('Kakao Button Clicked!');
+          },
+          child: Ink(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0), // 이미지 둥글게
+            ),
+            child: Image.asset(
+              imagePath,
+              width: width,
+              height: height,
+              fit: fit,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -258,19 +313,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle, // 원형 모양 지정
                               image: DecorationImage(
-                                image: AssetImage('assets/images/logo.png'), // 이미지 경로 지정
+                                image: AssetImage(
+                                    'assets/images/logo.png'), // 이미지 경로 지정
                                 fit: BoxFit.fill, // 이미지가 컨테이너를 완전히 채우도록 설정
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             '원하는 선물을 받고!\n원하는 만큼 펀딩하자!',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16.0, // Adjust the font size as needed
-                              fontFamily: 'YourFontFamily', // Specify your desired font family
+                              fontFamily:
+                                  'YourFontFamily', // Specify your desired font family
                             ),
                           ),
                           SizedBox(height: 30.0),
@@ -279,7 +338,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          color: Colors.white54,// Set your desired border radius here
+                          color: Colors
+                              .white54, // Set your desired border radius here
                         ),
                         child: Column(
                           children: [
@@ -307,13 +367,42 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 30.0),
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 20.0,
                         ),
                         child: _buildLoginBtn(),
                       ),
+                      Text(
+                        '--------------------------- 또는 ---------------------------',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0, // Adjust the font size as needed
+                          fontFamily:
+                          'YourFontFamily', // Specify your desired font family
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _naverButton(
+                            'assets/images/naver_login.png',
+                            width: 100.0,
+                            height: 45.0,
+                            fit: BoxFit.fitHeight,
+                          ),
+                          SizedBox(width: 20.0),
+                          _kakaoButton(
+                            'assets/images/kakao_login.png',
+                            width: 100.0,
+                            height: 45.0,
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
                       _buildSignupBtn(),
                     ],
                   ),
