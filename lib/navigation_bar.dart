@@ -33,6 +33,8 @@ class _BottomNavState extends State<BottomNav> {
           type: BottomNavigationBarType.fixed,
           currentIndex: widget.currentIndex,
           onTap: widget.onTap,
+          selectedLabelStyle: TextStyle(fontSize: 16.0), // 선택된 아이템의 글씨 크기
+          unselectedLabelStyle: TextStyle(fontSize: 14.0), // 선택되지 않은 아이템의 글씨 크기
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.people), label: '친구'),
             BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.t), label: '위시리스트'),

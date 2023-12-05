@@ -21,14 +21,21 @@ class ItemDetailed extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColor.backgroundColor,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 50,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            backgroundColor: Color(0xFFfbfbf2),
+            elevation: 0,
           ),
-          title: Text('펀딩 중인 상품', style: TextStyle(color: Colors.white)),
         ),
         body: Center(
           child: SingleChildScrollView(

@@ -69,6 +69,8 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           color: AppColor.backgroundColor,
         ),
+        scaffoldBackgroundColor: Color(0xFFfbfbf2),
+
       ),
       home: LoginScreen(),
       routes: {

@@ -10,36 +10,45 @@ class AddFriendPage extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100),
-            child: AppBar(
-              automaticallyImplyLeading: false,
-              leadingWidth: 50,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new, color: Colors.grey),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 50,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              backgroundColor: Colors.white,
-              bottom: TabBar(
-                labelColor: Colors.white, // 탭의 텍스트 색상
-                tabs: [
-                  Tab(
-                    child: Text(
-                      '전화번호',
-                      style: TextStyle(
-                          fontSize: 20, color: AppColor.objectColor// 굵게(bold) 설정
+            ),
+            backgroundColor: AppColor.backgroundColor,
+            elevation: 0,
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(70.0), // Adjust the preferredSize as needed
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0), // Adjust the top padding as needed
+                child: TabBar(
+                  labelColor: Colors.black,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        '전화번호',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Tab(
-                    child: Text(
-                      '이메일',
-                      style: TextStyle(
-                          fontSize: 20, color: AppColor.objectColor// 굵게(bold) 설정
+                    Tab(
+                      child: Text(
+                        '이메일',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

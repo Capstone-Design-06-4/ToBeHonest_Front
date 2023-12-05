@@ -88,7 +88,7 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
                           SizedBox(width: 10,),
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: Text('${widget.friendName}님', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25, color: Colors.white)),
+                            child: Text('${widget.friendName}님의 위시리스트', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
                           ),
                         ],
                       ),

@@ -88,7 +88,7 @@ class ModalUtils {
           margin: const EdgeInsets.only(
             left: 25,
             right: 25,
-            bottom: 40,
+            bottom: 100,
           ), // 모달 좌우하단 여백 크기
           decoration: BoxDecoration(
             color: Colors.white, // 모달 배경색

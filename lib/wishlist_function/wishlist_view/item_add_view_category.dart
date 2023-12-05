@@ -34,43 +34,79 @@ class _NewItemPageState extends State<NewItemPagebyCategory> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("카테고리로 추가하기"),
-          centerTitle: true,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 10,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+            ),
+            backgroundColor: AppColor.backgroundColor,
+          ),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            children: [
-              SizedBox(height: 15.0),
-              // 검색 위젯
-              ItemAddSearchBar(handleSearch: _handleSearch),
-              SizedBox(height: 5.0),
-              Obx(() {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: wishListController.Items.length,
-                    itemBuilder: (context, index) {
-                      Item item = wishListController.Items[index];
-                      return GestureDetector(
-                        onTap: () {
-                          // 탭할 때마다 선택 상태 변경
-                          setState(() {
-                            if (selectedTileIndex == index) {
-                              // 이미 선택된 타일을 다시 누르면 선택 취소
-                              selectedTileIndex = null;
-                              selectedItem = null; // 선택 취소 시 selectedItem도 초기화
-                            } else {
-                              // 다른 타일을 누르면 해당 타일 선택
-                              selectedTileIndex = index;
-                              selectedItem = item; // 선택한 아이템 저장
-                            }
-                          });
-                        },
+        body: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20.0),
+                  bottomRight: Radius.circular(20.0),
+                ),
+                color: AppColor.backgroundColor,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text('상품명을 검색해보세요!', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height:20),
+                    ItemAddSearchBar(handleSearch: _handleSearch),
+                    SizedBox(height:20),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Obx(() {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: wishListController.Items.length,
+                  itemBuilder: (context, index) {
+                    Item item = wishListController.Items[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // 탭할 때마다 선택 상태 변경
+                        setState(() {
+                          if (selectedTileIndex == index) {
+                            // 이미 선택된 타일을 다시 누르면 선택 취소
+                            selectedTileIndex = null;
+                            selectedItem = null; // 선택 취소 시 selectedItem도 초기화
+                          } else {
+                            // 다른 타일을 누르면 해당 타일 선택
+                            selectedTileIndex = index;
+                            selectedItem = item; // 선택한 아이템 저장
+                          }
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10, left: 10,bottom: 5),
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           decoration: BoxDecoration(
-                            color: selectedTileIndex == index ? AppColor.backgroundColor.withOpacity(0.5) : Colors.white,
+                            color: selectedTileIndex == index ? AppColor.swatchColor.withAlpha(150) : Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
@@ -106,55 +142,67 @@ class _NewItemPageState extends State<NewItemPagebyCategory> {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
-                                Text(
-                                  '금액: ${NumberFormat('#,###').format(item.price)} 원',
-                                  style: TextStyle(fontSize: 15, color: Colors.black),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '금액: ',
+                                      style: TextStyle(fontSize: 16, color: Colors.black),
+                                    ),
+                                    Text(
+                                      '${NumberFormat('#,###').format(item.price)}',
+                                      style: TextStyle(fontSize: 16, color: selectedTileIndex == index ? Colors.black : AppColor.textColor),
+                                    ),
+                                    Text(
+                                      '원',
+                                      style: TextStyle(fontSize: 16, color: Colors.black),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                );
-              }),
-              SizedBox(height: 15.0),
-              // 위시리스트에 추가 버튼
-              Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: ElevatedButton(
-                  onPressed: selectedTileIndex != null
-                      ? () async {
-                    // ListTile이 선택된 경우에만 버튼 동작
-                    // 버튼 동작 시 로직 추가
-                    if (selectedItem != null) {
-                      print('선택한 상품 추가: ${selectedItem!.name}');
-                      print('선택한 상품 가격: ${selectedItem!.price}');
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
+            SizedBox(height: 15.0),
+            // 위시리스트에 추가 버튼
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ElevatedButton(
+                onPressed: selectedTileIndex != null
+                    ? () async {
+                  // ListTile이 선택된 경우에만 버튼 동작
+                  // 버튼 동작 시 로직 추가
+                  if (selectedItem != null) {
+                    print('선택한 상품 추가: ${selectedItem!.name}');
+                    print('선택한 상품 가격: ${selectedItem!.price}');
 
-                      ModalUtils.showFriendModal(context, selectedItem!);
-                    }
+                    ModalUtils.showFriendModal(context, selectedItem!);
                   }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColor.backgroundColor,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    minimumSize: Size(0, 36),
+                }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  primary: AppColor.backgroundColor,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  child: FittedBox(
-                    child: Text(
-                      '위시리스트에 추가하기',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                  minimumSize: Size(0, 36),
+                ),
+                child: FittedBox(
+                  child: Text(
+                    '위시리스트에 추가하기',
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),
-              SizedBox(height: 30.0),
-            ],
-          ),
+            ),
+            SizedBox(height: 30.0),
+          ],
         ),
       ),
     );
@@ -248,7 +296,7 @@ class ModalUtils {
                             ),
                           ),
                         ),
-                        SizedBox(width: 6),
+                        SizedBox(width: 15),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,19 +323,19 @@ class ModalUtils {
                               Row(
                                 children: [
                                   Text(
-                                    '펀딩 총액: ',
-                                    style: TextStyle(fontSize: 18,),
+                                    '금액: ',
+                                    style: TextStyle(fontSize: 16, color: Colors.black),
                                   ),
                                   Text(
-                                    '${formatNumber(selectedItem.price)}',
+                                    '${NumberFormat('#,###').format(selectedItem.price)}',
                                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
                                   ),
                                   Text(
-                                    ' 원',
-                                    style: TextStyle(fontSize: 18,),
+                                    '원',
+                                    style: TextStyle(fontSize: 16, color: Colors.black),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),

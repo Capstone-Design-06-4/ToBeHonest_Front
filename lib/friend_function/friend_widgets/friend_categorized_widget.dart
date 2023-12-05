@@ -25,17 +25,7 @@ class FriendCategorized extends StatelessWidget {
               title,
               style: TextStyle(color: Colors.black, fontSize: 15),
             ),
-            SizedBox(width: 140),
-            Text(
-              '받았음',
-              style: TextStyle(color: Colors.black, fontSize: 15),
-            ),
-            SizedBox(width: 20.0),
-            Text(
-              '주었음',
-              style: TextStyle(color: Colors.black, fontSize: 15),
-            ),
-            SizedBox(width: 10.0),
+
           ],
         ),
       ),
