@@ -1,0 +1,10 @@
+<activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity">
+    <intent-filter android:label="flutter_web_auth">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
+        <data android:scheme="kakao07150a42df86d834d5deb4c2cffbb9e9" android:host="oauth"/>
+    </intent-filter>
+</activity>
