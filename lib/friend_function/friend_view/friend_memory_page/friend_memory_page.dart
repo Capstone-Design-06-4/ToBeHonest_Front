@@ -173,8 +173,8 @@ class ChatMessageWidget extends StatelessWidget {
               children: [
                 SizedBox(height:5),
                 Text(
-                  message.title.length > 15
-                      ? '${message.title.substring(0, 15)}...'
+                  message.title.length > 10
+                      ? '${message.title.substring(0, 10)}...'
                       : message.title ?? "빈 제목",
                   style: TextStyle(
                     fontSize: 16.0,
@@ -222,8 +222,8 @@ class ChatMessageWidget extends StatelessWidget {
               children: [
                 SizedBox(height:10),
                 Text(
-                  message.title.length > 15
-                      ? '${message.title.substring(0, 15)}...'
+                  message.title.length > 10
+                      ? '${message.title.substring(0, 10)}...'
                       : message.title ?? "빈 제목",
                   style: TextStyle(
                     fontSize: 16.0,
