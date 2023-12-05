@@ -1,8 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/login_page/sigun_up.dart';
 import 'package:tobehonest/main.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:http/http.dart' as http;
+import '../services/login_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -220,9 +233,37 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             // 여기에 네이버 로그인 로직 추가!
-            print('Naver Button Clicked!');
+            try {
+              final NaverLoginResult login = await FlutterNaverLogin.logIn();
+              final NaverAccessToken tokenResult =
+                  await FlutterNaverLogin.currentAccessToken;
+              String accessToken = tokenResult.accessToken;
+              var encodedToken = Uri.encodeComponent(accessToken);
+
+              var url = Uri.parse(
+                  'http://52.78.37.19:8080/oauth/naver?accessToken=$encodedToken');
+              //요거만 파싱
+              final response = await http.get(url);
+              print(response.body);
+              print(response.statusCode);
+
+              if (response.statusCode == 200) {
+                final data = json.decode(response.body);
+                final accessToken = data['accessToken'];
+                //print('Token before saved: ' + accessToken);
+                await saveToken(accessToken);
+
+                await saveEmail(login.account.email);
+
+                await getMyInfoFirst(login.account.email, accessToken);
+
+                print('로그인 성공: ${response.statusCode}');
+              }
+            } catch (error) {
+              print(error);
+            }
           },
           child: Ink(
             decoration: BoxDecoration(
@@ -248,9 +289,70 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             // 여기에 카카오 로그인 로직 추가!
-            print('Kakao Button Clicked!');
+            {
+
+              var encodedToken = "";
+              var email = "";
+
+              if (await isKakaoTalkInstalled()) {
+                try {
+                  print("111111111111111111111111");
+
+                  var oAuthToken = await UserApi.instance.loginWithKakaoTalk();
+
+                  encodedToken =
+                      Uri.encodeComponent(oAuthToken.accessToken.toString());
+                } catch (error) {
+                  print('카카오톡으로 로그인 실패 $error');
+                }
+// 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
+                try {
+                  var oAuthToken =
+                      await UserApi.instance.loginWithKakaoAccount();
+                  encodedToken =
+                      Uri.encodeComponent(oAuthToken.accessToken.toString());
+                } catch (error) {
+                  print('카카오계정으로 로그인 실패 $error');
+                }
+              } else {
+                try {
+                  var oAuthToken =
+                      await UserApi.instance.loginWithKakaoAccount();
+                  encodedToken =
+                      Uri.encodeComponent(oAuthToken.accessToken.toString());
+
+                  print('카카오계정으로 로그인 성공');
+                } catch (error) {
+                  print('카카오계정으로 로그인 실패 $error');
+                }
+              }
+              if (encodedToken != "") {
+                try {
+
+                  var url = Uri.parse(
+                      'http://52.78.37.19:8080/oauth/kakao?accessToken=$encodedToken');
+                  final response = await http.get(url);
+                  if (response.statusCode == 200) {
+                    var me = await UserApi.instance.me();
+                    email = me.kakaoAccount!.email!;
+
+                    final data = json.decode(response.body);
+                    final accessToken = data['accessToken'];
+                    //print('Token before saved: ' + accessToken);
+                    await saveToken(accessToken);
+                    await saveEmail(email);
+                    await getMyInfoFirst(email, accessToken);
+                    print(email);
+
+                    print('카카오로그인 성공: ${response.statusCode}');
+                  }
+                } catch (error) {
+                  print("에러");
+                }
+              }
+            }
           },
           child: Ink(
             decoration: BoxDecoration(
@@ -380,7 +482,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white,
                           fontSize: 16.0, // Adjust the font size as needed
                           fontFamily:
-                          'YourFontFamily', // Specify your desired font family
+                              'YourFontFamily', // Specify your desired font family
                         ),
                       ),
                       SizedBox(height: 20.0),
