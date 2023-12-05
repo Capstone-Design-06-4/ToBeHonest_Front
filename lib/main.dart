@@ -46,7 +46,7 @@ void main() async {
   final AddController addController = Get.put(AddController()); // AddController 추가
 
   // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
-  await login('email1@example.com', 'password1');
+  await login('email2@example.com', 'password2');
   //final String? token = await getToken();
   //if (token != null) {
   //  await fetchFriends(token);

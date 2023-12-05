@@ -32,63 +32,24 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
     //messages = messageController.messages;
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            leadingWidth: 10,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-            ),
-            backgroundColor: AppColor.backgroundColor,
-            title: Text('${widget.friendName} 님의 위시리스트', style: TextStyle(color: Colors.white)),
+        appBar: AppBar(
+          backgroundColor: AppColor.backgroundColor,
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
           ),
+          title: Text('${widget.friendName} 님과의 추억',
+              style: TextStyle(color: Colors.white)),
         ),
         body: Container(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0),
-                  ),
-                  color: AppColor.backgroundColor,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text('${widget.friendName}님과의 추억', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height:20),
-
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16,right: 16),
-                child: Obx(
-                      () {
-                    return messageController.isLoading.isTrue
-                        ? Center(child: CircularProgressIndicator())
-                        : buildMessagesListView();
-                  },
-                ),
-              ),
-            ],
+          margin: EdgeInsets.all(16.0),
+          child: Obx(
+                () {
+              return messageController.isLoading.isTrue
+                  ? Center(child: CircularProgressIndicator())
+                  : buildMessagesListView();
+            },
           ),
         ),
       ),
@@ -116,8 +77,8 @@ class ChatMessageWidget extends StatelessWidget {
 
   ChatMessageWidget(
       {required this.message,
-      required this.friendName,
-      required this.friendID});
+        required this.friendName,
+        required this.friendID});
 
   String formatNumber(int number) {
     final formatter = NumberFormat('#,###');
@@ -136,7 +97,7 @@ class ChatMessageWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
         child: Column(
           crossAxisAlignment:
-              isSenttoYou ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          isSenttoYou ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           children: [
             Container(
               child: Column(
@@ -177,132 +138,135 @@ class ChatMessageWidget extends StatelessWidget {
     return Material(
       borderRadius: isSenttoYou
           ? BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            )
+        topLeft: Radius.circular(30.0),
+        bottomLeft: Radius.circular(30.0),
+        bottomRight: Radius.circular(30.0),
+      )
           : BorderRadius.only(
-              topRight: Radius.circular(30.0),
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
+        topRight: Radius.circular(30.0),
+        bottomLeft: Radius.circular(30.0),
+        bottomRight: Radius.circular(30.0),
+      ),
       elevation: 15.0,
       color: isSenttoYou ? AppColor.backgroundColor.withOpacity(0.8) : Colors.white,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if(message.itemImage != null && message.messageImgURLs != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                (message.messageImgURLs.isNotEmpty
-                    ? message.messageImgURLs[0]
-                    : message.itemImage) ?? '기본 이미지 URL',
-                width: 80.0,
-                height: 80.0,
-                fit: BoxFit.cover,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if(message.itemImage != null && message.messageImgURLs != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  (message.messageImgURLs.isNotEmpty
+                      ? message.messageImgURLs[0]
+                      : message.itemImage) ?? '기본 이미지 URL',
+                  width: 80.0,
+                  height: 80.0,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-          SizedBox(width: 20),
-          !isCelebrateMessage
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height:5),
-                    Text(
-                      message.title.length > 15
-                          ? '${message.title.substring(0, 15)}...'
-                          : message.title ?? "빈 제목",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: isSenttoYou ? Colors.white : Colors.black,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1, // 텍스트를 한 줄로 제한
+            SizedBox(width: 20),
+            !isCelebrateMessage
+                ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height:5),
+                Text(
+                  message.title.length > 15
+                      ? '${message.title.substring(0, 15)}...'
+                      : message.title ?? "빈 제목",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: isSenttoYou ? Colors.white : Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1, // 텍스트를 한 줄로 제한
+                ),
+                Text(
+                  message.contents.length > 10
+                      ? '${message.contents.substring(0, 10)}...'
+                      : message.contents ?? "빈 제목",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: isSenttoYou ? Colors.white : Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1, // 텍스트를 한 줄로 제한
+                ),
+                SizedBox(height: 10.0),
+                ElevatedButton(
+                  onPressed: () {
+                    // Your button press logic here
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: isSenttoYou ? Colors.white : AppColor.subColor,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    Text(
-                      message.contents.length > 10
-                          ? '${message.contents.substring(0, 10)}...'
-                          : message.contents ?? "빈 제목",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        color: isSenttoYou ? Colors.white : Colors.black,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1, // 텍스트를 한 줄로 제한
-                    ),
-                    SizedBox(height: 10.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Your button press logic here
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: isSenttoYou ? Colors.white : AppColor.subColor,
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        minimumSize: Size(0, 36),
-                      ),
-                      child: Text(
-                        '상세내역 보기',
-                        style: TextStyle(fontSize: 14, color: isSenttoYou ? Colors.black : Colors.white),
-                      ),
-                    )
+                    minimumSize: Size(0, 36),
+                  ),
+                  child: Text(
+                    '상세내역 보기',
+                    style: TextStyle(fontSize: 14, color: isSenttoYou ? Colors.black : Colors.white),
+                  ),
+                )
 
+              ],
+            )
+                : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height:10),
+                Text(
+                  message.title.length > 15
+                      ? '${message.title.substring(0, 15)}...'
+                      : message.title ?? "빈 제목",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: isSenttoYou ? Colors.white : Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1, // 텍스트를 한 줄로 제한
+                ),
+                Text(
+                  message.contents.length > 10
+                      ? '${message.contents.substring(0, 10)}...'
+                      : message.contents ?? "빈 제목",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: isSenttoYou ? Colors.white : Colors.black,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1, // 텍스트를 한 줄로 제한
+                ),
+                SizedBox(height: 20.0),
+                Row(
+                  children: [
+                    Text(
+                      '펀딩 금액: ',
+                      style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
+                    ),
+                    Text(
+                      '${formatNumber(message.fundMoney)}' ?? '0',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : Colors.white),
+                    ),
+                    Text(
+                      ' 원',
+                      style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
+                    ),
                   ],
                 )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height:10),
-                    Text(
-                      message.title.length > 15
-                          ? '${message.title.substring(0, 15)}...'
-                          : message.title ?? "빈 제목",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: isSenttoYou ? Colors.white : Colors.black,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1, // 텍스트를 한 줄로 제한
-                    ),
-                    Text(
-                      message.contents.length > 10
-                          ? '${message.contents.substring(0, 10)}...'
-                          : message.contents ?? "빈 제목",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        color: isSenttoYou ? Colors.white : Colors.black,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1, // 텍스트를 한 줄로 제한
-                    ),
-                    SizedBox(height: 20.0),
-                    Row(
-                      children: [
-                        Text(
-                          '펀딩 금액: ',
-                          style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
-                        ),
-                        Text(
-                          '${formatNumber(message.fundMoney)}' ?? '0',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : Colors.white),
-                        ),
-                        Text(
-                          ' 원',
-                          style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
-                        ),
-                      ],
-                    )
 
-                  ],
-                ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
