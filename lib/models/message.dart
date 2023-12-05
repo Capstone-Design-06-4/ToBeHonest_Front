@@ -10,6 +10,7 @@ class Message {
   final String contents;
   final MessageType messageType;
   final int fundMoney;
+  late String? itemImage;
   late List<String> messageImgURLs;
 
   Message({
@@ -20,6 +21,7 @@ class Message {
     required this.contents,
     required this.messageType,
     required this.fundMoney,
+    this.itemImage,
     this.messageImgURLs = const [],
   });
 
@@ -40,6 +42,7 @@ class Message {
       contents: json['messageContents'] ?? '',
       messageType: parseMessageType(json['messageType'] ?? 'THANKS_MSG'),
       fundMoney: json['fundMoney'] ?? 0,
+      itemImage: json['itemImage'] ?? '',
       messageImgURLs: List<String>.from(json['messageImgURLs'] ?? []),
     );
   }
