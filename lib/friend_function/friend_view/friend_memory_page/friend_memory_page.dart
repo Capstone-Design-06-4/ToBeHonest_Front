@@ -18,18 +18,18 @@ class FriendMemoryPage extends StatefulWidget {
 }
 
 class _FriendMemoryPageState extends State<FriendMemoryPage> {
-
+  late MessageController messageController;
   List<Message> messages = [];
 
   @override
   void initState() {
     super.initState();
+    messageController = Get.put(MessageController(widget.friendID));
   }
 
   @override
   Widget build(BuildContext context) {
-    final MessageController messageController = Get.put(MessageController(widget.friendID));
-    messages = messageController.messages;
+    //messages = messageController.messages;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -58,10 +58,10 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
 
   Widget buildMessagesListView() {
     return ListView.builder(
-      itemCount: messages.length,
+      itemCount: messageController.messages.length,
       itemBuilder: (context, index) {
         return ChatMessageWidget(
-          message: messages[index],
+          message: messageController.messages[index],
           friendName: widget.friendName,
           friendID: widget.friendID,
         );
@@ -154,11 +154,13 @@ class ChatMessageWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (message.messageImgURLs != null)
+            if(message.itemImage != null && message.messageImgURLs != null)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
-                  'https://i.pravatar.cc/150?img=1',
+                  (message.messageImgURLs.isNotEmpty
+                      ? message.messageImgURLs[0]
+                      : message.itemImage) ?? '기본 이미지 URL',
                   width: 80.0,
                   height: 80.0,
                   fit: BoxFit.cover,
@@ -171,12 +173,28 @@ class ChatMessageWidget extends StatelessWidget {
                     children: [
                       SizedBox(height:5),
                       Text(
-                        message.title,
+                        message.title.length > 15
+                            ? '${message.title.substring(0, 15)}...'
+                            : message.title ?? "빈 제목",
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           color: isSenttoYou ? Colors.white : Colors.black,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1, // 텍스트를 한 줄로 제한
+                      ),
+                      Text(
+                        message.contents.length > 10
+                            ? '${message.contents.substring(0, 10)}...'
+                            : message.contents ?? "빈 제목",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: isSenttoYou ? Colors.white : Colors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1, // 텍스트를 한 줄로 제한
                       ),
                       SizedBox(height: 10.0),
                       ElevatedButton(
@@ -204,22 +222,38 @@ class ChatMessageWidget extends StatelessWidget {
                     children: [
                       SizedBox(height:10),
                       Text(
-                        message.title,
+                        message.title.length > 15
+                            ? '${message.title.substring(0, 15)}...'
+                            : message.title ?? "빈 제목",
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           color: isSenttoYou ? Colors.white : Colors.black,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1, // 텍스트를 한 줄로 제한
+                      ),
+                      Text(
+                        message.contents.length > 10
+                            ? '${message.contents.substring(0, 10)}...'
+                            : message.contents ?? "빈 제목",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: isSenttoYou ? Colors.white : Colors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1, // 텍스트를 한 줄로 제한
                       ),
                       SizedBox(height: 20.0),
                       Row(
                         children: [
                           Text(
-                            '펀딩 총액: ',
+                            '펀딩 금액: ',
                             style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
                           ),
                           Text(
-                            isSenttoYou ? 'heeo' : '${formatNumber(message.fundMoney)}',
+                            '${formatNumber(message.fundMoney)}' ?? '0',
                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : Colors.white),
                           ),
                           Text(
