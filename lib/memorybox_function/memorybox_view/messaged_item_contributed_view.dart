@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/services/message_service.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
+import 'package:tobehonest/models/message.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/controllers/contributor_controller.dart';
 import 'package:tobehonest/navigation bar/wishlist_page.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/thanks_message/thanks_message_view.dart';
 import 'package:tobehonest/memorybox_function/memorybox_view/messaged_show_view.dart';
+import 'package:tobehonest/services/wishlist_service.dart';
+import 'package:tobehonest/services/login_service.dart';
 
 class MessagedItemContributed extends StatefulWidget {
   final WishItem wishItem;
@@ -179,11 +183,21 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        String? token = await getToken() ?? "";
+                        Message? message = await getThankMessageByWishItemID(widget.wishItem.wishItemId, token) ??
+                            Message(
+                                wishItemId: 0,
+                                senderId: 0,
+                                receiverId: 0,
+                                title: "title",
+                                contents: "contents",
+                                messageType: MessageType.THANKS_MSG,
+                                fundMoney: widget.wishItem.fundAmount);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MessagedShowPage(wishItem: widget.wishItem,), // Use the correct class name
+                            builder: (context) => MessagedShowPage(wishItem: widget.wishItem, message: message), // Use the correct class name
                           ),
                         );
                       },
@@ -197,7 +211,7 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                       ),
                       child: FittedBox(
                         child: Text(
-                          '참여한 사람 보기',
+                          '작성한 메세지 보기',
                           style: TextStyle(fontSize: 18,
                           ),
                         ),
@@ -214,3 +228,6 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
     );
   }
 }
+
+
+

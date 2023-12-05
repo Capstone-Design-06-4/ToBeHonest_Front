@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
+import 'package:tobehonest/models/message.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/controllers/contributor_controller.dart';
 import 'package:tobehonest/navigation bar/wishlist_page.dart';
@@ -11,10 +12,9 @@ import 'package:tobehonest/memorybox_function/memorybox_view/messaged_show_view.
 
 class MessagedShowPage extends StatefulWidget {
   final WishItem wishItem;
-  late ContributorController contributorController;
-  final WishListController wishListController = Get.put(WishListController());
+  final Message message;
 
-  MessagedShowPage({required this.wishItem});
+  MessagedShowPage({required this.wishItem, required this.message});
 
   @override
   _MessagedShowPageState createState() => _MessagedShowPageState();
@@ -24,8 +24,6 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
-    widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {
@@ -38,7 +36,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('참여한 사람들'),
+          title: Text('작성한 메세지'),
           centerTitle: true,
           backgroundColor: AppColor.backgroundColor,
         ),
@@ -147,7 +145,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '제목입니다',
+                          widget.message.title,
                           style: const TextStyle(fontSize: 18),
                           textAlign: TextAlign.right,  // 텍스트를 우측 정렬로 설정
                         ),
@@ -178,9 +176,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          '미안하다 이거 보여주려고 어그로끌었다.. 나루토 사스케 싸움수준 ㄹㅇ실화냐? 진짜 세계관최강자들의 싸움이다.. '
-                              '그찐따같던 나루토가 맞나? 진짜 나루토는 전설이다..진짜옛날에 맨날나루토봘는데 왕같은존재인 호카게 되서 세계최강 전설적인 영웅이된'
-                              '나루토보면 진짜내가다 감격스럽고 나루토 노래부터 명장면까지 가슴울리는장면들이 뇌리에 스치면서 가슴이 웅장해진다.. ',
+                          widget.message.contents,
                           style: const TextStyle(fontSize: 16),
                           textAlign: TextAlign.left,
                         ),
@@ -194,18 +190,20 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
               height: 130,  // 그리드뷰의 높이 설정
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 5,
+                itemCount: 1, // 우리는 아직 이미지 하나만 주고 받아서
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
                 ),
                 itemBuilder: (context, index) {
+                  String imgUrl = widget.message.messageImgURLs.isEmpty ?
+                  "https://via.placeholder.com/200" : widget.message.messageImgURLs[0];
                   return Container(
                     width: 100,
                     height: 100,
                     margin: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('https://via.placeholder.com/200'),
+                        image: NetworkImage(imgUrl),
                         fit: BoxFit.cover,
                       ),
                     ),
