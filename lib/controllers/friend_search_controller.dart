@@ -31,6 +31,7 @@ class FriendController extends GetxController {
         print('토큰이 없습니다.');
       }
       friendsList.refresh();
+      update();
     } catch (e) {
       print('친구 목록을 가져오는 데 실패했습니다: $e');
     } finally {

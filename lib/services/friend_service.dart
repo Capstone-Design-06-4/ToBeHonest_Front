@@ -60,13 +60,13 @@ Future<void> saveFriendsToLocal(dynamic friends) async {
   } else {
     throw ArgumentError('The argument must be a Friend or List<Friend>');
   }
-  await box.close();
+  //await box.close();
 }
 
 Future<List<Friend>> getAllFriends() async {
   var box = await Hive.openBox<Friend>('friendsBox');
   List<Friend> friends = box.values.toList();
-  await box.close();
+  //await box.close();
   return friends;
 }
 
@@ -205,7 +205,7 @@ Future<void> addFriend(String friendID, String accessToken) async {
       // JSON 응답을 파싱하여 Friend 객체 리스트로 변환
       dynamic friendJson = json.decode(response.body);
       Friend friend = Friend.fromJson(friendJson);
-      saveFriendsToLocal(friend);
+      await saveFriendsToLocal(friend);
       print('친구 추가 성공');
     } else {
       print('친구 추가 실패: ${response.statusCode}');

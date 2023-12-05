@@ -3,10 +3,12 @@ import 'package:tuple/tuple.dart';
 import '../models/friend.dart';
 import '../services/friend_service.dart';
 import '../services/login_service.dart';
+import 'package:tobehonest/controllers/friend_search_controller.dart';
 
 class AddController extends GetxController {
   var currentUserEmail = '';
   var friendsList = <Friend>[].obs;
+  final FriendController _friendController = Get.find<FriendController>();
 
   Future<Tuple2<Friend, String>> searchFriendsByEmail(String searchQuery) async {
     print('searchFriendsByEmail 시작: $searchQuery');
@@ -36,7 +38,7 @@ class AddController extends GetxController {
         case 'NOT_FRIEND':
           print('검색된 친구 정보: ${results.item1.name}');
 
-          addFriend(results.item1.id.toString(), token);
+          await addFriend(results.item1.id.toString(), token);
           break;
         default:
           print('UNKNOWN: 알 수 없는 오류 발생');
@@ -48,6 +50,7 @@ class AddController extends GetxController {
       print('친구를 검색하는 데 실패했습니다: $e');
       throw e; // 예외를 호출자에게 다시 던집니다.
     } finally {
+      await _friendController.getFriendsList();
       print('searchFriendsByEmail 종료');
     }
   }
@@ -78,7 +81,7 @@ class AddController extends GetxController {
         case 'NOT_FRIEND':
           print('검색된 친구 정보: ${results.item1.name}');
 
-          addFriend(results.item1.id.toString(), token);
+          await addFriend(results.item1.id.toString(), token);
           break;
         default:
           print('UNKNOWN: 알 수 없는 오류 발생');
@@ -90,6 +93,7 @@ class AddController extends GetxController {
       print('친구를 검색하는 데 실패했습니다: $e');
       throw e; // 예외를 호출자에게 다시 던집니다.
     } finally {
+      await _friendController.getFriendsList();
       print('searchFriendsByNumber 종료');
     }
   }
