@@ -89,24 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> buttonLoginPressed() async {
-    try {
-      final NaverLoginResult login = await FlutterNaverLogin.logIn();
-      final NaverAccessToken tokenResult = await FlutterNaverLogin.currentAccessToken;
-      String accessToken = tokenResult.accessToken;
-      var encodedToken = Uri.encodeComponent(accessToken);
 
-      var url = Uri.parse('http://52.78.37.19:8080/oauth/naver?accessToken=$encodedToken');
-      //요거만 파싱
-      final response = await http.get(url);
-
-      setState(() {
-        name = login.account.nickname;
-        isLogin = true;
-        accesToken = response.body.toString();
-      });
-    } catch (error) {
-      _showSnackError(error.toString());
-    }
   }
 
 
