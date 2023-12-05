@@ -42,17 +42,16 @@ void main() async {
   Hive.registerAdapter(ContributorAdapter());
 
   // GetX를 사용하여 FriendController 인스턴스를 생성하고 의존성 시스템에 저장합니다
-  final FriendController friendController = Get.put(FriendController());
-  final AddController addController =
-  Get.put(AddController()); // AddController 추가
+  //final FriendController friendController = Get.put(FriendController());
+  final AddController addController = Get.put(AddController()); // AddController 추가
 
   // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
   await login('email1@example.com', 'password1');
-  final String? token = await getToken();
-  if (token != null) {
-    await fetchFriends(token);
-    await friendController.getFriendsList(); // fetchFriends 메서드 호출
-  }
+  //final String? token = await getToken();
+  //if (token != null) {
+  //  await fetchFriends(token);
+  //  await friendController.getFriendsList(); // fetchFriends 메서드 호출
+  //}
 
   // 앱 실행
   runApp(MyApp());
@@ -101,12 +100,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFFF4A261),
-          title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Color(0xFFF4A261),
+            title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
+          ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 0),
           child: _pages[_currentIndex],
         ),
         bottomNavigationBar: BottomNav(

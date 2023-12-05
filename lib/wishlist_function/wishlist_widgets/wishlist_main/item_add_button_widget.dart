@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Widget ItemAddBar(BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 10.0),
+    padding: const EdgeInsets.only(left: 16, right: 16),
     child: Column(
       children: [
         GestureDetector(

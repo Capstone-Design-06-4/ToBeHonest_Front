@@ -36,7 +36,7 @@ class _EmailAddPageState extends State<EmailAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 10.0),
+              SizedBox(height: 30.0),
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(

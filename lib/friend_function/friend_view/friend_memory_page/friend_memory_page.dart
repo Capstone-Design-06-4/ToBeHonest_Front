@@ -32,24 +32,63 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
     messages = messageController.messages;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColor.backgroundColor,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 10,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+            ),
+            backgroundColor: AppColor.backgroundColor,
+            title: Text('${widget.friendName} 님의 위시리스트', style: TextStyle(color: Colors.white)),
           ),
-          title: Text('${widget.friendName} 님과의 추억',
-              style: TextStyle(color: Colors.white)),
         ),
         body: Container(
-          margin: EdgeInsets.all(16.0),
-          child: Obx(
-                () {
-              return messageController.isLoading.isTrue
-                  ? Center(child: CircularProgressIndicator())
-                  : buildMessagesListView();
-            },
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
+                  ),
+                  color: AppColor.backgroundColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          SizedBox(width: 10,),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text('${widget.friendName}님', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height:20),
+
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16,right: 16),
+                child: Obx(
+                      () {
+                    return messageController.isLoading.isTrue
+                        ? Center(child: CircularProgressIndicator())
+                        : buildMessagesListView();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

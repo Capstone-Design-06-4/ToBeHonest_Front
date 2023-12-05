@@ -19,9 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           '이메일',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -42,8 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
+              color: Colors.black,
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -55,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: '이메일을 입력해주세요',
               hintStyle: TextStyle(
                 color: Colors.black,
-                fontFamily: 'OpenSans',
               ),
             ),
           ),
@@ -71,9 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           '비밀번호',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10.0),
@@ -92,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            obscureText: !_rememberMe,
             style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
+              color: Colors.black,
+
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -107,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: '비밀번호를 입력해주세요',
               hintStyle: TextStyle(
                 color: Colors.black,
-                fontFamily: 'OpenSans',
+
               ),
             ),
           ),
@@ -115,32 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-  
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        child: Text(
-          '비밀번호 찾기',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildRememberMeCheckbox() {
     return Container(
       height: 20.0,
       child: Row(
         children: <Widget>[
+          SizedBox(width: 10,),
           Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
+            data: ThemeData(unselectedWidgetColor: Colors.black),
+            child:
+            Checkbox(
               value: _rememberMe,
               checkColor: Colors.green,
               activeColor: Colors.white,
@@ -152,11 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Text(
-            '로그인 유지하기',
+            '비밀번호 표시하기',
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
             ),
           ),
         ],
@@ -173,7 +152,10 @@ class _LoginScreenState extends State<LoginScreen> {
           print('Login Button Pressed');
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
+            PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) => MyHomePage(),
+              transitionDuration: Duration.zero, // Set transition duration to zero
+            ),
           );
         },
         style: ElevatedButton.styleFrom(
@@ -191,7 +173,6 @@ class _LoginScreenState extends State<LoginScreen> {
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
           ),
         ),
       ),
@@ -263,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
+                    horizontal: 20.0,
                     vertical: 90.0,
                   ),
                   child: Column(
@@ -287,27 +268,52 @@ class _LoginScreenState extends State<LoginScreen> {
                             '원하는 선물을 받고!\n원하는 만큼 펀딩하자!',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: Colors.black,
                               fontSize: 16.0, // Adjust the font size as needed
-                              fontWeight: FontWeight.bold,
                               fontFamily: 'YourFontFamily', // Specify your desired font family
                             ),
                           ),
-
+                          SizedBox(height: 30.0),
                         ],
                       ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white54,// Set your desired border radius here
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 30.0),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                              ),
+                              child: _buildEmailTF(),
+                            ),
+                            SizedBox(
+                              height: 30.0,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                              ),
+                              child: _buildPasswordTF(),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            _buildRememberMeCheckbox(),
+                            SizedBox(height: 30.0),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ),
+                        child: _buildLoginBtn(),
                       ),
-                      _buildPasswordTF(),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      //_buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
                       _buildSignupBtn(),
                     ],
                   ),

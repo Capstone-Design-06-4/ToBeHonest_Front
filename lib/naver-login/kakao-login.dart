@@ -20,7 +20,11 @@ class MyApp extends StatelessWidget {
             child: Center(
                 child: ElevatedButton(
                     child: Text("카카오 로그인"),
-                    onPressed: () {}
+                    onPressed: () async {
+                      await kakaoLogin();
+
+                    }
+
                 )
             )
         )
