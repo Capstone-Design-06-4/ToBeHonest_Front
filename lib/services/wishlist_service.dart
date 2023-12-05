@@ -515,3 +515,51 @@ Future<WishItem?> getFriendWishItem(int friendID, int wishItemID, String token) 
     return null; // 예외가 발생했을 경우
   }
 }
+
+Future<int> getItemProbability(int itemID, String token) async {
+  final url = Uri.parse('http://10.0.2.2:8080/wishlist/check/$itemID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
+      int? probability = parsedJson['percentage'];
+      return probability ?? 0;
+    } else {
+      print('오류 발생: ${response.statusCode}');
+      return 0; // 서버 오류가 발생했을 경우
+    }
+  } catch (e) {
+    print('예외 발생: $e');
+    return 0; // 예외가 발생했을 경우
+  }
+}
+
+Future<int> getMyExpected(String token) async {
+  final url = Uri.parse('http://10.0.2.2:8080/members/myExpected');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
+      int? probability = parsedJson['percentage'];
+      return probability ?? 0;
+    } else {
+      print('오류 발생: ${response.statusCode}');
+      return 0; // 서버 오류가 발생했을 경우
+    }
+  } catch (e) {
+    print('예외 발생: $e');
+    return 0; // 예외가 발생했을 경우
+  }
+}
