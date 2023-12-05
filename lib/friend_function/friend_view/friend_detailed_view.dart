@@ -42,7 +42,6 @@ class ModalUtils {
                         backgroundColor: AppColor.swatchColor,
                         child: CircleAvatar(
                           backgroundColor: Colors.black,
-                          backgroundImage: NetworkImage(''), // Use the appropriate URL or placeholder
                           radius: 60.0,
                         ),
                       ),

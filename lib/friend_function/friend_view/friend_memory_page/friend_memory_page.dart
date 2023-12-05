@@ -188,124 +188,121 @@ class ChatMessageWidget extends StatelessWidget {
             ),
       elevation: 15.0,
       color: isSenttoYou ? AppColor.backgroundColor.withOpacity(0.8) : Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if(message.itemImage != null && message.messageImgURLs != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  (message.messageImgURLs.isNotEmpty
-                      ? message.messageImgURLs[0]
-                      : message.itemImage) ?? '기본 이미지 URL',
-                  width: 80.0,
-                  height: 80.0,
-                  fit: BoxFit.cover,
-                ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if(message.itemImage != null && message.messageImgURLs != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                (message.messageImgURLs.isNotEmpty
+                    ? message.messageImgURLs[0]
+                    : message.itemImage) ?? '기본 이미지 URL',
+                width: 80.0,
+                height: 80.0,
+                fit: BoxFit.cover,
               ),
-            SizedBox(width: 20),
-            !isCelebrateMessage
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height:5),
-                      Text(
-                        message.title.length > 15
-                            ? '${message.title.substring(0, 15)}...'
-                            : message.title ?? "빈 제목",
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: isSenttoYou ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1, // 텍스트를 한 줄로 제한
+            ),
+          SizedBox(width: 20),
+          !isCelebrateMessage
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height:5),
+                    Text(
+                      message.title.length > 15
+                          ? '${message.title.substring(0, 15)}...'
+                          : message.title ?? "빈 제목",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: isSenttoYou ? Colors.white : Colors.black,
                       ),
-                      Text(
-                        message.contents.length > 10
-                            ? '${message.contents.substring(0, 10)}...'
-                            : message.contents ?? "빈 제목",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          color: isSenttoYou ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1, // 텍스트를 한 줄로 제한
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1, // 텍스트를 한 줄로 제한
+                    ),
+                    Text(
+                      message.contents.length > 10
+                          ? '${message.contents.substring(0, 10)}...'
+                          : message.contents ?? "빈 제목",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        color: isSenttoYou ? Colors.white : Colors.black,
                       ),
-                      SizedBox(height: 10.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Your button press logic here
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: isSenttoYou ? Colors.white : AppColor.subColor,
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(0, 36),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1, // 텍스트를 한 줄로 제한
+                    ),
+                    SizedBox(height: 10.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Your button press logic here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: isSenttoYou ? Colors.white : AppColor.subColor,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Text(
-                          '상세내역 보기',
-                          style: TextStyle(fontSize: 14, color: isSenttoYou ? Colors.black : Colors.white),
-                        ),
-                      )
+                        minimumSize: Size(0, 36),
+                      ),
+                      child: Text(
+                        '상세내역 보기',
+                        style: TextStyle(fontSize: 14, color: isSenttoYou ? Colors.black : Colors.white),
+                      ),
+                    )
 
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height:10),
-                      Text(
-                        message.title.length > 15
-                            ? '${message.title.substring(0, 15)}...'
-                            : message.title ?? "빈 제목",
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: isSenttoYou ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1, // 텍스트를 한 줄로 제한
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height:10),
+                    Text(
+                      message.title.length > 15
+                          ? '${message.title.substring(0, 15)}...'
+                          : message.title ?? "빈 제목",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: isSenttoYou ? Colors.white : Colors.black,
                       ),
-                      Text(
-                        message.contents.length > 10
-                            ? '${message.contents.substring(0, 10)}...'
-                            : message.contents ?? "빈 제목",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          color: isSenttoYou ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1, // 텍스트를 한 줄로 제한
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1, // 텍스트를 한 줄로 제한
+                    ),
+                    Text(
+                      message.contents.length > 10
+                          ? '${message.contents.substring(0, 10)}...'
+                          : message.contents ?? "빈 제목",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        color: isSenttoYou ? Colors.white : Colors.black,
                       ),
-                      SizedBox(height: 20.0),
-                      Row(
-                        children: [
-                          Text(
-                            '펀딩 금액: ',
-                            style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
-                          ),
-                          Text(
-                            '${formatNumber(message.fundMoney)}' ?? '0',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : Colors.white),
-                          ),
-                          Text(
-                            ' 원',
-                            style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
-                          ),
-                        ],
-                      )
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1, // 텍스트를 한 줄로 제한
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Text(
+                          '펀딩 금액: ',
+                          style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
+                        ),
+                        Text(
+                          '${formatNumber(message.fundMoney)}' ?? '0',
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : Colors.white),
+                        ),
+                        Text(
+                          ' 원',
+                          style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
+                        ),
+                      ],
+                    )
 
-                    ],
-                  ),
-          ],
-        ),
+                  ],
+                ),
+        ],
       ),
     );
   }

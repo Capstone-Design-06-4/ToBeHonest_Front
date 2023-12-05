@@ -100,25 +100,22 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
                 ),
               ),
               SizedBox(height:10),
-              Padding(
-                padding: const EdgeInsets.only(left: 16,right: 16),
-                child: Expanded(
-                  child: Obx(() {
-                    if (wishListController.isLoading.isTrue) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    return ListView(
-                      children: <Widget>[
-                        FriendWishItemList(
-                          wishItems: wishListController.wishItems,
-                          friendID: widget.friendID,
-                          searchText: _searchText,
-                          friendName: widget.friendName,
-                        ),
-                      ],
-                    );
-                  }),
-                ),
+              Expanded(
+                child: Obx(() {
+                  if (wishListController.isLoading.isTrue) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView(
+                    children: <Widget>[
+                      FriendWishItemList(
+                        wishItems: wishListController.wishItems,
+                        friendID: widget.friendID,
+                        searchText: _searchText,
+                        friendName: widget.friendName,
+                      ),
+                    ],
+                  );
+                }),
               ),
             ],
           ),
