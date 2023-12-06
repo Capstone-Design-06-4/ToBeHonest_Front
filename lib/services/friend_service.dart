@@ -22,15 +22,16 @@ Future<void> fetchFriends(String accessToken) async {
   print('사용하는 토큰: $accessToken'); // 토큰 로깅
   final url = Uri.parse('${UrlManager.baseUrl}members/friends');
   final headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",
   };
 
   try {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
       // JSON 응답을 파싱하여 Friend 객체 리스트로 변환
-      List<dynamic> friendJsonList = json.decode(response.body);
+      List<dynamic> friendJsonList = json.decode(decodedResponse);
       List<Friend> friendsList = friendJsonList.map((jsonItem) => Friend.fromJson(jsonItem)).toList();
 
 

@@ -193,10 +193,10 @@ class ThanksMessage extends StatelessWidget {
                 children: [
                   SizedBox(height: 10,),
                   Container(
-                    color: Colors.black,
                     margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
                     width: double.infinity,
                     decoration: BoxDecoration(
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(12.0), // Set border radius
                     ),
                     child: Column(
@@ -210,9 +210,6 @@ class ThanksMessage extends StatelessWidget {
                             hintText: '제목을 적어주세요!',
                             filled: true,
                             fillColor: Colors.white,
-                            border: OutlineInputBorder(
-
-                            ),
                           ),
                           keyboardType: TextInputType.text,
                         ),
@@ -228,8 +225,6 @@ class ThanksMessage extends StatelessWidget {
                         labelText: '내용을 적어주세요.',
                         filled: true,
                         fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                        ),
                       ),
                       maxLines: 5,
                     ),
