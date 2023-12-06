@@ -26,6 +26,7 @@ class MyInfoController extends GetxController {
     if(token == null) throw Exception('로그인 다시하세요.');
     myInfo.value = await getMyInfo(token);
     myInfo.refresh();
+    update();
   }
 // 필요한 경우 여기에 기타 로직 추가
 }
