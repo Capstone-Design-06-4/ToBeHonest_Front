@@ -14,6 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tobehonest/services/url_manager.dart';
+import 'package:tobehonest/services/point_service.dart';
+import 'package:tobehonest/services/login_service.dart';
+
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -135,7 +138,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       birthDate: myInfoController.myInfo.value.birthDate),
                   ),
                   SizedBox(height: 8),
-                  Obx(() => PointWidget(onTap: () => print('포인트'), point: myInfoController.myInfo.value.myPoints)),
+                  Obx(() => PointWidget(
+                      onTap: () async {
+                        print('포인트 추가해볼게');
+                        String? token = await getToken() ?? '0';
+                        await addPoint(1234, token);
+                        myInfoController.fetchMyInfo();
+                      },
+                      point: myInfoController.myInfo.value.myPoints)),
                   SizedBox(height: 8),
                   Obx(() => ItemStatusWidget(
                     progressNum: myInfoController.myInfo.value.progressNum,
