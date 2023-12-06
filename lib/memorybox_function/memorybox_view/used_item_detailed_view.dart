@@ -4,15 +4,17 @@ import 'package:tobehonest/style.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/memorybox_function/memorybox_view/used_item_contributed_view.dart';
+import 'package:tobehonest/controllers/contributor_controller.dart';
+import 'package:get/get.dart';
 
 class UsedItemDetailed extends StatelessWidget {
   final WishItem wishItem;
-
   UsedItemDetailed({required this.wishItem});
 
   @override
   Widget build(BuildContext context) {
     final double fundingProgress = wishItem.fundAmount / wishItem.itemPrice;
+    final ContributorController contributorController = Get.put(ContributorController(wishItem.wishItemId));
 
     String formatNumber(int number) {
       final formatter = NumberFormat('#,###');
@@ -191,7 +193,8 @@ class UsedItemDetailed extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await contributorController.setWishItemIDAndFetchContributors(wishItem.wishItemId);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -505,6 +505,8 @@ Future<WishItem?> getFriendWishItem(int friendID, int wishItemID, String token) 
 
       if (wishItemDetails.isNotEmpty) {
         Map<String, dynamic> wishItemJson = wishItemDetails.first;
+        wishItemJson['fundAmount'] = wishItemJson.remove('fund');
+        wishItemJson['itemPrice'] = wishItemJson.remove('total');
         WishItem wishItem = WishItem.fromJson(wishItemJson);
         return wishItem;
       } else {
