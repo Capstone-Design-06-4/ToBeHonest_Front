@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
 import '../services/login_service.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -178,7 +179,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // Check if login was successful
           if (loginSuccess) {
-            // Login successful, navigate to MyHomePage
+            Get.snackbar(
+              '로그인 성공',
+              '선물같은 하루되세요!',
+              backgroundColor: Colors.black,
+            );
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
@@ -187,7 +192,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           } else {
-            // Login failed, you can handle it here (show error message, etc.)
+            Get.snackbar(
+              '로그인 실패',
+              '이메일 또는 비밀번호가 올바르지 않습니다.',
+              snackPosition: SnackPosition.TOP,
+            );
             print('Login failed');
             // You might want to show an error message or perform other actions
           }
