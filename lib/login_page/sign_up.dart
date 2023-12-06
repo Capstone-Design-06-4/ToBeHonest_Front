@@ -62,6 +62,56 @@ class _LoginScreenState extends State<SignupScreen> {
     );
   }
 
+  Widget _buildBirthdayTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          '생일을 입력해주세요',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration:  BoxDecoration(
+            color: Color(0xFFFFFF).withAlpha(250),
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6.0,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          height: 60.0,
+          child: TextField(
+            obscureText: true,
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.cake,
+                color: Colors.black,
+              ),
+              hintText: 'ex) 0000-00-00',
+              hintStyle: TextStyle(
+                color: Colors.black,
+                fontFamily: 'OpenSans',
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildPhoneTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +150,7 @@ class _LoginScreenState extends State<SignupScreen> {
                 Icons.phone,
                 color: Colors.black,
               ),
-              hintText: '전화번호를 입력해주세요',
+              hintText: 'ex) 000-0000-0000',
               hintStyle: TextStyle(
                 color: Colors.black,
                 fontFamily: 'OpenSans',
@@ -150,7 +200,7 @@ class _LoginScreenState extends State<SignupScreen> {
                 Icons.email,
                 color: Colors.black,
               ),
-              hintText: '이메일을 입력해주세요',
+              hintText: 'ex) example@example.com',
               hintStyle: TextStyle(
                 color: Colors.black,
                 fontFamily: 'OpenSans',
@@ -262,53 +312,6 @@ class _LoginScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        child: Text(
-          '비밀번호 찾기',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRememberMeCheckbox() {
-    return Container(
-      height: 20.0,
-      child: Row(
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  _rememberMe = value!;
-                });
-              },
-            ),
-          ),
-          Text(
-            '로그인 유지하기',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildLoginBtn() {
     return Container(
@@ -427,6 +430,8 @@ class _LoginScreenState extends State<SignupScreen> {
                             children: <Widget>[
                               SizedBox(height: 30.0),
                               _buildNameTF(),
+                              SizedBox(height: 10.0),
+                              _buildBirthdayTF(),
                               SizedBox(height: 10.0),
                               _buildPhoneTF(),
                               SizedBox(height: 10.0),

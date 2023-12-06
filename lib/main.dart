@@ -47,7 +47,7 @@ void main() async {
 
   //await login('email1@example.com', 'password1');
 
-  await login('email1@example.com', 'password1');
+  //await login('email1@example.com', 'password1');
 
   //final String? token = await getToken();
   //if (token != null) {

@@ -62,7 +62,7 @@ Future<void> signup(Map<String, dynamic> user) async {
   }
 }
 
-Future<void> login(String email, String password) async {
+Future<bool> login(String email, String password) async {
   final url = Uri.parse('${UrlManager.baseUrl}login');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'email': email, 'password': password});
@@ -72,19 +72,22 @@ Future<void> login(String email, String password) async {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final accessToken = data['accessToken'];
-      //print('Token before saved: ' + accessToken);
       await saveToken(accessToken);
       await saveEmail(email);
       await getMyInfoFirst(email, accessToken);
       print('로그인 성공: ${response.statusCode}');
-      //print('Token saved: ' + accessToken);
+      return true; // Return true for successful login
     } else {
       print('로그인 실패: ${response.statusCode}');
+
+      return false; // Return false for failed login
     }
   } catch (e) {
     print('오류 발생: $e');
+    return false; // Return false for errors during login
   }
 }
+
 
 Future<void> getMyInfoFirst(String email, String token) async {
   final String url = '${UrlManager.baseUrl}members/search/email/$email';

@@ -7,6 +7,7 @@ import 'package:tobehonest/login_page/sign_up.dart';
 import 'package:tobehonest/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:tobehonest/services/login_service.dart';
 
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   Widget _buildEmailTF() {
     return Column(
@@ -51,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           height: 60.0,
           child: TextField(
+            controller: _emailController, // Add this line
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.black,
@@ -99,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           height: 60.0,
           child: TextField(
+            controller: _passwordController, // Add this line
             obscureText: !_rememberMe,
             style: TextStyle(
               color: Colors.black,
@@ -159,16 +164,33 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          print('Login Button Pressed');
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation1, animation2) => MyHomePage(),
-              transitionDuration:
-                  Duration.zero, // Set transition duration to zero
-            ),
-          );
+        onPressed: () async {
+          // 로그인 버튼이 눌렸을 때 실행되는 로직
+          String email = _emailController.text;
+          String password = _passwordController.text;
+
+          // 입력된 이메일과 비밀번호 출력
+          print('Email: $email');
+          print('Password: $password');
+
+          // Attempt to log in
+          bool loginSuccess = await login(email, password);
+
+          // Check if login was successful
+          if (loginSuccess) {
+            // Login successful, navigate to MyHomePage
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => MyHomePage(),
+                transitionDuration: Duration.zero,
+              ),
+            );
+          } else {
+            // Login failed, you can handle it here (show error message, etc.)
+            print('Login failed');
+            // You might want to show an error message or perform other actions
+          }
         },
         style: ElevatedButton.styleFrom(
           elevation: 5.0,
@@ -190,6 +212,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 
   Widget _buildSignupBtn() {
     return GestureDetector(
