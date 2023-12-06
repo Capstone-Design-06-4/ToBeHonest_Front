@@ -182,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Get.snackbar(
               '로그인 성공',
               '선물같은 하루되세요!',
-              backgroundColor: Colors.black,
+              snackPosition: SnackPosition.TOP,
             );
             Navigator.pushReplacement(
               context,
