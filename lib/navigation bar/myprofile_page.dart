@@ -25,6 +25,15 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final MyInfoController myInfoController = Get.put(MyInfoController());
+
+  Future<void> _update() async {
+    try {
+      await myInfoController.fetchMyInfo();
+    } catch (e) {
+      print('오류 발생: $e');
+    }
+  }
+
   Future<void> logout() async {
     try {
       // 사용자 관련 정보 모두 삭제

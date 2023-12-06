@@ -8,6 +8,7 @@ import 'package:tobehonest/giftbox_function/giftbox_widgets/com_item_list_widget
 import 'package:tobehonest/giftbox_function/giftbox_view/com_item_detailed_view.dart';
 import 'package:get/get.dart';
 
+
 class GiftBoxPage extends StatefulWidget {
   @override
   _GiftBoxPageState createState() => _GiftBoxPageState();
@@ -21,12 +22,20 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
     setState(() {
       _searchText = text;
     });
-    await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
+    await _update();
   }
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> _update() async {
+    try {
+      await giftBoxController.fetchCompleteWishItems_Con(searchText: _searchText);
+    } catch (e) {
+      print('오류 발생: $e');
+    }
   }
 
   @override
