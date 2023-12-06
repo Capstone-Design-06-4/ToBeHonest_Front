@@ -518,19 +518,19 @@ Future<WishItem?> getFriendWishItem(int friendID, int wishItemID, String token) 
   }
 }
 
-Future<int> getItemProbability(int itemID, String token) async {
+Future<double> getItemProbability(int itemID, String token) async {
   final url = Uri.parse('${UrlManager.baseUrl}wishlist/check/$itemID');
   final headers = {
-    'Content-Type': 'application/json; charset=utf-8',
+    'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
   };
 
   try {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      String decodedResponse = utf8.decode(response.bodyBytes);
-      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
-      int? probability = parsedJson['percentage'];
+      //String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(response.body);
+      double? probability = parsedJson['percentage'];
       return probability ?? 0;
     } else {
       print('오류 발생: ${response.statusCode}');

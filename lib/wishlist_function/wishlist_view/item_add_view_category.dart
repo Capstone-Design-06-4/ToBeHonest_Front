@@ -8,20 +8,24 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/wishlist_function/wishlist_widgets/wishlist_add/item_add_search_widget.dart';
+import 'package:tobehonest/controllers/expect_controller.dart';
 
-class  NewItemPagebyCategory extends StatefulWidget {
+class NewItemPagebyCategory extends StatefulWidget {
   @override
-  _NewItemPagebyCateogryState createState() => _NewItemPagebyCateogryState();
+  _NewItemPagebyCategoryState createState() => _NewItemPagebyCategoryState();
 }
 
-class _NewItemPagebyCateogryState extends State< NewItemPagebyCategory> {
+class _NewItemPagebyCategoryState extends State<NewItemPagebyCategory> {
   final WishListController wishListController = Get.put(WishListController());
+  final ExpectController expectController = Get.put(ExpectController());
+
+  double? fundSucess;
   int? selectedTileIndex;
   Item? selectedItem;
 
   void _handleSearch(String text) {
     print('검색어: $text');
-    wishListController.ItemAddSearch(text);
+    wishListController.ItemAddSearchbyCategory(text);
   }
 
   @override
@@ -80,7 +84,7 @@ class _NewItemPagebyCateogryState extends State< NewItemPagebyCategory> {
                         SizedBox(width: 10,),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('상품이름을 검색해보세요!', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
+                          child: Text('카테고리로 검색해보세요!', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
                         ),
                       ],
                     ),
@@ -192,9 +196,12 @@ class _NewItemPagebyCateogryState extends State< NewItemPagebyCategory> {
                   if (selectedItem != null) {
                     print('선택한 상품 추가: ${selectedItem!.name}');
                     print('선택한 상품 가격: ${selectedItem!.price}');
+                    print('선택한 상품 id: ${selectedItem!.id}');
+                    double fundSucess = await expectController.getPercentage(selectedItem!.id);
+                    print('오류:${fundSucess}');
 
                     // 여기에 위시리스트에 추가하는 로직을 추가하세요.
-                    ModalUtils.showFriendModal(context, selectedItem!);
+                    ModalUtils.showFriendModal(context, selectedItem!,fundSucess!);
                   }
                 }
                     : null,
@@ -223,11 +230,11 @@ class _NewItemPagebyCateogryState extends State< NewItemPagebyCategory> {
 }
 
 class ModalUtils {
-  static void showFriendModal(BuildContext context, Item selectedItem) {
+  static void showFriendModal(BuildContext context, Item selectedItem, double fundSucess) {
     final WishListController wishListController = Get.put(WishListController());
     final switchController controller = Get.put(switchController());
 
-    int fundSucess = 80;
+    controller.isLiked.value = false;
 
     String formatNumber(int number) {
       final formatter = NumberFormat('#,###');
