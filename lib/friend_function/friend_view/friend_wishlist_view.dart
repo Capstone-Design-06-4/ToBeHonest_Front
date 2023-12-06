@@ -105,6 +105,15 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
                   if (wishListController.isLoading.isTrue) {
                     return Center(child: CircularProgressIndicator());
                   }
+                  Offstage(
+                    offstage: true, // 이 위젯을 레이아웃에서 제외하지만, 상태 변화는 여전히 추적
+                    child: Text(
+                      'Count: ${wishListController.count}',
+                      style: TextStyle(
+                        color: Colors.transparent, // 텍스트를 투명하게
+                      ),
+                    ),
+                  );
                   return ListView(
                     children: <Widget>[
                       FriendWishItemList(

@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tobehonest/friend_function/friend_widgets/friend_product_widget.dart';
 import 'package:tobehonest/friend_function/friend_widgets/friend_contribute_widget.dart';
 import 'package:tobehonest/controllers/friend_product_controller.dart';
+import 'package:tobehonest/controllers/friend_wishlist_controller.dart';
 
 class FriendItemDetailed extends StatefulWidget {
   final WishItem wishItem;
@@ -21,15 +22,14 @@ class FriendItemDetailed extends StatefulWidget {
 }
 
 class _ItemDetailedState extends State<FriendItemDetailed> {
-  late FriendProductController friendProductController;
+  final FriendProductController friendProductController = Get.find<FriendProductController>();
+  final FriendWishListController wishListController = Get.put(FriendWishListController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController amountController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    friendProductController =
-        Get.put(FriendProductController(widget.wishItem, widget.friendID));
   }
 
   Future<void> onContributeButtonPressed() async {
@@ -193,9 +193,9 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
 
     if (fundAmount != null && fundAmount > 0) {
       try {
-        final response =
         await contributeToFriend(wishItem, fundAmount, widget.friendID, token);
         await friendProductController.updateWishItem();
+        await wishListController.fetchFriendWishItems_Con(friendID: widget.friendID);
         // 이후의 로직은 위와 동일
       } catch (e) {
         print('오류 발생: $e');

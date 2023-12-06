@@ -17,21 +17,17 @@ class FriendProductWidget extends StatefulWidget {
 }
 
 class _FriendProductWidgetState extends State<FriendProductWidget> {
-  late FriendProductController controller;
+  final FriendProductController friendProductController = Get.find<FriendProductController>();
 
   @override
   void initState() {
     super.initState();
-    // 컨트롤러 초기화 및 상태 가져오기
-    controller =
-        Get.put(FriendProductController(widget.wishItem, widget.friendID));
-    controller.updateWishItem();
   }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final wishItem = controller.wishItem.value;
+      final wishItem = friendProductController.wishItem.value;
       double fundingProgress = wishItem.fundAmount / wishItem.itemPrice;
 
       String formatNumber(int number) {
