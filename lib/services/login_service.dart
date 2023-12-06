@@ -116,4 +116,34 @@ Future<void> getMyInfoFirst(String email, String token) async {
   } else {
     throw Exception;
   }
+
+  Future<void> removeID() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('ID');
+  }
+
+  Future<void> removeProfileImg() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('ProfileImg');
+  }
+
+  Future<void> removeEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('email');
+  }
+
+  Future<void> logout() async {
+    try {
+      // Remove all user-related information
+      await removeToken();
+      await removeEmail();
+      await removeID();
+      await removeProfileImg();
+
+      print('로그아웃 성공');
+    } catch (e) {
+      print('로그아웃 실패: $e');
+    }
+  }
+
 }

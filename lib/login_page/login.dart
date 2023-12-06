@@ -179,11 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // Check if login was successful
           if (loginSuccess) {
-            Get.snackbar(
-              '로그인 성공',
-              '선물같은 하루되세요!',
-              snackPosition: SnackPosition.TOP,
-            );
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
@@ -193,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else {
             Get.snackbar(
-              '로그인 실패',
+              '알림',
               '이메일 또는 비밀번호가 올바르지 않습니다.',
               snackPosition: SnackPosition.TOP,
             );

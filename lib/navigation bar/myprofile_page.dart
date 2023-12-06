@@ -9,6 +9,11 @@ import 'package:tobehonest/myInfo_UI/point_widget.dart';
 import 'package:tobehonest/myInfo_UI/itemStatus_widget.dart';
 import 'package:tobehonest/myInfo_UI/history_widget.dart';
 import 'package:tobehonest/controllers/myInfo_controller.dart';
+import 'package:tobehonest/services/login_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:tobehonest/services/url_manager.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -17,7 +22,40 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final MyInfoController myInfoController = Get.put(MyInfoController());
+  Future<void> logout() async {
+    try {
+      // 사용자 관련 정보 모두 삭제
+      await removeToken();
+      await removeEmail();
+      await removeID();
+      await removeProfileImg();
 
+      print('로그아웃 성공');
+      Get.offAllNamed('/login');
+      Get.snackbar(
+        '알림',
+        '로그아웃되었습니다.',
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      print('로그아웃 실패: $e');
+    }
+  }
+
+  Future<void> removeID() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('ID');
+  }
+
+  Future<void> removeProfileImg() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('ProfileImg');
+  }
+
+  Future<void> removeEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('email');
+  }
   @override
   Widget build(BuildContext context) {
     const borderColor = Color(0xFFD3D3D3);
@@ -106,6 +144,45 @@ class _ProfilePageState extends State<ProfilePage> {
                     usedMsgNum: myInfoController.myInfo.value.usedMsgNum,
                   )),
                   SizedBox(height: 8),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    print('로그아웃 버튼 클릭됨');
+
+                                      await logout();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: AppColor.backgroundColor,
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    minimumSize: Size(0, 36),
+                                  ),
+                                  child: FittedBox(
+                                    child: Text(
+                                      '로그아웃하기',
+                                      style: TextStyle(fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

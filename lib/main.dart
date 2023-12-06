@@ -71,14 +71,17 @@ class MyApp extends StatelessWidget {
           color: AppColor.backgroundColor,
         ),
         scaffoldBackgroundColor: Color(0xFFfbfbf2),
-
       ),
-      home: LoginScreen(),
-      routes: {
-      },
+      initialRoute: '/login', // Set the initial route to '/login'
+      getPages: [
+        GetPage(name: '/login', page: () => LoginScreen()),
+        GetPage(name: '/home', page: () => MyHomePage()),
+        // Add more routes as needed
+      ],
     );
   }
 }
+
 
 
 
