@@ -47,7 +47,6 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(friend.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                        SizedBox(height: 5,),
                         buildBirthdayText(friend.birthDate),
                       ],
                     ),

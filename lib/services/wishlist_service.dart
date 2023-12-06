@@ -472,6 +472,8 @@ Future<WishItem?> getMyWishItem(int wishItemID, String token) async {
 
       if (wishItemDetails.isNotEmpty) {
         Map<String, dynamic> wishItemJson = wishItemDetails.first;
+        wishItemJson['fundAmount'] = wishItemJson.remove('fund');
+        wishItemJson['itemPrice'] = wishItemJson.remove('total');
         WishItem wishItem = WishItem.fromJson(wishItemJson);
         return wishItem;
       } else {
@@ -531,7 +533,7 @@ Future<double> getItemProbability(int itemID, String token) async {
       //String decodedResponse = utf8.decode(response.bodyBytes);
       Map<String, dynamic> parsedJson = json.decode(response.body);
       double? probability = parsedJson['percentage'];
-      return probability ?? 0;
+      return probability ?? 0.0;
     } else {
       print('오류 발생: ${response.statusCode}');
       return 0; // 서버 오류가 발생했을 경우

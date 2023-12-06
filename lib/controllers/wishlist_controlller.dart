@@ -189,4 +189,28 @@ class WishListController extends GetxController {
     }
   }
 
+  Future<WishItem?> getWishItem(int wishItemID) async {
+    try {
+      isLoading(true);
+
+      String? token = await getToken();
+      print('토큰: $token');
+      if (token == null) throw Exception("토큰이 없습니다.");
+
+      // getMyWishItem의 반환값을 받아옴
+      WishItem? wishItem = await getMyWishItem(wishItemID, token);
+
+      // 반환값을 활용하도록 수정
+      if (wishItem != null) {
+        // 필요한 로직 수행
+      }
+
+      update();
+    } catch (e) {
+      print('오류 발생: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
 }
