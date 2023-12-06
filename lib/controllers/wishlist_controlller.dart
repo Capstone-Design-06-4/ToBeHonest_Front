@@ -79,6 +79,7 @@ class WishListController extends GetxController {
 
       // RxList의 refresh 메서드로 UI를 갱신
       wishItems.refresh();
+      update();
     } catch (e) {
       print('오류 발생: $e');
     } finally {
@@ -202,7 +203,7 @@ class WishListController extends GetxController {
 
       // 반환값을 활용하도록 수정
       if (wishItem != null) {
-        // 필요한 로직 수행
+        return wishItem;
       }
 
       update();
