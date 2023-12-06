@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
@@ -133,37 +135,23 @@ class ComItemDetailed extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 30,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 22,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            FractionallySizedBox(
-                              widthFactor: fundingProgress >= 1 ? 1 : fundingProgress,
-                              child: Container(
-                                height: 22,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [Colors.green, Colors.greenAccent],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0, right: 0, bottom: 10),
+                      child: LinearPercentIndicator(
+                        alignment: MainAxisAlignment.center,
+                        animation: true,
+                        animationDuration: 1200,
+                        lineHeight: 22.0,
+                        percent: 1,
+                        barRadius: Radius.circular(16.0),
+                        progressColor: Colors.green[400],
+                        linearStrokeCap: LinearStrokeCap.roundAll,  // 이 속성을 추가하여 선의 끝 부분을 둥글게 만듭니다.
+                        backgroundColor: Colors.grey[200],  // Container의 배경색과 동일한 효과를 위해 추가했습니다.
                       ),
                     ),
+
+
                     Container(
                       height: 100,
                       child: Padding(
@@ -192,7 +180,7 @@ class ComItemDetailed extends StatelessWidget {
                                       color: AppColor.textColor),
                                 ),
                                 Text(
-                                  '  쌓였어요.',
+                                  ' 가 쌓였어요.',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],

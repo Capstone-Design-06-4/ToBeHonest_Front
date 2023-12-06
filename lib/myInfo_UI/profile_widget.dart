@@ -44,25 +44,23 @@ class ProfileWidget extends StatelessWidget {
                 children: [
                   //Text(greetingMessage, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10,),
-                  Text(name, style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                  Text(name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10,),
-                  Text(DateFormat.yMd().format(birthDate), style: TextStyle(fontSize: 20)),
+                  Text(DateFormat('yyyy / MM / dd').format(birthDate), style: TextStyle(fontSize: 18)),
+
                 ],
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage: NetworkImage(profileURL),
-                  onBackgroundImageError: (exception, stackTrace) {
-                    child: CircularProgressIndicator();// 이미지 로딩 중 표시할 위젯
-                    // 이미지 로드 실패 시 처리
-                  },
-                ),
-              ],
+            SizedBox(width: 0,),
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(profileURL),
+              onBackgroundImageError: (exception, stackTrace) {
+                child: CircularProgressIndicator();// 이미지 로딩 중 표시할 위젯
+                // 이미지 로드 실패 시 처리
+              },
             ),
+            SizedBox(width: 0,),
           ],
         ),
       ),

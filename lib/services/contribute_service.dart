@@ -6,6 +6,7 @@ import './message_service.dart';
 import './login_service.dart';
 import '../models/message.dart';
 import '../models/wishItem.dart';
+import 'package:tobehonest/services/url_manager.dart';
 
 /*
  * contributeToFriend 메소드는 지정한 금액만큼 펀딩하고 축하메세지도 자동으로 전송함.
@@ -21,7 +22,7 @@ import '../models/wishItem.dart';
 
 Future<http.Response> contributeToFriend(WishItem wishItem, int fundAmount,
     int friendID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/contribution/${wishItem.wishItemId}/$fundAmount');
+  final url = Uri.parse('${UrlManager.baseUrl}contribution/${wishItem.wishItemId}/$fundAmount');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",

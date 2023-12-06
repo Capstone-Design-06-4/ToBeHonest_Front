@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class PointWidget extends StatelessWidget {
   final VoidCallback onTap;
   final int point; // 포인트를 위한 생성자 매개변수 추가
 
   PointWidget({Key? key, required this.onTap, required this.point}) : super(key: key);
+
+  String formatNumber(int number) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(number);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +51,8 @@ class PointWidget extends StatelessWidget {
                     ),
                     SizedBox(width: 20),
                     Text(
-                      '보유 포인트: ${point.toString()} 원', // 포인트를 표시
-                      style: TextStyle(fontSize: 20),
+                      '보유 포인트: ${NumberFormat('#,###').format(point)} 원',
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),

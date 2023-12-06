@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
@@ -53,6 +54,23 @@ class _ItemContributedState extends State<ItemContributed> {
         ),
         body: Column(
           children: [
+            Row(
+              children: [
+                SizedBox(width: 30),
+                FaIcon(FontAwesomeIcons.heart, color: Colors.red, size: 30),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Text(
+                      '  참여한 사람들',
+                      style: TextStyle(
+                        fontSize: 24, // 글씨 크기 조절
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
               decoration: BoxDecoration(
@@ -234,7 +252,7 @@ class ModalUtils {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 160, // 모달 높이 크기
+            height: 200, // 모달 높이 크기
             decoration: BoxDecoration(
               color: Colors.white, // 모달 배경색
               borderRadius: BorderRadius.only(
@@ -279,7 +297,7 @@ class ModalUtils {
                   ),
 
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 20),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: ElevatedButton(

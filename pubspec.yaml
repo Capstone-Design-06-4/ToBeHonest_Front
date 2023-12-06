@@ -39,7 +39,7 @@ dependencies:
   path_provider: ^2.1.1
   tuple: ^2.0.1
   intl: ^0.17.0
-  percent_indicator: ^4.0.1
+  percent_indicator: ^4.2.3
   flutter_naver_login: ^1.6.0
   kakao_flutter_sdk_user: ^1.2.1
   url_launcher: ^6.0.12  # 최신 버전을 확인하고 사용하세요

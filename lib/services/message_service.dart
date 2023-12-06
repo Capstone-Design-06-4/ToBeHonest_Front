@@ -4,9 +4,11 @@ import 'dart:io' as io;
 import 'package:path/path.dart';
 
 import '../models/message.dart'; // Ensure this is the correct import for your Message model
+import 'package:tobehonest/services/url_manager.dart';
+
 
 Future<http.Response> sendThanksMessage(Message message, List<io.File> selectedImages, String token) async {
-  final uri = Uri.parse('http://10.0.2.2:8080/message/send-thanks');
+  final uri = Uri.parse('${UrlManager.baseUrl}message/send-thanks');
   var header = {
     "Content-Type": 'multipart/form-data',
     //"Accept": 'application/json',
@@ -51,7 +53,7 @@ Future<http.Response> sendThanksMessage(Message message, List<io.File> selectedI
 }
 
 Future<void> sendCelebrateMessage(Message message, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/message/send-celebrate');
+  final url = Uri.parse('${UrlManager.baseUrl}message/send-celebrate');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
@@ -72,7 +74,7 @@ Future<void> sendCelebrateMessage(Message message, String token) async {
 }
 
 Future<List<Message>> getMessageWithFriend(int friendID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/message/find/friend-id/$friendID');
+  final url = Uri.parse('${UrlManager.baseUrl}message/find/friend-id/$friendID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -94,5 +96,34 @@ Future<List<Message>> getMessageWithFriend(int friendID, String token) async {
   } catch (e) {
     print('메세지 가져오기 오류 발생: $e');
     return [];
+  }
+}
+
+Future<Message?> getThankMessageByWishItemID(int wishItemID, String token) async {
+  final url = Uri.parse('${UrlManager.baseUrl}message/find/wish-item/$wishItemID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+  try {
+    final response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      // JSON 응답을 List 형태로 변환
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      List<dynamic> jsonData = json.decode(decodedResponse);
+      // 각 JSON 객체를 Message 객체로 변환
+      List<Message> messages = jsonData
+          .map((json) => Message.fromJson(json))
+          .where((message) => message.messageType == MessageType.THANKS_MSG)
+          .toList();
+      return messages[0];
+    } else {
+      print('메시지 가져오기에 실패했습니다. 상태 코드: ${response.statusCode}');
+      return null;
+    }
+  } catch (e) {
+    print('메세지 가져오기 오류 발생: $e');
+    return null;
   }
 }

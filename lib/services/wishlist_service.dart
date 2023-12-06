@@ -11,6 +11,8 @@ import '../models/item.dart';
 import '../models/wishItem.dart';
 
 import './login_service.dart';
+import 'package:tobehonest/services/url_manager.dart';
+
 
 /*
  * wishlist_service 설명
@@ -204,7 +206,7 @@ Future<List<WishItem>> getFriendWishItems() async {
 Future<void> fetchWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if (memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/$memberID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/all/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -231,7 +233,7 @@ Future<void> fetchWishItems(String token) async {
 Future<void> fetchProgressWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if (memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$memberID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/progress/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -258,7 +260,7 @@ Future<void> fetchProgressWishItems(String token) async {
 Future<void> fetchCompletedWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if (memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/completed/$memberID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/completed/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -286,7 +288,7 @@ Future<void> fetchCompletedWishItems(String token) async {
 Future<void> fetchUsedWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if (memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$memberID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/used/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -316,7 +318,7 @@ Future<void> fetchUsedWishItems(String token) async {
 Future<void> fetchThankWishItems(String token) async {
   final String memberID = await getID() ?? '0';
   if (memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/used/$memberID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/used/$memberID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -344,7 +346,7 @@ Future<void> fetchThankWishItems(String token) async {
 }
 
 Future<void> fetchFriendWishItems(int friendID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/progress/$friendID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/progress/$friendID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -369,7 +371,7 @@ Future<void> fetchFriendWishItems(int friendID, String token) async {
 }
 
 Future<List<WishItem>> getFriendWishItemByWishItemID(int friendID, int wishItemID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/all/$friendID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/all/$friendID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -399,7 +401,7 @@ Future<List<WishItem>> getFriendWishItemByWishItemID(int friendID, int wishItemI
 }
 
 Future<void> addWishlist(int itemID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/add/$itemID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/add/$itemID');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
@@ -417,7 +419,7 @@ Future<void> addWishlist(int itemID, String token) async {
 }
 
 Future<void> deleteWishlist(int wishItemID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/delete/$wishItemID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/delete/$wishItemID');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
@@ -435,7 +437,7 @@ Future<void> deleteWishlist(int wishItemID, String token) async {
 }
 
 Future<void> useWishlist(int wishItemID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/use/$wishItemID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/use/$wishItemID');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $token",
@@ -455,7 +457,7 @@ Future<void> useWishlist(int wishItemID, String token) async {
 Future<WishItem?> getMyWishItem(int wishItemID, String token) async {
   String memberID = await getID() ?? '0';
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/details/$memberID/$wishItemID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/details/$memberID/$wishItemID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -486,7 +488,7 @@ Future<WishItem?> getMyWishItem(int wishItemID, String token) async {
 }
 
 Future<WishItem?> getFriendWishItem(int friendID, int wishItemID, String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/details/$friendID/$wishItemID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/details/$friendID/$wishItemID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
@@ -513,5 +515,53 @@ Future<WishItem?> getFriendWishItem(int friendID, int wishItemID, String token) 
   } catch (e) {
     print('예외 발생: $e');
     return null; // 예외가 발생했을 경우
+  }
+}
+
+Future<int> getItemProbability(int itemID, String token) async {
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/check/$itemID');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
+      int? probability = parsedJson['percentage'];
+      return probability ?? 0;
+    } else {
+      print('오류 발생: ${response.statusCode}');
+      return 0; // 서버 오류가 발생했을 경우
+    }
+  } catch (e) {
+    print('예외 발생: $e');
+    return 0; // 예외가 발생했을 경우
+  }
+}
+
+Future<int> getMyExpected(String token) async {
+  final url = Uri.parse('${UrlManager.baseUrl}members/myExpected');
+  final headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': "Bearer $token",
+  };
+
+  try {
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      String decodedResponse = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> parsedJson = json.decode(decodedResponse);
+      int? probability = parsedJson['percentage'];
+      return probability ?? 0;
+    } else {
+      print('오류 발생: ${response.statusCode}');
+      return 0; // 서버 오류가 발생했을 경우
+    }
+  } catch (e) {
+    print('예외 발생: $e');
+    return 0; // 예외가 발생했을 경우
   }
 }

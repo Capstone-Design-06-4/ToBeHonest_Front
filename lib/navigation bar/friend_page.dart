@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tobehonest/style.dart';
 import 'package:get/get.dart';
 import '../controllers/friend_search_controller.dart';
+import 'package:tobehonest/controllers/friend_add_controller.dart';
 import '../friend_function/friend_widgets/friend_list_widget.dart';
 import '../friend_function/friend_widgets/friend_search_widget.dart';
 import '../friend_function/friend_widgets/friend_add_click.dart';
@@ -17,6 +18,7 @@ class FriendPage extends StatefulWidget {
 class _FriendPageState extends State<FriendPage> {
   //final FriendController friendController = Get.find<FriendController>();
   final FriendController friendController = Get.put(FriendController());
+  final AddController addController = Get.put(AddController());
 
   @override
   void initState() {

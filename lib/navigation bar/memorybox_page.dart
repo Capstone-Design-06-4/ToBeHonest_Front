@@ -22,7 +22,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
   final ThankBoxController thankBoxController = Get.put(ThankBoxController());
 
   // 필터 옵션 목록
-  List<String> filterOptions = ['작성하지 않은 선물리스트', '작성한 선물리스트'];
+  List<String> filterOptions = ['작성 안한 선물', '작성한 선물'];
 
   // 선택된 필터 옵션을 저장하는 변수
   String? selectedFilter;
@@ -134,7 +134,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                       ),
                       // 선택된 필터에 따른 내용 표시
                       Expanded(
-                        child: selectedFilter == '작성하지 않은 선물리스트'
+                        child: selectedFilter == '작성 안한 선물'
                             ? Obx(() {
                           if (memoryBoxController.isLoading.isTrue) {
                             return Center(child: CircularProgressIndicator());

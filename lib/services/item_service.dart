@@ -8,6 +8,8 @@ import 'package:tuple/tuple.dart';
 import '../models/friend.dart';
 import '../models/item.dart';
 import './login_service.dart';
+import 'package:tobehonest/services/url_manager.dart';
+
 
 /*
  * wishlist_service 설명
@@ -41,7 +43,7 @@ Future<List<Item>> getAllItems() async {
 }
 
 Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
-  final url = Uri.parse('http://10.0.2.2:8080/items/search/$keyword');
+  final url = Uri.parse('${UrlManager.baseUrl}items/search/$keyword');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",
@@ -69,7 +71,7 @@ Future<List<Item>> findItemByKeyword(String keyword, String accessToken) async {
 }
 
 Future<List<Item>> findItemByCategory(String category, String accessToken) async {
-  final url = Uri.parse('http://10.0.2.2:8080/items/categories/search/$category');
+  final url = Uri.parse('${UrlManager.baseUrl}items/categories/search/$category');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $accessToken",

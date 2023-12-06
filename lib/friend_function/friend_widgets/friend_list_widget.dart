@@ -46,22 +46,35 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(friend.birthDate, style: const TextStyle(fontSize: 12.0, color: Colors.grey)),
                         Text(friend.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+                        SizedBox(height: 5,),
+                        buildBirthdayText(friend.birthDate),
                       ],
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(
-                      friend.myGive ? FontAwesomeIcons.gift : FontAwesomeIcons.gifts,
-                      color: friend.myGive ? Colors.red : Colors.grey,
+                    Column(
+                      children: [
+                        Icon(
+                          friend.myGive ? FontAwesomeIcons.smile : FontAwesomeIcons.gift,
+                          color: friend.myGive ? AppColor.swatchColor : Colors.grey,
+                        ),
+                        SizedBox(height: 5,),
+                        Text("GIVE"),
+                      ],
                     ),
                     const SizedBox(width: 30.0),
-                    Icon(
-                      friend.myTake ? FontAwesomeIcons.gift : FontAwesomeIcons.gifts,
-                      color: friend.myTake ? Colors.green : Colors.grey,
+                    Column(
+                      children: [
+                        Icon(
+                          friend.myTake ? FontAwesomeIcons.smile : FontAwesomeIcons.gift,
+                          color: friend.myTake ? AppColor.swatchColor : Colors.grey,
+                        ),
+                        SizedBox(height: 5,),
+                        Text("TAKE"),
+                      ],
                     ),
                     const SizedBox(width: 35.0),
                     const Icon(Icons.arrow_forward_ios, size: 15.0, color: Colors.grey),
@@ -114,32 +127,72 @@ class ModalUtils {
                   color: Colors.white,
                 ),
                 child: Center(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                    leading: CircleAvatar(
-                      backgroundColor: AppColor.swatchColor,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        backgroundImage: NetworkImage(friend.profileURL), // Provide the friend's profile image URL
-                        radius: 60.0,
-                      ),
-                    ),
-                    title: Text(
-                      friend.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                    subtitle: Text(friend.birthDate),
-                    trailing: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.clear, // You can change this to any other icon
-                        color: Colors.black,
-                      ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: AppColor.swatchColor,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black,
+                            backgroundImage: NetworkImage(friend.profileURL), // Provide the friend's profile image URL
+                            radius: 60.0,
+                          ),
+                        ),
+                        SizedBox(width: 16.0), // Adjust the spacing between CircleAvatar and Text widgets
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10,),
+                            Text(
+                              friend.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                            buildBirthdayText(friend.birthDate), // 수정된 부분
+                          ],
+                        ),
+                        SizedBox(width: 30,),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                SizedBox(height: 10,),
+                                Icon(
+                                  friend.myGive ? FontAwesomeIcons.check : FontAwesomeIcons.gift,
+                                  color: friend.myGive ? Colors.green : Colors.grey,
+                                ),
+                                SizedBox(height: 5,),
+                                Text(" GIVE"),
+                              ],
+                            ),
+                            const SizedBox(width: 20.0),
+                            Column(
+                              children: [
+                                SizedBox(height: 10,),
+                                Icon(
+                                  friend.myTake ? FontAwesomeIcons.check : FontAwesomeIcons.gift,
+                                  color: friend.myTake ? Colors.green : Colors.grey,
+                                ),
+                                SizedBox(height: 5,),
+                                Text(" TAKE"),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(), // Add this to provide space between text and trailing icon
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.clear, // You can change this to any other icon
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -225,4 +278,21 @@ class ModalUtils {
         backgroundColor: Colors.transparent
     );
   }
+}
+
+Widget buildBirthdayText(String birthDateString) {
+  // 생일 문자열을 DateTime 객체로 파싱
+  DateTime birthDate = DateTime.parse(birthDateString);
+
+  // 월과 일을 추출
+  int month = birthDate.month;
+  int day = birthDate.day;
+
+  // 최종적으로 텍스트로 표시할 문자열 생성
+  String displayText = '$month월 $day일';
+
+  return Text(
+    displayText,
+    style: const TextStyle(fontSize: 14.0, color: Colors.black),
+  );
 }

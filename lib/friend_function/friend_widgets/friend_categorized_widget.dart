@@ -14,7 +14,7 @@ class FriendCategorized extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         decoration: const BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 2.0, color: Colors.black),
+            bottom: BorderSide(width: 2.0, color: Colors.grey),
           ),
         ),
         child: Row(

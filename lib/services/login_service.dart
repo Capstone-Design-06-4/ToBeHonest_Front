@@ -3,6 +3,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tobehonest/services/url_manager.dart';
+
 
 Future<void> saveID(String ID) async {
   final prefs = await SharedPreferences.getInstance();
@@ -50,7 +52,7 @@ Future<void> removeToken() async {
 }
 
 Future<void> signup(Map<String, dynamic> user) async {
-  var url = Uri.parse('http://10.0.2.2:8080/signup');
+  var url = Uri.parse('${UrlManager.baseUrl}signup');
   var response = await http.post(url, body: json.encode(user), headers: {'Content-Type': 'application/json'});
 
   if (response.statusCode == 200) {
@@ -61,7 +63,7 @@ Future<void> signup(Map<String, dynamic> user) async {
 }
 
 Future<void> login(String email, String password) async {
-  final url = Uri.parse('http://10.0.2.2:8080/login');
+  final url = Uri.parse('${UrlManager.baseUrl}login');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'email': email, 'password': password});
 
@@ -85,7 +87,7 @@ Future<void> login(String email, String password) async {
 }
 
 Future<void> getMyInfoFirst(String email, String token) async {
-  final String url = 'http://10.0.2.2:8080/members/search/email/$email';
+  final String url = '${UrlManager.baseUrl}members/search/email/$email';
   final response = await http.get(
     Uri.parse(url),
     headers: {

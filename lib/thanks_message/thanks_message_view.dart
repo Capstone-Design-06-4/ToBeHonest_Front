@@ -13,6 +13,7 @@ import '../services/login_service.dart';
 import '../services/message_service.dart';
 import 'package:tobehonest/controllers/memorybox_controller.dart';
 import 'package:tobehonest/controllers/usedbox_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ThanksMessage extends StatelessWidget {
   final WishItem wishItem; // WishItem 인스턴스를 필수 파라미터로 추가
@@ -91,16 +92,22 @@ class ThanksMessage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: Text(
-                    '     고마운 사람들을 위해..',
-                    style: TextStyle(
-                      fontSize: 24, // 글씨 크기 조절
+              Row(
+                children: [
+                  SizedBox(width: 30),
+                  FaIcon(FontAwesomeIcons.heart, color: Colors.red, size: 30),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                        '  메시지를 작성해보아요!',
+                        style: TextStyle(
+                          fontSize: 24, // 글씨 크기 조절
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
 
               Container(
@@ -182,39 +189,55 @@ class ThanksMessage extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: titleController,
-                      style: const TextStyle(fontSize: 14),
+              Column(
+                children: [
+                  SizedBox(height: 10,),
+                  Container(
+                    color: Colors.black,
+                    margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0), // Set border radius
+                    ),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: titleController,
+                          style: const TextStyle(fontSize: 18),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                            prefixIcon: const Icon(Icons.title, size: 30),
+                            hintText: '제목을 적어주세요!',
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+
+                            ),
+                          ),
+                          keyboardType: TextInputType.text,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: TextFormField(
+                      controller: textEditingController,
+                      style: const TextStyle(fontSize: 16),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                        prefixIcon: const Icon(Icons.title, size: 30),
-                        hintText: '제목을 적어주세요!',
+                        labelText: '내용을 적어주세요.',
                         filled: true,
                         fillColor: Colors.white,
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                        ),
                       ),
-                      keyboardType: TextInputType.text,
+                      maxLines: 5,
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: TextFormField(
-                  controller: textEditingController,
-                  decoration: InputDecoration(
-                    labelText: '내용을 적어주세요.',
-                    border: OutlineInputBorder(),
                   ),
-                  maxLines: 5,
-                ),
+                ],
               ),
-              SizedBox(height: 20,),
+
+              SizedBox(height: 40,),
               Container(
                 width: 200,
                 height: 200,
@@ -236,6 +259,8 @@ class ThanksMessage extends StatelessWidget {
                           titleController.text,
                           textEditingController.text,
                           wishItem);
+                      Get.snackbar(
+                          "알림", "감사메시지가 전송되었습니다.", snackPosition: SnackPosition.TOP);
                       Navigator.pop(context); // 현재 페이지 닫기
                       Navigator.pop(context); // 이전 페이지 닫기
                       Navigator.pop(context);

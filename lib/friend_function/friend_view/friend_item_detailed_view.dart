@@ -216,7 +216,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(120),
+          preferredSize: Size.fromHeight(80),
           child: AppBar(
             automaticallyImplyLeading: false,
             leadingWidth: 50,

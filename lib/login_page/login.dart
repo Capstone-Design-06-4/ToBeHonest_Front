@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tobehonest/style.dart';
-import 'package:tobehonest/login_page/sigun_up.dart';
+import 'package:tobehonest/login_page/sign_up.dart';
 import 'package:tobehonest/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -424,14 +424,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            '원하는 선물을 받고!\n원하는 만큼 펀딩하자!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0, // Adjust the font size as needed
-                              fontFamily:
-                                  'YourFontFamily', // Specify your desired font family
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black12,  // 배경색 설정
+                              borderRadius: BorderRadius.circular(12.0),  // 둥근 모서리 설정
+                            ),
+                            padding: EdgeInsets.all(8.0),  // 내부 여백 설정
+                            child: Text(
+                              '원하는 선물을 받고!\n원하는 만큼 펀딩하자!',
+                              style: TextStyle( fontSize: 16, color: Colors.white),  // 텍스트 스타일 설정
                             ),
                           ),
                           SizedBox(height: 30.0),
@@ -453,7 +454,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: _buildEmailTF(),
                             ),
                             SizedBox(
-                              height: 30.0,
+                              height: 20.0,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(

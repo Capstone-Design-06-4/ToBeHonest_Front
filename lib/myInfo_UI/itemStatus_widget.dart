@@ -86,12 +86,12 @@ class ItemStatusWidget extends StatelessWidget {
             SizedBox(height: 10),
             Text(
               title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, ),
             ),
             SizedBox(height: 5),
             Text(
               '${count}개',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, ),
             ),
           ],
         ),

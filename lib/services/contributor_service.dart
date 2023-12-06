@@ -13,6 +13,8 @@ import '../models/contributor.dart';
 
 import './login_service.dart';
 import './friend_service.dart';
+import 'package:tobehonest/services/url_manager.dart';
+
 
 /*
  * await fetchContributorByWishItemID(1, token);
@@ -39,7 +41,7 @@ Future<List<Contributor>> getAllContributors() async {
 Future<void> fetchContributorByWishItemID(int wishItemID, String token) async {
   String memberID = await getID() ?? '0';
   if(memberID == '0') throw Exception('다시 로그인해주세요.');
-  final url = Uri.parse('http://10.0.2.2:8080/wishlist/details/$memberID/$wishItemID');
+  final url = Uri.parse('${UrlManager.baseUrl}wishlist/details/$memberID/$wishItemID');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",

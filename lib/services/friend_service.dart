@@ -9,6 +9,8 @@ import 'package:tuple/tuple.dart';
 
 import '../models/friend.dart';
 import './login_service.dart';
+import 'package:tobehonest/services/url_manager.dart';
+
 
 // Hive 초기화 및 어댑터 등록
 void setupHive() async {
@@ -18,7 +20,7 @@ void setupHive() async {
 
 Future<void> fetchFriends(String accessToken) async {
   print('사용하는 토큰: $accessToken'); // 토큰 로깅
-  final url = Uri.parse('http://10.0.2.2:8080/members/friends');
+  final url = Uri.parse('${UrlManager.baseUrl}members/friends');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $accessToken",
@@ -60,13 +62,13 @@ Future<void> saveFriendsToLocal(dynamic friends) async {
   } else {
     throw ArgumentError('The argument must be a Friend or List<Friend>');
   }
-  await box.close();
+  //await box.close();
 }
 
 Future<List<Friend>> getAllFriends() async {
   var box = await Hive.openBox<Friend>('friendsBox');
   List<Friend> friends = box.values.toList();
-  await box.close();
+  //await box.close();
   return friends;
 }
 
@@ -77,7 +79,7 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
   print('검색어: $startsWith'); // 검색어 로깅
 // HTTP 요청 코드...
 
-  final String url = 'http://10.0.2.2:8080/members/friends/searchId/$startsWith';
+  final String url = '${UrlManager.baseUrl}members/friends/searchId/$startsWith';
   final response = await http.get(
     Uri.parse(url),
     headers: {
@@ -115,7 +117,7 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
 // 이메일을 통해 친구를 검색하고 결과를 반환하는 비동기 함수
 Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) async {
   // 서버 API 엔드포인트 URL을 생성합니다.
-  final String url = 'http://10.0.2.2:8080/members/search/email/$email';
+  final String url = '${UrlManager.baseUrl}members/search/email/$email';
   print('서버 URL: $url'); // URL 값을 로그에 출력
 
   // HTTP GET 요청을 보냅니다.
@@ -160,7 +162,7 @@ Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) asy
 
 
 Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) async {
-  final String url = 'http://10.0.2.2:8080/members/search/phoneNumber/$phone';
+  final String url = '${UrlManager.baseUrl}members/search/phoneNumber/$phone';
   final response = await http.get(
     Uri.parse(url),
     headers: {
@@ -193,7 +195,7 @@ Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) asy
 }
 
 Future<void> addFriend(String friendID, String accessToken) async {
-  final url = Uri.parse('http://10.0.2.2:8080/members/friends/add/$friendID');
+  final url = Uri.parse('${UrlManager.baseUrl}members/friends/add/$friendID');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': "Bearer $accessToken",
@@ -205,7 +207,7 @@ Future<void> addFriend(String friendID, String accessToken) async {
       // JSON 응답을 파싱하여 Friend 객체 리스트로 변환
       dynamic friendJson = json.decode(response.body);
       Friend friend = Friend.fromJson(friendJson);
-      saveFriendsToLocal(friend);
+      await saveFriendsToLocal(friend);
       print('친구 추가 성공');
     } else {
       print('친구 추가 실패: ${response.statusCode}');

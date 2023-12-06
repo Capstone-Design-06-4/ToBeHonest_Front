@@ -33,7 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.only(left: 10.0),
             ),
             backgroundColor: AppColor.backgroundColor,
-            //title: Text('${widget.friendName} 님의 위시리스트', style: TextStyle(color: Colors.white)),
           ),
         ),
         body: Column(
@@ -70,9 +69,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    SizedBox(height:30),
-                    Text('오늘도 선물같은 하루되세요!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
-                    SizedBox(height:30),
+                    SizedBox(height:20),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black12,  // 배경색 설정
+                        borderRadius: BorderRadius.circular(12.0),  // 둥근 모서리 설정
+                      ),
+                      padding: EdgeInsets.all(8.0),  // 내부 여백 설정
+                      child: Text(
+                        '오늘도 선물같은 하루되세요!',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),  // 텍스트 스타일 설정
+                      ),
+                    ),
+                    SizedBox(height:15),
                   ],
                 ),
               ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
+import 'package:tobehonest/models/message.dart';
 import 'package:tobehonest/controllers/wishlist_controlller.dart';
 import 'package:tobehonest/controllers/contributor_controller.dart';
 import 'package:tobehonest/navigation bar/wishlist_page.dart';
@@ -11,10 +13,9 @@ import 'package:tobehonest/memorybox_function/memorybox_view/messaged_show_view.
 
 class MessagedShowPage extends StatefulWidget {
   final WishItem wishItem;
-  late ContributorController contributorController;
-  final WishListController wishListController = Get.put(WishListController());
+  final Message message;
 
-  MessagedShowPage({required this.wishItem});
+  MessagedShowPage({required this.wishItem, required this.message});
 
   @override
   _MessagedShowPageState createState() => _MessagedShowPageState();
@@ -24,8 +25,6 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
-    widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {
@@ -55,16 +54,22 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
         ),
         body: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                child: Text(
-                  '     보낸 메시지',
-                  style: TextStyle(
-                    fontSize: 24, // 글씨 크기 조절
+            Row(
+              children: [
+                SizedBox(width: 30),
+                FaIcon(FontAwesomeIcons.heart, color: Colors.red, size: 30),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Text(
+                      '  추억이 담긴 메시지',
+                      style: TextStyle(
+                        fontSize: 24, // 글씨 크기 조절
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -145,15 +150,17 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                 ),
               ),
             ),
+            SizedBox(height: 10,),
             Container(
               margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
               width: double.infinity,
               decoration: BoxDecoration(
+                color: Colors.white,
                 border: Border.all(
                   color: Colors.grey,  // 원하는 테두리 색상 설정
                   width: 1.0,  // 원하는 테두리 두께 설정
                 ),
-                borderRadius: BorderRadius.circular(8.0),  // 원하는 테두리의 둥근 정도 설정
+                borderRadius: BorderRadius.circular(0.0),  // 원하는 테두리의 둥근 정도 설정
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -169,7 +176,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '제목입니다',
+                          widget.message.title,
                           style: const TextStyle(fontSize: 18),
                           textAlign: TextAlign.right,  // 텍스트를 우측 정렬로 설정
                         ),
@@ -181,30 +188,50 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
             ),
             Container(
               margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
-              width: double.infinity,  // 원하는 가로 크기 설정
-              height: 230,  // 원하는 세로 크기 설정
+              width: double.infinity,
               decoration: BoxDecoration(
+                color: Colors.white,
                 border: Border.all(
-                  color: Colors.grey,  // 원하는 테두리 색상 설정
-                  width: 1.0,  // 원하는 테두리 두께 설정
+                  color: Colors.grey,
+                  width: 1.0,
                 ),
-                borderRadius: BorderRadius.circular(8.0),  // 원하는 테두리의 둥근 정도 설정
+                borderRadius: BorderRadius.circular(0),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(width: 8),
                     Expanded(
                       child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          '미안하다 이거 보여주려고 어그로끌었다.. 나루토 사스케 싸움수준 ㄹㅇ실화냐? 진짜 세계관최강자들의 싸움이다.. '
-                              '그찐따같던 나루토가 맞나? 진짜 나루토는 전설이다..진짜옛날에 맨날나루토봘는데 왕같은존재인 호카게 되서 세계최강 전설적인 영웅이된'
-                              '나루토보면 진짜내가다 감격스럽고 나루토 노래부터 명장면까지 가슴울리는장면들이 뇌리에 스치면서 가슴이 웅장해진다.. ',
-                          style: const TextStyle(fontSize: 16),
-                          textAlign: TextAlign.left,
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,  // Column의 크기를 최소로 유지
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 125,
+                              height: 125,
+                              margin: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    widget.message.messageImgURLs.isEmpty
+                                        ? "https://via.placeholder.com/200"
+                                        : widget.message.messageImgURLs[0],
+                                  ),
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              widget.message.contents,
+                              style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.left,
+                            ),
+                            // 추가적인 위젯을 여기에 추가할 수 있습니다.
+                          ],
                         ),
                       ),
                     ),
@@ -212,30 +239,8 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                 ),
               ),
             ),
-            Container(
-              height: 130,  // 그리드뷰의 높이 설정
-              child: GridView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                ),
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage('https://via.placeholder.com/200'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(height: 15,),
+
+            SizedBox(height: 50,),
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
@@ -272,7 +277,6 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15,)
                 ],
               ),
             ),

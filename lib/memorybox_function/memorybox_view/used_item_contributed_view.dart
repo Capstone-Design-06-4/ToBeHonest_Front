@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
@@ -54,16 +55,22 @@ class _ComItemContributedState extends State<UsedItemContributed> {
         ),
         body: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                child: Text(
-                  '     참여한 사람들',
-                  style: TextStyle(
-                    fontSize: 24, // 글씨 크기 조절
+            Row(
+              children: [
+                SizedBox(width: 30),
+                FaIcon(FontAwesomeIcons.heart, color: Colors.red, size: 30),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Text(
+                      '  참여한 사람들',
+                      style: TextStyle(
+                        fontSize: 24, // 글씨 크기 조절
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),

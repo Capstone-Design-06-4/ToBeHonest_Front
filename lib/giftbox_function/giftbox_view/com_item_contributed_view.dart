@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/models/wishItem.dart';
@@ -111,16 +112,22 @@ class _ComItemContributedState extends State<ComItemContributed> {
         ),
         body: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                child: Text(
-                  '     참여한 사람들',
-                  style: TextStyle(
-                    fontSize: 24, // 글씨 크기 조절
+            Row(
+              children: [
+                SizedBox(width: 30),
+                FaIcon(FontAwesomeIcons.heart, color: Colors.red, size: 30),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Text(
+                      '  참여한 사람들',
+                      style: TextStyle(
+                        fontSize: 24, // 글씨 크기 조절
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -302,7 +309,7 @@ class ModalUtils {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 150, // 모달 높이 크기
+            height: 200, // 모달 높이 크기
             decoration: BoxDecoration(
               color: Colors.white, // 모달 배경색
               borderRadius: BorderRadius.only(
@@ -320,6 +327,7 @@ class ModalUtils {
             ),
             child: Column(
               children: [
+                SizedBox(height: 10,),
                 Container(
                   height: 70.0,
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -331,7 +339,10 @@ class ModalUtils {
                         child: Icon(Icons.question_mark, color: Colors.white),
                       ),
                       title: Text('계좌로 송금하시겠어요?',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      subtitle: Text('상품을 직접 구매해보세요!',
+                        style: TextStyle(fontSize: 16),
                       ),
                       trailing: IconButton(
                         icon: Icon(Icons.clear),
@@ -343,6 +354,7 @@ class ModalUtils {
                   ),
 
                 ),
+                SizedBox(height: 20,),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: ElevatedButton(

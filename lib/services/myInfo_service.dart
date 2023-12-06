@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:io' as io;
 import 'package:path/path.dart';
+import 'package:tobehonest/services/url_manager.dart';
+
 
 Future<MyInfo> getMyInfo(String token) async {
-  final url = Uri.parse('http://10.0.2.2:8080/members/detail-information');
+  final url = Uri.parse('${UrlManager.baseUrl}members/detail-information');
   final headers = {
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': "Bearer $token",
