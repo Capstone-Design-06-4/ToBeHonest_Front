@@ -24,8 +24,8 @@ class _ComItemContributedState extends State<UsedItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
-    widget.contributorController.setWishItemIDAndFetchContributors();
+    widget.contributorController = Get.find<ContributorController>();
+    //widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {
@@ -151,7 +151,7 @@ class _ComItemContributedState extends State<UsedItemContributed> {
                 ),
               ),
             ),
-            Container(
+            Obx(() => Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -169,7 +169,7 @@ class _ComItemContributedState extends State<UsedItemContributed> {
                   ),
                 ],
               ),
-            ),
+            )),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {

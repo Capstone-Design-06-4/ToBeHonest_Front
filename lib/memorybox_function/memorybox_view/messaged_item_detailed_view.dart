@@ -4,8 +4,9 @@ import 'package:tobehonest/style.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/giftbox_function/giftbox_view/com_item_contributed_view.dart';
-
 import 'messaged_item_contributed_view.dart';
+import 'package:tobehonest/controllers/contributor_controller.dart';
+import 'package:get/get.dart';
 
 class MessagedItemDetailed extends StatelessWidget {
   final WishItem wishItem;
@@ -15,6 +16,7 @@ class MessagedItemDetailed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double fundingProgress = wishItem.fundAmount / wishItem.itemPrice;
+    final ContributorController contributorController = Get.put(ContributorController(wishItem.wishItemId));
 
     String formatNumber(int number) {
       final formatter = NumberFormat('#,###');
@@ -187,7 +189,8 @@ class MessagedItemDetailed extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await contributorController.setWishItemIDAndFetchContributors(wishItem.wishItemId);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
