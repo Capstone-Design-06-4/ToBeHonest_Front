@@ -8,7 +8,7 @@ import '../models/message.dart';
 class MessageController extends GetxController {
   var friendID = 0.obs;// 친구 목록을 저장하는 RxList
   var isLoading = false.obs; // 로딩 상태를 나타내는 RxBool
-  var messages = <Message>[]; // Message의 리스트로 messages를 정의
+  var messages = <Message>[].obs; // Message의 리스트로 messages를 정의
 
   MessageController(int friendID) {
     this.friendID.value = friendID;
@@ -20,19 +20,26 @@ class MessageController extends GetxController {
     await getMessageList(friendID.value);
   }
 
-  Future<void> getMessageList(friendID) async {
+  Future<void> setFriendIDAndRefresh(int friendID) async {
+    this.friendID.value = friendID;
+    await getMessageList(friendID);
+  }
+
+  Future<void> getMessageList(int friendID) async {
     isLoading(true); // 로딩 상태를 true로 설정
     try {
       String? token = await getToken();
       print('토큰: $token'); // 로그인 서비스에서 토큰을 가져옵니다.
       if (token != null) {
-        messages = await getMessageWithFriend(friendID, token);
+        messages.value = await getMessageWithFriend(friendID, token);
+        messages.refresh();
       } else {
         print('토큰이 없습니다.');
       }
     } catch (e) {
       print('메시지 가져오기 실패: $e');
     } finally {
+      update();
       isLoading(false); // 로딩 상태를 false로 설정
     }
   }

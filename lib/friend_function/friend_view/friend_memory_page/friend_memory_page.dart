@@ -24,13 +24,12 @@ class FriendMemoryPage extends StatefulWidget {
 }
 
 class _FriendMemoryPageState extends State<FriendMemoryPage> {
-  late MessageController messageController;
+  final MessageController messageController = Get.find<MessageController>();
   List<Message> messages = [];
 
   @override
   void initState() {
     super.initState();
-    messageController = Get.put(MessageController(widget.friendID));
   }
 
   @override
