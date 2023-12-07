@@ -189,6 +189,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 transitionDuration: Duration.zero,
               ),
             );
+            Get.snackbar(
+              '알림',
+              '환영합니다. 오늘도 선물같은 하루되세요!',
+              snackPosition: SnackPosition.TOP,
+            );
           } else {
             Get.snackbar(
               '알림',
@@ -337,6 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   print("111111111111111111111111");
 
                   var oAuthToken = await UserApi.instance.loginWithKakaoTalk();
+                  print(oAuthToken);
 
                   encodedToken =
                       Uri.encodeComponent(oAuthToken.accessToken.toString());
@@ -344,14 +350,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   print('카카오톡으로 로그인 실패 $error');
                 }
 // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
-                try {
+              /*  try {
                   var oAuthToken =
                       await UserApi.instance.loginWithKakaoAccount();
                   encodedToken =
                       Uri.encodeComponent(oAuthToken.accessToken.toString());
                 } catch (error) {
                   print('카카오계정으로 로그인 실패 $error');
-                }
+                }*/
               } else {
                 try {
                   var oAuthToken =
@@ -365,8 +371,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   print('카카오계정으로 로그인 실패 $error');
                 }
               }
+              print("--------------------------11111111");
+              print(encodedToken);
               if (encodedToken != "") {
                 try {
+                  print("--------카카오 계정 로그인----------");
 
                   var url = Uri.parse(
                       'http://52.78.37.19:8080/oauth/kakao?accessToken=$encodedToken');

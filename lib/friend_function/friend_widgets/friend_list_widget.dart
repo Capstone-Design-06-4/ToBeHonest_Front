@@ -8,6 +8,7 @@ import 'package:tobehonest/friend_function/friend_view/friend_memory_page/friend
 import 'package:tobehonest/controllers/messagebox_controller.dart';
 import 'package:get/get.dart';
 
+
 Widget buildFriendContainer(BuildContext context, Friend friend) {
   return Padding(
     padding: const EdgeInsets.only(right: 16,left: 16),
@@ -19,7 +20,7 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
         children: [
           Container(
             height: 70.0,
-            margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 10.0),
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -60,10 +61,15 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
                       children: [
                         Icon(
                           friend.myGive ? FontAwesomeIcons.smile : FontAwesomeIcons.gift,
-                          color: friend.myGive ? AppColor.swatchColor : Colors.grey,
+                          color: friend.myGive ? AppColor.swatchColor : Colors.grey[200],
                         ),
                         SizedBox(height: 5,),
-                        Text("GIVE"),
+                        Text(
+                          "GIVE",
+                          style: TextStyle(
+                            color: friend.myGive ? Colors.black : Colors.grey[200],
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(width: 30.0),
@@ -71,14 +77,18 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
                       children: [
                         Icon(
                           friend.myTake ? FontAwesomeIcons.smile : FontAwesomeIcons.gift,
-                          color: friend.myTake ? AppColor.swatchColor : Colors.grey,
+                          color: friend.myTake ? AppColor.swatchColor : Colors.grey[200],
                         ),
                         SizedBox(height: 5,),
-                        Text("TAKE"),
+                        Text(
+                          "TAKE",
+                          style: TextStyle(
+                            color: friend.myTake ? Colors.black : Colors.grey[200],
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(width: 35.0),
-                    const Icon(Icons.arrow_forward_ios, size: 15.0, color: Colors.grey),
                     const SizedBox(width: 5.0),
                   ],
                 ),
@@ -157,17 +167,23 @@ class ModalUtils {
                           ],
                         ),
                         SizedBox(width: 30,),
+                        Spacer(),
                         Row(
                           children: [
                             Column(
                               children: [
                                 SizedBox(height: 10,),
                                 Icon(
-                                  friend.myGive ? FontAwesomeIcons.check : FontAwesomeIcons.gift,
-                                  color: friend.myGive ? Colors.green : Colors.grey,
+                                  friend.myGive ? FontAwesomeIcons.smileWink : FontAwesomeIcons.gift,
+                                  color: friend.myGive ? AppColor.swatchColor : Colors.grey[200],
                                 ),
                                 SizedBox(height: 5,),
-                                Text(" GIVE"),
+                                Text(
+                                  "GIVE",
+                                  style: TextStyle(
+                                    color: friend.myGive ? Colors.black : Colors.grey[200],
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(width: 20.0),
@@ -175,11 +191,16 @@ class ModalUtils {
                               children: [
                                 SizedBox(height: 10,),
                                 Icon(
-                                  friend.myTake ? FontAwesomeIcons.check : FontAwesomeIcons.gift,
-                                  color: friend.myTake ? Colors.green : Colors.grey,
+                                  friend.myTake ? FontAwesomeIcons.smileWink : FontAwesomeIcons.gift,
+                                  color: friend.myTake ? AppColor.swatchColor : Colors.grey[200],
                                 ),
                                 SizedBox(height: 5,),
-                                Text(" TAKE"),
+                                Text(
+                                  "TAKE",
+                                  style: TextStyle(
+                                    color: friend.myTake ? Colors.black : Colors.grey[200],
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -292,10 +313,10 @@ Widget buildBirthdayText(String birthDateString) {
   int day = birthDate.day;
 
   // 최종적으로 텍스트로 표시할 문자열 생성
-  String displayText = '$month월 $day일';
+  String displayText = '생일: $month월 $day일';
 
   return Text(
     displayText,
-    style: const TextStyle(fontSize: 14.0, color: Colors.black),
+    style: const TextStyle(fontSize: 13.0, color: Colors.black),
   );
 }

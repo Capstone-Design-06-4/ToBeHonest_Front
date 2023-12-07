@@ -92,14 +92,13 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height:20),
                       ItemSearchBar(onSearch: _onSearch),
-                      SizedBox(height:20),
+                      SizedBox(height:10),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height:10),
+
               Expanded(
                 child: Obx(() {
                   if (wishListController.isLoading.isTrue) {

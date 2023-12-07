@@ -39,13 +39,13 @@ class _ProductSearchWidgetState extends State<ItemSearchBar> {
           contentPadding: EdgeInsets.symmetric(vertical: 10),
           prefixIcon: Icon(Icons.search, size: 25),
           suffixIcon: IconButton(
-            icon: Icon(Icons.clear),
+            icon: Icon(Icons.refresh),
             onPressed: () {
               _controller.clear();
               widget.onSearch('');
             },
           ),
-          hintText: '상품 이름 검색하기',
+          hintText: '도착한 선물을 확인해보세요!',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(

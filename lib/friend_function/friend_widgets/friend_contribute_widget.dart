@@ -18,7 +18,7 @@ class FriendContributeWidget extends StatelessWidget {
             print('펀딩하기 눌렸음');
           },
           style: ElevatedButton.styleFrom(
-            primary: AppColor.backgroundColor,
+            primary: Color(0xff1fd224).withOpacity(0.8),
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),

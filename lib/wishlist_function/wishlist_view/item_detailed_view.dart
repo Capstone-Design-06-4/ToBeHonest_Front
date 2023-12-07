@@ -62,7 +62,7 @@ class ItemDetailed extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 5,),
                 ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -106,14 +106,18 @@ class ItemDetailed extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  wishItem.itemBrand.length > 8
+                                  wishItem.itemBrand.length > 5
                                       ? '${wishItem.itemBrand.substring(0, 8)}...'
                                       : wishItem.itemBrand,
                                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(), // 여기서 Spacer를 사용하여 공간을 꽉 채웁니다.
+                                Spacer(),
                                 Text(
-                                  '${formatNumber(wishItem.itemPrice)}',
+                                  '남은 펀딩액: ',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),// 여기서 Spacer를 사용하여 공간을 꽉 채웁니다.
+                                Text(
+                                  '${(wishItem.itemPrice - wishItem.fundAmount) > 0 ? formatNumber(wishItem.itemPrice - wishItem.fundAmount) : '0'}',
                                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColor.textColor),
                                 ),
                                 Text(
@@ -129,6 +133,7 @@ class ItemDetailed extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
+
                           ],
                         ),
                       ),

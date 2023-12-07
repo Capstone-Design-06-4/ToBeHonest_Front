@@ -18,6 +18,7 @@ class WishListPage extends StatefulWidget {
 class _WishListPageState extends State<WishListPage> {
   String _searchText = '';
   final WishListController wishListController = Get.put(WishListController());
+  final ScrollController _scrollController = ScrollController();
 
   Future<void> _onSearch(String text) async {
     setState(() {
@@ -34,9 +35,21 @@ class _WishListPageState extends State<WishListPage> {
     }
   }
 
+  void _scrollToTop() {
+    setState(() {
+      _scrollController.jumpTo(0);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -44,18 +57,31 @@ class _WishListPageState extends State<WishListPage> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
+          preferredSize: Size.fromHeight(70), // 조절하고자 하는 높이로 변경
           child: AppBar(
+            elevation: 0, // 그림자 제거
             automaticallyImplyLeading: false,
             leadingWidth: 10,
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.backgroundColor,
-            title: Text('위시리스트', style: TextStyle(color: Colors.white)),
+            backgroundColor: AppColor.backgroundColor.withOpacity(0.8), // 완전 투명
+            title: Text(' \n위시리스트', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 23, color: Colors.white)),
+            actions: [
+              Container(
+                margin: EdgeInsets.only(top:25,right: 20), // 원하는 만큼의 마진을 설정
+                child: IconButton(
+                  icon: Icon(FontAwesomeIcons.arrowUp),
+                  onPressed: () {
+                    _scrollToTop();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
-        body: Container(
+        body: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: <Widget>[
               Container(
@@ -67,64 +93,30 @@ class _WishListPageState extends State<WishListPage> {
                   color: AppColor.backgroundColor.withAlpha(200),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
+                  padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 40.0,
-                            height: 40.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white, // 아이콘을 감싸는 배경 색상 설정 (필요에 따라 변경)
-                            ),
-                            child: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.shoppingCart, // "friend"에 해당하는 아이콘
-                                size: 20.0, // 아이콘의 크기 설정
-                                color: AppColor.swatchColor, // 아이콘의 색상 설정
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text('위시리스트', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height:20),
                       ItemSearchBar(onSearch: _onSearch),
-                      SizedBox(height:20),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
-              Visibility(
-                  visible: _searchText == "",
-                  child:  ItemAddBar(context),
-                ),
-              SizedBox(height: 10,),
-              Expanded(
-                child: Obx(() {
-                  if (wishListController.isLoading.isTrue) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return ListView(
-                    children: <Widget>[
-                      WishItemList(
-                        wishItems: wishListController.wishItems,
-                        searchText: _searchText,
-                      ),
-                    ],
-                  );
-                }),
-              ),
+              ItemAddBar(context),
+              SizedBox(height: 5),
+              Obx(() {
+                if (wishListController.isLoading.isTrue) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return WishItemList(
+                  wishItems: wishListController.wishItems,
+                  searchText: _searchText,
+                );
+              }),
             ],
           ),
         ),
+
       ),
     );
   }

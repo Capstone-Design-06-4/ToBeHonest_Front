@@ -103,7 +103,7 @@ class _EmailAddPageState extends State<EmailAddPage> {
                                     children: [
                                       SizedBox(height: 70,),
                                       Text(
-                                        '이미 친구인 사용자에요.',
+                                        '이미 친구인 사용자예요.',
                                         style: TextStyle(fontSize: 18.0),
                                       ),
                                       SizedBox(height: 20,),
@@ -129,7 +129,7 @@ class _EmailAddPageState extends State<EmailAddPage> {
                                                 fontSize: 22.0,
                                               ),
                                             ),
-                                            subtitle: Text(friendBirthdate),
+
                                           ),
                                         ),
                                       ),
@@ -169,7 +169,6 @@ class _EmailAddPageState extends State<EmailAddPage> {
                                               fontSize: 22.0,
                                             ),
                                           ),
-                                          subtitle: Text(friendBirthdate),
                                         ),
                                       ),
                                     ),

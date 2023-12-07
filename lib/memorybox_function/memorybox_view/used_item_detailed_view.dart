@@ -62,7 +62,7 @@ class UsedItemDetailed extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 5,),
                 ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),

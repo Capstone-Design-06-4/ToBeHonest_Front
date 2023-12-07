@@ -38,7 +38,7 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: Size.fromHeight(0),
           child: AppBar(
             automaticallyImplyLeading: false,
             leadingWidth: 50,
@@ -54,12 +54,48 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
           ),
         ),
         body: Container(
-          child: Obx(
-                () {
-              return messageController.isLoading.isTrue
-                  ? Center(child: CircularProgressIndicator())
-                  : buildMessagesListView();
-            },
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
+                  ),
+                  color: AppColor.backgroundColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          SizedBox(width: 10,),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text('${widget.friendName}님과의 추억', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Obx(
+                      () {
+                    return messageController.isLoading.isTrue
+                        ? Center(child: CircularProgressIndicator())
+                        : buildMessagesListView();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -71,7 +107,7 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
       itemCount: messageController.messages.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(right: 4,left: 4),
+          padding: const EdgeInsets.only(right: 10,left: 10),
           child: ChatMessageWidget(
             message: messageController.messages[index],
             friendName: widget.friendName,
@@ -164,7 +200,7 @@ class ChatMessageWidget extends StatelessWidget {
         bottomRight: Radius.circular(30.0),
       ),
       elevation: 15.0,
-      color: isSenttoYou ? AppColor.backgroundColor.withOpacity(0.8) : Colors.white,
+      color: isSenttoYou ? Color(0xFFFFEAAE) : Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: Row(
@@ -195,7 +231,7 @@ class ChatMessageWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: isSenttoYou ? Colors.white : Colors.black,
+                    color: isSenttoYou ? Colors.black : Colors.black,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1, // 텍스트를 한 줄로 제한
@@ -207,7 +243,7 @@ class ChatMessageWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
-                    color: isSenttoYou ? Colors.white : Colors.black,
+                    color: isSenttoYou ? Colors.black : Colors.black,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1, // 텍스트를 한 줄로 제한
@@ -257,7 +293,7 @@ class ChatMessageWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: isSenttoYou ? Colors.white : Colors.black,
+                    color: isSenttoYou ? Colors.black : Colors.black,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1, // 텍스트를 한 줄로 제한
@@ -269,7 +305,7 @@ class ChatMessageWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
-                    color: isSenttoYou ? Colors.white : Colors.black,
+                    color: isSenttoYou ? Colors.black : Colors.black,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1, // 텍스트를 한 줄로 제한
@@ -279,15 +315,15 @@ class ChatMessageWidget extends StatelessWidget {
                   children: [
                     Text(
                       '펀딩 금액: ',
-                      style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
+                      style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.black),
                     ),
                     Text(
                       '${formatNumber(message.fundMoney)}' ?? '0',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : Colors.white),
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: !isSenttoYou ? AppColor.textColor : AppColor.textColor),
                     ),
                     Text(
                       ' 원',
-                      style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.white),
+                      style: TextStyle(fontSize: 15, color: !isSenttoYou ? Colors.black : Colors.black),
                     ),
                   ],
                 )

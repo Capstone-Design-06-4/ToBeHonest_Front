@@ -18,12 +18,19 @@ class GiftBoxPage extends StatefulWidget {
 class _GiftBoxPageState extends State<GiftBoxPage> {
   String _searchText = ''; // 추가: 검색어 저장 변수
   final GiftBoxController giftBoxController = Get.put(GiftBoxController());
+  final ScrollController _scrollController = ScrollController();
 
   Future<void> _onSearch(String text) async {
     setState(() {
       _searchText = text;
     });
     await _update();
+  }
+
+  void _scrollToTop() {
+    setState(() {
+      _scrollController.jumpTo(0);
+    });
   }
 
   @override
@@ -44,18 +51,31 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
+          preferredSize: Size.fromHeight(70), // 조절하고자 하는 높이로 변경
           child: AppBar(
+            elevation: 0, // 그림자 제거
             automaticallyImplyLeading: false,
             leadingWidth: 10,
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.backgroundColor,
-            title: Text('선물함', style: TextStyle(color: Colors.white)),
+            backgroundColor: AppColor.backgroundColor.withAlpha(200),
+            title: Text(' \n선물함', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 23, color: Colors.white)),
+            actions: [
+              Container(
+                margin: EdgeInsets.only(top:25,right: 20), // 원하는 만큼의 마진을 설정
+                child: IconButton(
+                  icon: Icon(FontAwesomeIcons.arrowUp),
+                  onPressed: () {
+                    _scrollToTop();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
-        body: Container(
+        body: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: <Widget>[
               Container(
@@ -67,55 +87,25 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
                   color: AppColor.backgroundColor.withAlpha(200),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16,right: 16,top: 20),
+                  padding: const EdgeInsets.only(left: 16,right: 16),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 40.0,
-                            height: 40.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white, // 아이콘을 감싸는 배경 색상 설정 (필요에 따라 변경)
-                            ),
-                            child: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.gifts, // "friend"에 해당하는 아이콘
-                                size: 20.0, // 아이콘의 크기 설정
-                                color: AppColor.swatchColor, // 아이콘의 색상 설정
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text('선물함', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height:20),
                       ItemSearchBar(onSearch: _onSearch),
-                      SizedBox(height:20),
+                      SizedBox(height:10),
                     ],
                   ),
                 ),
               ),
-              Expanded(
-                child: Obx(() {
-                  if (giftBoxController.isLoading.isTrue) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return ListView(
-                    children: <Widget>[
-                      WishItemList(
-                        wishItems: giftBoxController.wishItems,
-                        searchText: _searchText,
-                      ),
-                    ],
-                  );
-                }),
-              ),
+              SizedBox(height:5),
+              Obx(() {
+                if (giftBoxController.isLoading.isTrue) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return WishItemList(
+                  wishItems: giftBoxController.wishItems,
+                  searchText: _searchText,
+                );
+              }),
             ],
           ),
         ),

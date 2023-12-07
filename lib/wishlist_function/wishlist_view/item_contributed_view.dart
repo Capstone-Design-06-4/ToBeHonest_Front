@@ -282,7 +282,7 @@ class ModalUtils {
                         child: Icon(Icons.question_mark, color: Colors.white),
                       ),
                       title: Text(
-                        length == 1
+                        length == 0
                             ? '위시리스트에서 삭제하시겠어요?'
                             : '위시리스트에서 삭제하시겠어요?\n펀딩액은 각자에게 돌아가요.',
                         style: TextStyle(fontSize: 17),

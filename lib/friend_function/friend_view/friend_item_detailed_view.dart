@@ -65,6 +65,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(height: 10,),
                     Container(
                       height: 30.0,
                       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -119,7 +120,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                           },
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(7),
+                            LengthLimitingTextInputFormatter(6),
                           ],
                           style: TextStyle(fontSize: 20), // Set the font size
                         ),
@@ -133,7 +134,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                           if (_formKey.currentState!.validate()) {
                             int? amount = int.tryParse(amountController.text);
 
-                            if (amount != null && amount > 1000) {
+                            if (amount != null && amount >= 1000) {
                               // 다이얼로그를 띄워 사용자에게 한 번 더 확인
                               bool confirm = await showDialog(
                                 context: context,
@@ -174,7 +175,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                               // Show an error message and disable the button
                               Get.snackbar(
                                 "알림",
-                                "펀딩할 수 없습니다. 금액을 1000 이상으로 입력하고 펀딩 총액보다 작게 설정하세요.",
+                                "펀딩할 수 없습니다.",
                                 snackPosition: SnackPosition.TOP,
                               );
                             }

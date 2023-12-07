@@ -64,7 +64,7 @@ class MessagedItemDetailed extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 5,),
                 Container(
                   width: 320,
                   height: 320,

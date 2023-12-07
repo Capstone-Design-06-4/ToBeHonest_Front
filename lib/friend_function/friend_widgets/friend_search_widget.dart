@@ -21,7 +21,7 @@ class SearchFriendWidget extends StatelessWidget {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
           prefixIcon: const Icon(Icons.search, size: 25),
-          hintText: '친구 이름 검색하기',
+          hintText: '선물할 친구를 찾아봐요!',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -37,7 +37,7 @@ class SearchFriendWidget extends StatelessWidget {
             borderSide: BorderSide(width: 2.0, color: Theme.of(context).primaryColor),
           ),
           suffixIcon: IconButton(
-            icon: Icon(Icons.clear),
+            icon: Icon(Icons.refresh),
             onPressed: () => controller.clear(),
           ),
         ),

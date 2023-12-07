@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
@@ -37,18 +38,24 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
 
       return Column(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              child: Text(
-                '   펀딩을 해볼까요?',
-                style: TextStyle(
-                  fontSize: 28, // 글씨 크기 조절
+          Row(
+            children: [
+              SizedBox(width: 30),
+              FaIcon(FontAwesomeIcons.moneyBill, color: Color(0xff1fd224), size: 25),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child: Text(
+                    '   펀딩을 해볼까요?',
+                    style: TextStyle(
+                      fontSize: 28, // 글씨 크기 조절
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 5,),
           Container(
             width: 320,
             height: 320,
@@ -88,23 +95,24 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
                   Row(
                     children: [
                       Text(
-                        wishItem.itemBrand.length > 5
+                        wishItem.itemBrand.length > 4
                             ? '${wishItem.itemBrand.substring(0, 5)}...'
                             : wishItem.itemBrand,
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Spacer(), // 여기서 Spacer를 사용하여 공간을 꽉 채웁니다.
                       Text(
-                        '펀딩액: ',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        '남은 펀딩액: ',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '${formatNumber(wishItem.fundAmount)}',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                        '${(wishItem.itemPrice - wishItem.fundAmount) > 0 ? formatNumber(wishItem.itemPrice - wishItem.fundAmount) : '0'}',
+
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff1fd224)),
                       ),
                       Text(
                         ' 원  ',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -158,7 +166,7 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
                           '${widget.friendName}',
                           style: TextStyle(fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: AppColor.textColor),
+                              color: Color(0xff1fd224)),
                         ),
                       ),
                       Align(
@@ -183,7 +191,7 @@ class _FriendProductWidgetState extends State<FriendProductWidget> {
                         '${(wishItem.fundAmount/wishItem.itemPrice*100).toStringAsFixed(2)}%',
                         style: TextStyle(fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.textColor),
+                            color:Color(0xff1fd224)),
                       ),
                       Text(
                         ' 가  모였어요.',
