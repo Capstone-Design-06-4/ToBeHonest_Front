@@ -105,7 +105,7 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
                   return Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(20.0),
-                    child: Text('선물함이 비었어요.',
+                    child: Text('상품이 없어요.',
                         style: TextStyle(
                           fontSize: 18,
                         )),

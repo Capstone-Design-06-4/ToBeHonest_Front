@@ -89,6 +89,16 @@ class _FriendMemoryPageState extends State<FriendMemoryPage> {
               Expanded(
                 child: Obx(
                       () {
+                      if(messageController.messages.length ==0) {
+                      return Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(20.0),
+                      child: Text('${widget.friendName}님과의 추억을 쌓아봐요!',
+                      style: TextStyle(
+                      fontSize: 18,
+                      )),
+                      );
+                      }
                     return messageController.isLoading.isTrue
                         ? Center(child: CircularProgressIndicator())
                         : buildMessagesListView();

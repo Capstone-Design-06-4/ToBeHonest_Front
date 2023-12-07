@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'AppleSDGothicNeo',
         primaryColor: AppColor.swatchColor,

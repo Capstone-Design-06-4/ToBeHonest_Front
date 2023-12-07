@@ -1,5 +1,3 @@
-// giftbox_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
@@ -12,23 +10,19 @@ import 'package:tobehonest/memorybox_function/memorybox_view/used_item_detailed_
 import 'package:tobehonest/giftbox_function/giftbox_view/com_item_detailed_view.dart';
 import 'package:get/get.dart';
 
-
 class MemoryBoxPage extends StatefulWidget {
   @override
   _MemoryBoxPageState createState() => _MemoryBoxPageState();
 }
 
 class _MemoryBoxPageState extends State<MemoryBoxPage> {
-  String _searchText = ''; // 추가: 검색어 저장 변수
+  String _searchText = '';
   final MemoryBoxController memoryBoxController = Get.put(MemoryBoxController());
   final ThankBoxController thankBoxController = Get.put(ThankBoxController());
   final ScrollController _scrollController = ScrollController();
-  // 필터 옵션 목록
-  List<String> filterOptions = ['작성 안한 선물', '작성한 선물'];
-
-  // 선택된 필터 옵션을 저장하는 변수
+  List<bool> isSelected = [true, false];
   String? selectedFilter;
-
+  bool showGiftFilter = false;
 
   Future<void> _onSearch(String text) async {
     setState(() {
@@ -53,11 +47,19 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
     });
   }
 
+  void _toggleSort() {
+    // Toggle the gift filter
+    setState(() {
+      showGiftFilter = !showGiftFilter;
+      selectedFilter = showGiftFilter ? '작성하지 않은 선물' : '작성한 선물';
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    selectedFilter = filterOptions[0];
+    selectedFilter = '작성하지 않은 선물'; // Initialize selectedFilter
+    showGiftFilter = selectedFilter == '작성하지 않은 선물';
   }
 
   @override
@@ -79,15 +81,15 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 10.0),
             ),
-            backgroundColor: AppColor.backgroundColor.withOpacity(0.8), // 완전 투명
+            backgroundColor: AppColor.backgroundColor.withOpacity(0.8),
             title: Text(' \n기억함', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 23, color: Colors.white)),
             actions: [
               Container(
-                margin: EdgeInsets.only(top:25,right: 20), // 원하는 만큼의 마진을 설정
+                margin: EdgeInsets.only(top: 25, right: 20),
                 child: IconButton(
-                  icon: Icon(FontAwesomeIcons.arrowUp),
+                  icon: Icon(FontAwesomeIcons.sort),
                   onPressed: () {
-                    _scrollToTop();
+                    _toggleSort();
                   },
                 ),
               ),
@@ -107,7 +109,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                   color: AppColor.backgroundColor.withAlpha(200),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16,right: 16),
+                  padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Column(
                     children: [
                       ItemSearchBar(onSearch: _onSearch),
@@ -124,32 +126,33 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                       DropdownButtonFormField(
                         value: selectedFilter,
                         onChanged: (value) {
-                          setState(() {
-                            selectedFilter = value;
-                          });
+                          _toggleSort(); // Toggle the sort on filter change
                         },
-                        items: filterOptions.map((option) {
-                          return DropdownMenuItem(
-                            value: option,
-                            child: Text(option),
-                          );
-                        }).toList(),
+                        items: [
+                          DropdownMenuItem(
+                            value: '작성하지 않은 선물',
+                            child: Text('작성하지 않은 선물'),
+                          ),
+                          DropdownMenuItem(
+                            value: '작성한 선물',
+                            child: Text('작성한 선물'),
+                          ),
+                        ],
                         decoration: InputDecoration(
-                          labelText: '감사메시지',
+                          labelText: '선물 필터',
                         ),
                       ),
                       // 선택된 필터에 따른 내용 표시
                       Container(
-                        child: selectedFilter == '작성 안한 선물'
+                        child: showGiftFilter
                             ? Obx(() {
                           if (memoryBoxController.isLoading.isTrue) {
                             return Center(child: CircularProgressIndicator());
-                          }
-                          else if(memoryBoxController.wishItems.length ==0) {
+                          } else if (memoryBoxController.wishItems.length == 0) {
                             return Container(
                               alignment: Alignment.center,
                               padding: EdgeInsets.all(20.0),
-                              child: Text('기억함이 비었어요.',
+                              child: Text('상품이 없어요.',
                                   style: TextStyle(
                                     fontSize: 18,
                                   )),
@@ -169,12 +172,11 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                             : Obx(() {
                           if (thankBoxController.isLoading.isTrue) {
                             return Center(child: CircularProgressIndicator());
-                          }
-                          else if(memoryBoxController.wishItems.length ==0) {
+                          } else if (memoryBoxController.wishItems.length == 0) {
                             return Container(
                               alignment: Alignment.center,
                               padding: EdgeInsets.all(20.0),
-                              child: Text('기억함이 비었어요.',
+                              child: Text('상품이 없어요.',
                                   style: TextStyle(
                                     fontSize: 18,
                                   )),
@@ -201,6 +203,5 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
         ),
       ),
     );
-
   }
 }

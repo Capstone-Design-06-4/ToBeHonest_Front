@@ -120,7 +120,7 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
                     return Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(20.0),
-                      child: Text('친구의 위시리스트가 비었어요.',
+                      child: Text('${widget.friendName}님의 위시리스트가 비었어요.',
                           style: TextStyle(
                             fontSize: 18,
                           )),

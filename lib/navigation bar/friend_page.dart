@@ -132,7 +132,7 @@ class _FriendPageState extends State<FriendPage> {
                 return Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(20.0),
-                  child: Text('친구목록이 비었어요./n친구를 추가해볼까요?',
+                  child: Text('친구가 없어요.',
                       style: TextStyle(
                         fontSize: 18,
                       )),
