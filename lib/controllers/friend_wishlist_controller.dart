@@ -11,6 +11,7 @@ class FriendWishListController extends GetxController {
   var wishItems = <WishItem>[].obs;
   var Items = <Item>[].obs;
   var isLoading = false.obs;
+  var count = 0.obs;
 
   Future<void> fetchFriendWishItems_Con({int? friendID, String? searchText}) async {
     try {
@@ -28,9 +29,11 @@ class FriendWishListController extends GetxController {
 
       // RxList의 assignAll 메서드로 데이터를 할당
       wishItems.assignAll(allWishItems);
-
+      count.value++;
       // RxList의 refresh 메서드로 UI를 갱신
       wishItems.refresh();
+      count.refresh();
+      update();
     } catch (e) {
       print('오류 발생: $e');
     } finally {

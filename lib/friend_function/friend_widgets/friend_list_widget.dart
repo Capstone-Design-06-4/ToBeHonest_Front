@@ -5,6 +5,8 @@ import 'package:tobehonest/models/friend.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_detailed_view.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_wishlist_view.dart'; // Import the necessary file
 import 'package:tobehonest/friend_function/friend_view/friend_memory_page/friend_memory_page.dart';
+import 'package:tobehonest/controllers/messagebox_controller.dart';
+import 'package:get/get.dart';
 
 Widget buildFriendContainer(BuildContext context, Friend friend) {
   return Padding(
@@ -47,7 +49,6 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(friend.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                        SizedBox(height: 5,),
                         buildBirthdayText(friend.birthDate),
                       ],
                     ),
@@ -93,6 +94,7 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
 
 class ModalUtils {
   static void showFriendModal(BuildContext context, Friend friend) {
+    final MessageController messageController = Get.put(MessageController(friend.id));
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -235,7 +237,8 @@ class ModalUtils {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await messageController.setFriendIDAndRefresh(friend.id);
                   Navigator.push(
                       context,
                       MaterialPageRoute(

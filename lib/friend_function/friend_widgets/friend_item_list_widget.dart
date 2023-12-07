@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_item_detailed_view.dart';
 import 'package:tobehonest/models/wishItem.dart';
+import 'package:tobehonest/controllers/friend_product_controller.dart';
+import 'package:get/get.dart';
 
 class FriendWishItemList extends StatelessWidget {
   final List<WishItem> wishItems;
@@ -16,6 +18,7 @@ class FriendWishItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<WishItem> filteredWishItems = _filterWishItems();
+    final FriendProductController friendProductController = Get.put(FriendProductController());
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -31,8 +34,10 @@ class FriendWishItemList extends StatelessWidget {
         ),
         itemCount: filteredWishItems.length,
         itemBuilder: (ctx, index) => InkWell(
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            await friendProductController.setWishItemAndFriendID(filteredWishItems[index], friendID);
+            Navigator.push(
+              context,
               MaterialPageRoute(
                 builder: (context) => FriendItemDetailed(friendName: friendName, wishItem: filteredWishItems[index], friendID: friendID,),
               ),

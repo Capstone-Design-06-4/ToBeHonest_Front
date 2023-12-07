@@ -79,6 +79,7 @@ class WishListController extends GetxController {
 
       // RxList의 refresh 메서드로 UI를 갱신
       wishItems.refresh();
+      update();
     } catch (e) {
       print('오류 발생: $e');
     } finally {
@@ -182,6 +183,30 @@ class WishListController extends GetxController {
       update();
       Get.snackbar(
           "알림", "상품이 위시리스트에서 삭제되었습니다.", snackPosition: SnackPosition.TOP);
+    } catch (e) {
+      print('오류 발생: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<WishItem?> getWishItem(int wishItemID) async {
+    try {
+      isLoading(true);
+
+      String? token = await getToken();
+      print('토큰: $token');
+      if (token == null) throw Exception("토큰이 없습니다.");
+
+      // getMyWishItem의 반환값을 받아옴
+      WishItem? wishItem = await getMyWishItem(wishItemID, token);
+
+      // 반환값을 활용하도록 수정
+      if (wishItem != null) {
+        return wishItem;
+      }
+
+      update();
     } catch (e) {
       print('오류 발생: $e');
     } finally {

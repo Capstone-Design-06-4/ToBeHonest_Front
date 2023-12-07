@@ -29,8 +29,8 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
-    widget.contributorController.setWishItemIDAndFetchContributors();
+    widget.contributorController = Get.find<ContributorController>();
+    //widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {
@@ -156,7 +156,7 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                 ),
               ),
             ),
-            Container(
+            Obx(() => Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -174,7 +174,7 @@ class _MessagedItemContributedState extends State<MessagedItemContributed> {
                   ),
                 ],
               ),
-            ),
+            )),
             Expanded(
               child: Obx(() {
                 if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {

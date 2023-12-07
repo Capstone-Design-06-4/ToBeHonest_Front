@@ -34,6 +34,13 @@ import 'navigation bar/wishlist_page.dart';
 import 'thanks_message/thanks_message_view.dart';
 import 'navigation_bar.dart';
 import 'login_page/login.dart';
+import 'package:tobehonest/controllers/friend_search_controller.dart';
+import 'package:tobehonest/controllers/giftbox_controller.dart';
+import 'package:tobehonest/controllers/memorybox_controller.dart';
+import 'package:tobehonest/controllers/usedbox_controller.dart';
+import 'package:tobehonest/controllers/myInfo_controller.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -102,6 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
     ProfilePage(), // MY 페이지
   ];
 
+  final FriendController friendController = Get.put(FriendController());
+  final WishListController wishListController = Get.put(WishListController());
+  final GiftBoxController giftBoxController = Get.put(GiftBoxController());
+  final MemoryBoxController memoryBoxController = Get.put(MemoryBoxController());
+  final ThankBoxController thankBoxController = Get.put(ThankBoxController());
+  final MyInfoController myInfoController = Get.put(MyInfoController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -118,10 +132,28 @@ class _MyHomePageState extends State<MyHomePage> {
           child: _pages[_currentIndex],
         ),
         bottomNavigationBar: BottomNav(
-          onTap: (index) {
+          onTap: (index) async {
             setState(() {
               _currentIndex = index;
             });
+            switch(_currentIndex) {
+              case 0:
+                await friendController.getFriendsList();
+                break;
+              case 1:
+                await wishListController.fetchProgressWishItems_Con();
+                break;
+              case 2:
+                await giftBoxController.fetchCompleteWishItems_Con();
+                break;
+              case 3:
+                await memoryBoxController.fetchUsedWishItems_Con();
+                await thankBoxController.fetchThnakWishItems_Con();
+                break;
+              case 4:
+                await myInfoController.fetchMyInfo();
+                break;
+            }
           },
           currentIndex: _currentIndex,
         ),

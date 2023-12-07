@@ -25,6 +25,14 @@ class _FriendPageState extends State<FriendPage> {
     super.initState();
   }
 
+  Future<void> _update() async {
+    try {
+      await friendController.getFriendsList();
+    } catch (e) {
+      print('오류 발생: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();

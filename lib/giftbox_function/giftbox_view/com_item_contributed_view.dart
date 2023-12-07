@@ -29,8 +29,7 @@ class _ComItemContributedState extends State<ComItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
-    widget.contributorController.setWishItemIDAndFetchContributors();
+    widget.contributorController = Get.find<ContributorController>();
   }
 
   // 페이지 초기화 함수

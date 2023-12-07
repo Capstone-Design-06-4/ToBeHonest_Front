@@ -11,6 +11,7 @@ import 'package:tobehonest/memorybox_function/memorybox_view/used_item_detailed_
 import 'package:tobehonest/giftbox_function/giftbox_view/com_item_detailed_view.dart';
 import 'package:get/get.dart';
 
+
 class MemoryBoxPage extends StatefulWidget {
   @override
   _MemoryBoxPageState createState() => _MemoryBoxPageState();
@@ -28,15 +29,15 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
   String? selectedFilter;
 
 
-  void _onSearch(String text) {
+  Future<void> _onSearch(String text) async {
     setState(() {
       _searchText = text;
     });
 
-    _updateWishItems();
+    await _update();
   }
 
-  void _updateWishItems() async {
+  Future<void> _update() async {
     try {
       await memoryBoxController.fetchUsedWishItems_Con(searchText: _searchText);
       await thankBoxController.fetchThnakWishItems_Con(searchText: _searchText);
@@ -49,7 +50,6 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
   void initState() {
     super.initState();
     selectedFilter = filterOptions[0];
-    _updateWishItems();
   }
 
   @override

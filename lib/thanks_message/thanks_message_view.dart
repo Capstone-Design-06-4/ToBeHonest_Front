@@ -210,9 +210,14 @@ class ThanksMessage extends StatelessWidget {
                             hintText: '제목을 적어주세요!',
                             filled: true,
                             fillColor: Colors.white,
+                            border: OutlineInputBorder( // Add this line to include a border
+                              borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
+                              borderSide: BorderSide(color: Colors.grey), // Adjust the color as needed
+                            ),
                           ),
                           keyboardType: TextInputType.text,
                         ),
+
                       ],
                     ),
                   ),
@@ -225,26 +230,39 @@ class ThanksMessage extends StatelessWidget {
                         labelText: '내용을 적어주세요.',
                         filled: true,
                         fillColor: Colors.white,
+                        border: OutlineInputBorder( // Add this line to include a border
+                          borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
+                          borderSide: BorderSide(color: Colors.grey), // Adjust the color as needed
+                        ),
                       ),
                       maxLines: 5,
                     ),
                   ),
+
                 ],
               ),
 
-              SizedBox(height: 40,),
-              Container(
-                width: 200,
-                height: 200,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Obx(() => controller.selectedImage.value == null
-                      ? Center(child: Text('사진을 추가해주세요.',style: TextStyle(fontSize: 18),))
-                      : Image.file(File(controller
-                      .selectedImage.value!.path))), // Obx를 사용하여 반응형으로 이미지 표시
+              SizedBox(height: 30,),
+              GestureDetector(
+                onTap: () {
+                  _showImageFullScreen(context);
+                },
+                child: Hero(
+                  tag: 'selectedImageHeroTag', // Unique tag for the hero animation
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Obx(() => controller.selectedImage.value == null
+                          ? Center(child: Text('사진을 추가해주세요.', style: TextStyle(fontSize: 18),))
+                          : Image.file(File(controller.selectedImage.value!.path), fit: BoxFit.cover),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: 25,),
+              SizedBox(height: 20,),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: SendButton(
@@ -261,9 +279,8 @@ class ThanksMessage extends StatelessWidget {
                       Navigator.pop(context);
                     } else {
                       // 이미지가 선택되지 않았을 경우 처리
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('사진을 선택해주세요.')),
-                      );
+                      Get.snackbar(
+                          "알림", "사진을 선택해주세요.", snackPosition: SnackPosition.TOP);
                     }
                   }
                 ),
@@ -281,3 +298,39 @@ class ThanksMessage extends StatelessWidget {
     );
   }
 }
+
+void _showImageFullScreen(BuildContext context) {
+  final controller = Get.put(ImagePickerController());
+  final selectedImage = controller.selectedImage.value;
+  if (selectedImage != null) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBar(
+              automaticallyImplyLeading: false,
+              leadingWidth: 50,
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+              backgroundColor: Color(0xFFfbfbf2),
+              elevation: 0,
+            ),
+          ),
+          body: Center(
+            child: Hero(
+              tag: 'selectedImageHeroTag',
+              child: Image.file(File(selectedImage.path)),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+

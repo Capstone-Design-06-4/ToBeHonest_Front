@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobehonest/models/wishItem.dart';
 import 'package:tobehonest/style.dart';
 import 'package:intl/intl.dart';
 import 'package:tobehonest/controllers/memorybox_controller.dart';
@@ -6,10 +7,15 @@ import 'package:get/get.dart';
 import 'package:tobehonest/controllers/friend_wishlist_controller.dart';
 import 'package:tobehonest/controllers/messagebox_controller.dart';
 import 'package:tobehonest/models/message.dart';
+import '../friend_memory_page/friend_memory_detailed_page.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
 
 class FriendMemoryPage extends StatefulWidget {
   final int friendID;
   final String friendName;
+
+  final WishListController wishListController = Get.put(WishListController());
+
   FriendMemoryPage({Key? key, required this.friendName, required this.friendID})
       : super(key: key);
 
@@ -18,13 +24,12 @@ class FriendMemoryPage extends StatefulWidget {
 }
 
 class _FriendMemoryPageState extends State<FriendMemoryPage> {
-  late MessageController messageController;
+  final MessageController messageController = Get.find<MessageController>();
   List<Message> messages = [];
 
   @override
   void initState() {
     super.initState();
-    messageController = Get.put(MessageController(widget.friendID));
   }
 
   @override
@@ -82,6 +87,9 @@ class ChatMessageWidget extends StatelessWidget {
   final Message message;
   final String friendName;
   final int friendID;
+  late final WishItem wishItem;
+
+  final WishListController wishListController = Get.put(WishListController());
 
   ChatMessageWidget(
       {required this.message,
@@ -206,9 +214,22 @@ class ChatMessageWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 10.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // Your button press logic here
+                  onPressed: () async {
+                    print("버튼이 눌렸어요!");
+                    print(message.wishItemId);
+                    WishItem? wishItem = await wishListController.getWishItem(message.wishItemId);
+                    print(message.wishItemId);
+                    print('와사보1');
+                    if (wishItem != null) {
+                      print(message.wishItemId);
+                      print('와사보2');
+                      this.wishItem = wishItem;
+                      Get.to(MessagedShowPage(wishItem: this.wishItem!, message: message));
+                      print('와사보3');
+                    }
                   },
+
+
                   style: ElevatedButton.styleFrom(
                     primary: isSenttoYou ? Colors.white : AppColor.subColor,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

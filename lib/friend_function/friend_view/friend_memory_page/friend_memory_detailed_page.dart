@@ -10,12 +10,14 @@ import 'package:tobehonest/navigation bar/wishlist_page.dart';
 import 'package:get/get.dart';
 import 'package:tobehonest/thanks_message/thanks_message_view.dart';
 import 'package:tobehonest/memorybox_function/memorybox_view/messaged_show_view.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
 
 class MessagedShowPage extends StatefulWidget {
   final WishItem wishItem;
   final Message message;
+  final WishListController wishListController = Get.put(WishListController());
+  MessagedShowPage({required this.message, required this.wishItem});
 
-  MessagedShowPage({required this.wishItem, required this.message});
 
   @override
   _MessagedShowPageState createState() => _MessagedShowPageState();
@@ -97,7 +99,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            widget.wishItem.image,
+                            widget.wishItem?.image ?? "https://via.placeholder.com/200",
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -112,20 +114,21 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                           Row(
                             children: [
                               Text(
-                                widget.wishItem.itemBrand.length > 8
-                                    ? '${widget.wishItem.itemBrand.substring(0, 8)}...'
-                                    : widget.wishItem.itemBrand,
+                                (widget.wishItem?.itemBrand?.length ?? 0) > 8
+                                    ? '${widget.wishItem?.itemBrand?.substring(0, 8)}...'
+                                    : widget.wishItem?.itemBrand ?? '',
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
                           SizedBox(height: 5),
                           Text(
-                            widget.wishItem.itemName,
+                            widget.wishItem?.itemName ?? 'N/A',
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
+
                           SizedBox(height: 5),
                           Row(
                             children: [
@@ -134,7 +137,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                                 style: TextStyle(fontSize: 18,),
                               ),
                               Text(
-                                '${formatNumber(widget.wishItem.fundAmount)}',
+                                '${formatNumber(widget.wishItem?.fundAmount ?? 0)}',
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
                               ),
                               Text(
@@ -268,8 +271,6 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.pop(context);
-                              Navigator.pop(context);
-                              Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: AppColor.backgroundColor,
@@ -281,7 +282,7 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                             ),
                             child: FittedBox(
                               child: Text(
-                                '홈으로 이동하기',
+                                '뒤로 가기',
                                 style: TextStyle(fontSize: 18,
                                 ),
                               ),
@@ -300,7 +301,6 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
     );
   }
 }
-
 void _showImageFullScreen(BuildContext context, List<String> messageImgURLs) {
   Navigator.of(context).push(
     MaterialPageRoute(
@@ -335,6 +335,3 @@ void _showImageFullScreen(BuildContext context, List<String> messageImgURLs) {
     ),
   );
 }
-
-
-

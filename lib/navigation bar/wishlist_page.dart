@@ -22,7 +22,15 @@ class _WishListPageState extends State<WishListPage> {
     setState(() {
       _searchText = text;
     });
-    await wishListController.fetchProgressWishItems_Con(searchText: _searchText);
+    await _update();
+  }
+
+  Future<void> _update() async {
+    try {
+      await wishListController.fetchProgressWishItems_Con(searchText: _searchText);
+    } catch (e) {
+      print('오류 발생: $e');
+    }
   }
 
   @override

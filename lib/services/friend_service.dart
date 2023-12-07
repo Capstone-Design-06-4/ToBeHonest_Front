@@ -84,7 +84,7 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
   final response = await http.get(
     Uri.parse(url),
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     },
@@ -95,7 +95,8 @@ Future<List<Friend>> searchAndRetrieveFriends(String startsWith, String token) a
 
   if (response.statusCode == 200) {
     // 서버로부터 정상적인 응답을 받았을 때
-    List<dynamic> ids = json.decode(response.body);
+    String decodedResponse = utf8.decode(response.bodyBytes);
+    List<dynamic> ids = json.decode(decodedResponse);
     // Hive DB에서 해당하는 Friend 객체들을 검색합니다.
     var box = await Hive.openBox<Friend>('friendsBox');
     List<Friend> friendsList = [];
@@ -125,7 +126,7 @@ Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) asy
   final response = await http.get(
     Uri.parse(url),
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     },
@@ -134,7 +135,8 @@ Future<Tuple2<Friend, String>> findFriendByEmail(String email, String token) asy
   if (response.statusCode == 200) {
     // 응답 코드가 200인 경우 데이터 처리
     print('서버 응답 코드: ${response.statusCode}');
-    var friendData = json.decode(response.body);
+    String decodedResponse = utf8.decode(response.bodyBytes);
+    var friendData = json.decode(decodedResponse);
     int memberId = friendData['memberId'] ?? 0;
     String memberName = friendData['memberName'] ?? 'Unknown';
     String profileURL = friendData['profileImgURL'] ?? 'default.png';
@@ -167,14 +169,15 @@ Future<Tuple2<Friend, String>> findFriendByPhone(String phone, String token) asy
   final response = await http.get(
     Uri.parse(url),
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     },
   );
 
   if(response.statusCode == 200) {
-    var friendData = json.decode(response.body);
+    String decodedResponse = utf8.decode(response.bodyBytes);
+    var friendData = json.decode(decodedResponse);
     int memberId = friendData['memberId'] ?? 0;
     String memberName = friendData['memberName'] ?? 'Unknown';
     String profileURL = friendData['profileImgURL'] ?? 'default.png';

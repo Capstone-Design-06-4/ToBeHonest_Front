@@ -17,13 +17,14 @@ class ContributorController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await setWishItemIDAndFetchContributors(); // refresh 함수를 비동기 방식으로 호출
+    await setWishItemIDAndFetchContributors(wishItemID); // refresh 함수를 비동기 방식으로 호출
   }
   
   // wishItemID를 설정하기 위한 메소드
-  Future<void> setWishItemIDAndFetchContributors() async {
-    if (isLoading.value) return;
+  Future<void> setWishItemIDAndFetchContributors(int wishItemID) async {
+    isLoading(true);
     await getContributorList(wishItemID);
+    isLoading(false);
   }
 
   Future<void> getContributorList(int wishItemID) async {
@@ -39,7 +40,7 @@ class ContributorController extends GetxController {
 
           // 디버깅을 위한 print 문 추가
           print('Local Contributors: $contributors');
-
+          ContributorList.refresh();
           // RxList에 변경이 있음을 알립니다.
           update();
         } else {

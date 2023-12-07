@@ -23,8 +23,8 @@ class _ItemContributedState extends State<ItemContributed> {
   @override
   void initState() {
     super.initState();
-    widget.contributorController = Get.put(ContributorController(widget.wishItem.wishItemId));
-    widget.contributorController.setWishItemIDAndFetchContributors();
+    widget.contributorController = Get.find<ContributorController>();
+    //widget.contributorController.setWishItemIDAndFetchContributors();
   }
 
   String formatNumber(int number) {

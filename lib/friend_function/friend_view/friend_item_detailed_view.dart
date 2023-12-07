@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tobehonest/friend_function/friend_widgets/friend_product_widget.dart';
 import 'package:tobehonest/friend_function/friend_widgets/friend_contribute_widget.dart';
 import 'package:tobehonest/controllers/friend_product_controller.dart';
+import 'package:tobehonest/controllers/friend_wishlist_controller.dart';
 
 class FriendItemDetailed extends StatefulWidget {
   final WishItem wishItem;
@@ -21,15 +22,14 @@ class FriendItemDetailed extends StatefulWidget {
 }
 
 class _ItemDetailedState extends State<FriendItemDetailed> {
-  late FriendProductController friendProductController;
+  final FriendProductController friendProductController = Get.find<FriendProductController>();
+  final FriendWishListController wishListController = Get.put(FriendWishListController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController amountController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    friendProductController =
-        Get.put(FriendProductController(widget.wishItem, widget.friendID));
   }
 
   Future<void> onContributeButtonPressed() async {
@@ -44,7 +44,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: Container(
-              height: 220, // 모달 높이 크기
+              height: 280, // 모달 높이 크기
               decoration: BoxDecoration(
                 color: Colors.white, // 모달 배경색
                 borderRadius: BorderRadius.only(
@@ -66,7 +66,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      height: 25.0,
+                      height: 30.0,
                       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -94,6 +94,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20,),
                     Container(
                       height: 80.0,
                       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -111,8 +112,8 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                               return '금액을 입력해주세요.';
                             }
                             int? amount = int.tryParse(value);
-                            if (amount == null || amount <= 0) {
-                              return '유효한 금액을 입력해주세요.';
+                            if (amount == null || amount < 1000) {
+                              return '1000원 이상을 입력해주세요.';
                             }
                             return null; // 유효한 경우에는 null을 반환합니다.
                           },
@@ -124,7 +125,7 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.4,
                       child: ElevatedButton(
@@ -132,52 +133,65 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
                           if (_formKey.currentState!.validate()) {
                             int? amount = int.tryParse(amountController.text);
 
-                            // 다이얼로그를 띄워 사용자에게 한 번 더 확인
-                            bool confirm = await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("펀딩 확인"),
-                                  content: Text("정말로 펀딩하시겠습니까?"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop(false); // 취소
-                                      },
-                                      child: Text("취소"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop(true); // 확인
-                                      },
-                                      child: Text("확인"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            if (amount != null && amount > 1000) {
+                              // 다이얼로그를 띄워 사용자에게 한 번 더 확인
+                              bool confirm = await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("펀딩 확인"),
+                                    content: Text("정말로 펀딩하시겠습니까?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false); // 취소
+                                        },
+                                        child: Text("취소"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true); // 확인
+                                        },
+                                        child: Text("확인"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
 
-                            if (confirm == true) {
-                              // 확인을 선택한 경우에만 펀딩 진행
-                              Get.snackbar("알림", "펀딩이 완료되었습니다.",
+                              if (confirm == true) {
+                                // 확인을 선택한 경우에만 펀딩 진행
+                                Get.snackbar(
+                                  "알림",
+                                  "펀딩이 완료되었습니다.",
+                                  snackPosition: SnackPosition.TOP,
+                                  duration: Duration(seconds: 2),
+                                );
+                                Navigator.of(context).pop(amount);
+                                // 나머지 펀딩 로직은 여기에 추가
+                              }
+                            } else {
+                              // Show an error message and disable the button
+                              Get.snackbar(
+                                "알림",
+                                "펀딩할 수 없습니다. 금액을 1000 이상으로 입력하고 펀딩 총액보다 작게 설정하세요.",
                                 snackPosition: SnackPosition.TOP,
-                                duration: Duration(seconds: 2),);
-                              Navigator.of(context).pop(amount);
-                              // 나머지 펀딩 로직은 여기에 추가
+                              );
                             }
                           }
                         },
-
                         child: FittedBox(
                           child: Text(
                             '펀딩하기',
-                            style: TextStyle(fontSize: 18,
+                            style: TextStyle(
+                              fontSize: 18,
                             ),
                           ),
                         ),
                       ),
+
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 30,),
                   ],
                 ),
               ),
@@ -193,9 +207,9 @@ class _ItemDetailedState extends State<FriendItemDetailed> {
 
     if (fundAmount != null && fundAmount > 0) {
       try {
-        final response =
         await contributeToFriend(wishItem, fundAmount, widget.friendID, token);
         await friendProductController.updateWishItem();
+        await wishListController.fetchFriendWishItems_Con(friendID: widget.friendID);
         // 이후의 로직은 위와 동일
       } catch (e) {
         print('오류 발생: $e');

@@ -12,6 +12,12 @@ class MemoryBoxController extends GetxController {
   var Items = <Item>[].obs;
   var isLoading = true.obs;
 
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await fetchUsedWishItems_Con(); // refresh 함수를 비동기 방식으로 호출
+  }
+
   Future<void> fetchUsedWishItems_Con({String? searchText}) async {
     try {
       isLoading(true);

@@ -46,14 +46,13 @@ class WishItem {
     // 브랜드를 제거한 나머지 이름
     String itemName = cleanedItemName.substring(itemBrand.length).trim();
     return WishItem(
-      wishItemId: json['wishItemId'] as int,
-      itemBrand: itemBrand,
-      itemName: itemName,
-      image: json['image'] as String,
-      itemPrice: json['itemPrice'] as int,
-      fundAmount: json['fundAmount'] != null ? json['fundAmount'] as int : 0,
-      itemId: json['itemId'] as int
-    );
+        wishItemId: json['wishItemId'] as int,
+        itemBrand: itemBrand,
+        itemName: itemName,
+        image: json['image'] as String,
+        itemPrice: json['itemPrice'] as int,
+        fundAmount: json['fundAmount'] != null ? json['fundAmount'] as int : 0,
+        itemId: json['itemId'] != null ? json['itemId'] as int : 0);
   }
 
   Map<String, dynamic> toJson() {

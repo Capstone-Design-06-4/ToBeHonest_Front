@@ -175,8 +175,11 @@ class _LoginScreenState extends State<LoginScreen> {
           print('Password: $password');
 
           // Attempt to log in
-          bool loginSuccess = await login(email, password);
-
+           bool loginSuccess = await login(email, password);
+          //bool loginSuccess = await login('email1@example.com', 'password1');
+          //bool loginSuccess = await login('email2@example.com', 'password2');
+          //bool loginSuccess = await login('abc@abc.com', 'abcd1234');
+          //bool loginSuccess = await login('abcd@abcd.com', 'abcd1234');
           // Check if login was successful
           if (loginSuccess) {
             Navigator.pushReplacement(
@@ -288,6 +291,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 await getMyInfoFirst(login.account.email, accessToken);
 
                 print('로그인 성공: ${response.statusCode}');
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => MyHomePage(),
+                    transitionDuration: Duration.zero,
+                  ),
+                );
               }
             } catch (error) {
               print(error);
@@ -352,6 +362,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Uri.encodeComponent(oAuthToken.accessToken.toString());
 
                   print('카카오계정으로 로그인 성공');
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => MyHomePage(),
+                      transitionDuration: Duration.zero,
+                    ),
+                  );
                 } catch (error) {
                   print('카카오계정으로 로그인 실패 $error');
                 }
@@ -505,7 +522,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: _buildLoginBtn(),
                       ),
                       Text(
-                        '--------------------------- 또는 ---------------------------',
+                        ' 또는 ',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
