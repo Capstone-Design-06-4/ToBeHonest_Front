@@ -176,10 +176,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // Attempt to log in
           bool loginSuccess = await login(email, password);
-          //bool loginSuccess = await login('email1@example.com', 'password1');
-          //bool loginSuccess = await login('email2@example.com', 'password2');
-          //bool loginSuccess = await login('abc@abc.com', 'abcd1234');
-          //bool loginSuccess = await login('abcd@abcd.com', 'abcd1234');
+          // Check if login was successful
+          if (loginSuccess) {
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => MyHomePage(),
+                transitionDuration: Duration.zero,
+              ),
+            );
+          } else {
+            Get.snackbar(
+              '알림',
+              '이메일 또는 비밀번호가 올바르지 않습니다.',
+              snackPosition: SnackPosition.TOP,
+            );
+            print('Login failed');
+            // You might want to show an error message or perform other actions
+          }
+        },
+        onLongPress: () async {
+          bool loginSuccess = await login('email1@awsaws.com', 'password1');
           // Check if login was successful
           if (loginSuccess) {
             Navigator.pushReplacement(
