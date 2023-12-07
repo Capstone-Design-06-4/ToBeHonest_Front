@@ -1,6 +1,7 @@
 // giftbox_page.dart
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/controllers/giftbox_controller.dart';
 import 'package:tobehonest/giftbox_function/giftbox_widgets/completeted_item_search_widget.dart';
@@ -72,20 +73,24 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
                       Row(
                         children: [
                           Container(
-                            width: 45.0, // 원형 이미지의 가로 크기
-                            height: 45.0, // 원형 이미지의 세로 크기
+                            width: 40.0,
+                            height: 40.0,
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle, // 원형 모양 지정
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/logo.png'), // 이미지 경로 지정
-                                fit: BoxFit.fill, // 이미지가 컨테이너를 완전히 채우도록 설정
+                              shape: BoxShape.circle,
+                              color: Colors.white, // 아이콘을 감싸는 배경 색상 설정 (필요에 따라 변경)
+                            ),
+                            child: Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.gifts, // "friend"에 해당하는 아이콘
+                                size: 20.0, // 아이콘의 크기 설정
+                                color: AppColor.swatchColor, // 아이콘의 색상 설정
                               ),
                             ),
                           ),
                           SizedBox(width: 10,),
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: Text('선물함', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30, color: Colors.white)),
+                            child: Text('선물함', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25, color: Colors.white)),
                           ),
                         ],
                       ),

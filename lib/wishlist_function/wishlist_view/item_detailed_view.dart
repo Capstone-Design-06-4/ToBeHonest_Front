@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/models/wishItem.dart';
 import 'package:intl/intl.dart';
@@ -44,16 +45,22 @@ class ItemDetailed extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    child: Text(
-                      '   펀딩 중인 상품',
-                      style: TextStyle(
-                        fontSize: 28, // 글씨 크기 조절
+                Row(
+                  children: [
+                    SizedBox(width: 30),
+                    FaIcon(FontAwesomeIcons.hourglassStart, color: AppColor.swatchColor, size: 25),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        child: Text(
+                          '   펀딩 중인 상품',
+                          style: TextStyle(
+                            fontSize: 28, // 글씨 크기 조절
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 SizedBox(height: 15,),
                 ListView(

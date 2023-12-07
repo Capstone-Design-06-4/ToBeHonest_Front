@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/models/wishItem.dart';
@@ -44,16 +45,22 @@ class UsedItemDetailed extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    child: Text(
-                      '   송금이 완료된 상품',
-                      style: TextStyle(
-                        fontSize: 28, // 글씨 크기 조절
+                Row(
+                  children: [
+                    SizedBox(width: 30),
+                    FaIcon(FontAwesomeIcons.wonSign, color: AppColor.swatchColor, size: 25),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        child: Text(
+                          '   송금 완료된 상품',
+                          style: TextStyle(
+                            fontSize: 28, // 글씨 크기 조절
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 SizedBox(height: 15,),
                 ListView(

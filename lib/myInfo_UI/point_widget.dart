@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../style.dart';
+
 class PointWidget extends StatelessWidget {
   final VoidCallback onTap;
   final int point; // 포인트를 위한 생성자 매개변수 추가
@@ -40,9 +42,10 @@ class PointWidget extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(width: 20,),
                     CircleAvatar(
-                      backgroundColor: Colors.yellow,
-                      radius: 13,
+                      backgroundColor: AppColor.textColor,
+                      radius: 14,
                       child: Icon(
                         FontAwesomeIcons.p, // FontAwesome 아이콘
                         size: 20,
@@ -51,8 +54,16 @@ class PointWidget extends StatelessWidget {
                     ),
                     SizedBox(width: 20),
                     Text(
-                      '보유 포인트: ${NumberFormat('#,###').format(point)} 원',
-                      style: TextStyle(fontSize: 18),
+                      '보유 포인트: ',
+                      style: TextStyle(fontSize: 18,),
+                    ),
+                    Text(
+                      '${NumberFormat('#,###').format(point)}',
+                      style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                    ),
+                    Text(
+                      ' 원',
+                      style: TextStyle(fontSize: 18,),
                     ),
                   ],
                 ),

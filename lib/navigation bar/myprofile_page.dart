@@ -102,20 +102,24 @@ class _ProfilePageState extends State<ProfilePage> {
                     Row(
                       children: [
                         Container(
-                          width: 45.0, // 원형 이미지의 가로 크기
-                          height: 45.0, // 원형 이미지의 세로 크기
+                          width: 40.0,
+                          height: 40.0,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle, // 원형 모양 지정
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/logo.png'), // 이미지 경로 지정
-                              fit: BoxFit.fill, // 이미지가 컨테이너를 완전히 채우도록 설정
+                            shape: BoxShape.circle,
+                            color: Colors.white, // 아이콘을 감싸는 배경 색상 설정 (필요에 따라 변경)
+                          ),
+                          child: Center(
+                            child: FaIcon(
+                              FontAwesomeIcons.homeUser, // "friend"에 해당하는 아이콘
+                              size: 20.0, // 아이콘의 크기 설정
+                              color: AppColor.swatchColor, // 아이콘의 색상 설정
                             ),
                           ),
                         ),
                         SizedBox(width: 10,),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('MY', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 30, color: Colors.white)),
+                          child: Text('MY', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25, color: Colors.white)),
                         ),
                       ],
                     ),
@@ -131,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),  // 텍스트 스타일 설정
                       ),
                     ),
-                    SizedBox(height:15),
+                    SizedBox(height:20),
                   ],
                 ),
               ),
@@ -146,7 +150,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       name: myInfoController.myInfo.value.name,
                       birthDate: myInfoController.myInfo.value.birthDate),
                   ),
-                  SizedBox(height: 8),
                   Obx(() => PointWidget(
                       onTap: () async {
                         print('포인트 추가해볼게');
@@ -155,14 +158,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         myInfoController.fetchMyInfo();
                       },
                       point: myInfoController.myInfo.value.myPoints)),
-                  SizedBox(height: 8),
                   Obx(() => ItemStatusWidget(
                     progressNum: myInfoController.myInfo.value.progressNum,
                     completedNum: myInfoController.myInfo.value.completedNum,
                     usedNoMsgNum: myInfoController.myInfo.value.usedNoMsgNum,
                     usedMsgNum: myInfoController.myInfo.value.usedMsgNum,
                   )),
-                  SizedBox(height: 8),
+                  SizedBox(height: 30),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
@@ -175,9 +177,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    print('로그아웃 버튼 클릭됨');
+                                    bool confirm = await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("로그아웃 확인"),
+                                          content: Text("정말로 로그아웃 하시겠습니까?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(false); // Cancel logout
+                                              },
+                                              child: Text("취소"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(true); // Confirm logout
+                                              },
+                                              child: Text("확인"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
 
+                                    if (confirm == true) {
+                                      // User confirmed, perform logout
+                                      print('로그아웃 버튼 클릭됨');
                                       await logout();
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: AppColor.backgroundColor,
@@ -190,8 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: FittedBox(
                                     child: Text(
                                       '로그아웃하기',
-                                      style: TextStyle(fontSize: 18,
-                                      ),
+                                      style: TextStyle(fontSize: 18),
                                     ),
                                   ),
                                 ),
@@ -202,6 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
+
                 ],
               ),
             ),
