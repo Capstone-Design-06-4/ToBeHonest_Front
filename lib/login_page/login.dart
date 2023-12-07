@@ -175,10 +175,10 @@ class _LoginScreenState extends State<LoginScreen> {
           print('Password: $password');
 
           // Attempt to log in
-          //bool loginSuccess = await login(email, password);
+          bool loginSuccess = await login(email, password);
           //bool loginSuccess = await login('email1@example.com', 'password1');
           //bool loginSuccess = await login('email2@example.com', 'password2');
-          bool loginSuccess = await login('abc@abc.com', 'abcd1234');
+          //bool loginSuccess = await login('abc@abc.com', 'abcd1234');
           //bool loginSuccess = await login('abcd@abcd.com', 'abcd1234');
           // Check if login was successful
           if (loginSuccess) {
@@ -360,13 +360,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Uri.encodeComponent(oAuthToken.accessToken.toString());
 
                   print('카카오계정으로 로그인 성공');
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => MyHomePage(),
-                      transitionDuration: Duration.zero,
-                    ),
-                  );
+
                 } catch (error) {
                   print('카카오계정으로 로그인 실패 $error');
                 }
@@ -388,7 +382,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     await saveEmail(email);
                     await getMyInfoFirst(email, accessToken);
                     print(email);
-
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) => MyHomePage(),
+                        transitionDuration: Duration.zero,
+                      ),
+                    );
                     print('카카오로그인 성공: ${response.statusCode}');
                   }
                 } catch (error) {
