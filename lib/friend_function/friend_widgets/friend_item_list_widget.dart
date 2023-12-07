@@ -1,6 +1,7 @@
 //item_list.dart
 
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tobehonest/style.dart';
 import 'package:tobehonest/friend_function/friend_view/friend_item_detailed_view.dart';
 import 'package:tobehonest/models/wishItem.dart';
@@ -77,29 +78,28 @@ class FriendWishItemList extends StatelessWidget {
                   SizedBox(height: 10),
                   Stack(
                     children: [
-                      Container(
-                        height: 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(color: Colors.grey.shade300, width: 1),
-                        ),
-                      ),
-                      Opacity(
-                        opacity: 0.6,
-                        child: Container(
-                          height: 20,
-                          width: (MediaQuery.of(ctx).size.width - 245) *
-                              (filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0, right: 0, bottom: 10),
+                        child: LinearPercentIndicator(
+                          alignment: MainAxisAlignment.center,
+                          animation: true,
+                          animationDuration: 1200,
+                          lineHeight: 22.0,
+                          percent: filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice >= 1.0 ? 1.0 : filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice,
+                          barRadius: Radius.circular(16.0),
+                          progressColor: Colors.green[400],
+                          linearStrokeCap: LinearStrokeCap.roundAll,  // 이 속성을 추가하여 선의 끝 부분을 둥글게 만듭니다.
+                          backgroundColor: Colors.grey[200],  // Container의 배경색과 동일한 효과를 위해 추가했습니다.
                         ),
                       ),
                       Center(
                         child: Text(
                           '${(filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice * 100).toStringAsFixed(2)}%',
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: (filteredWishItems[index].fundAmount / filteredWishItems[index].itemPrice * 100) > 70
+                                ? Colors.white
+                                : Colors.black,
+                          ),
                         ),
                       ),
                     ],

@@ -61,7 +61,7 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
               padding: const EdgeInsets.only(left: 10.0),
             ),
             backgroundColor: AppColor.backgroundColor,
-            title: Text('${widget.friendName} 님의 위시리스트', style: TextStyle(color: Colors.white)),
+            title: Text('${widget.friendName}님의 위시리스트', style: TextStyle(color: Colors.white)),
           ),
         ),
         body: Container(
