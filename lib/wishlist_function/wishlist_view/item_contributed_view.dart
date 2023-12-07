@@ -42,9 +42,11 @@ class _ItemContributedState extends State<ItemContributed> {
             automaticallyImplyLeading: false,
             leadingWidth: 50,
             leading: Padding(
-              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              padding: const EdgeInsets.only(top: 25.0, left: 20),
+              // Adjust the top and left margins as needed
               child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                icon: Icon(Icons.arrow_back_ios_new,
+                    color: AppColor.backgroundColor),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -115,14 +117,16 @@ class _ItemContributedState extends State<ItemContributed> {
                                 widget.wishItem.itemBrand.length > 8
                                     ? '${widget.wishItem.itemBrand.substring(0, 8)}...'
                                     : widget.wishItem.itemBrand,
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
                           SizedBox(height: 5),
                           Text(
                             widget.wishItem.itemName,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.normal),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -131,15 +135,22 @@ class _ItemContributedState extends State<ItemContributed> {
                             children: [
                               Text(
                                 '펀딩 총액: ',
-                                style: TextStyle(fontSize: 18,),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
                               ),
                               Text(
                                 '${formatNumber(widget.wishItem.fundAmount)}',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColor.textColor),
                               ),
                               Text(
                                 ' 원',
-                                style: TextStyle(fontSize: 18,),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
                               ),
                             ],
                           )
@@ -150,49 +161,59 @@ class _ItemContributedState extends State<ItemContributed> {
                 ),
               ),
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '펀딩 참여자 수: ',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Obx(() {
-                    return Text(
-                    '${widget.contributorController.ContributorList.length}',
-                    style: TextStyle(fontSize: 18, color: AppColor.textColor));
-                    }),
-                  Text(
-                    ' 명',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
+            Obx(
+              () => Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '펀딩 참여자 수: ',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(
+                      '${widget.contributorController.ContributorList?.length ?? 0}',
+                      style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                    ),
+                    Text(
+                      ' 명',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
               child: Obx(() {
-                if (widget.contributorController.ContributorList.isEmpty || widget.wishItem.fundAmount == 0) {
+                if (widget.contributorController.ContributorList.isEmpty ||
+                    widget.wishItem.fundAmount == 0) {
                   // contributors 리스트가 비어있을 때
                   return Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(20.0),
-                    child: Text('아직 펀딩 참여자가 없어요.',style: TextStyle(fontSize: 18,)),
+                    child: Text('아직 펀딩 참여자가 없어요.',
+                        style: TextStyle(
+                          fontSize: 18,
+                        )),
                   );
                 } else {
                   // contributors 리스트가 비어있지 않을 때
                   return ListView.builder(
-                    itemCount: widget.contributorController.ContributorList.length,
+                    itemCount:
+                        widget.contributorController.ContributorList.length,
                     itemBuilder: (context, index) {
-                      final contributor = widget.contributorController.ContributorList[index];
+                      final contributor =
+                          widget.contributorController.ContributorList[index];
                       return Card(
-                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 15.0),
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundImage: NetworkImage(contributor.ProfileURL),
+                            backgroundImage:
+                                NetworkImage(contributor.ProfileURL),
                           ),
-                          title: Text(contributor.friendName+ ' 님'),
-                          trailing: Text(formatNumber(contributor.contribution)+' 원'),
+                          title: Text(contributor.friendName + ' 님'),
+                          trailing: Text(
+                              formatNumber(contributor.contribution) + ' 원'),
                         ),
                       );
                     },
@@ -212,11 +233,17 @@ class _ItemContributedState extends State<ItemContributed> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              ModalUtils.showFriendModal(context, widget.wishItem.fundAmount, widget.contributorController.ContributorList.length, widget.wishItem.wishItemId);
+                              ModalUtils.showFriendModal(
+                                  context,
+                                  widget.wishItem.fundAmount,
+                                  widget.contributorController.ContributorList
+                                      .length,
+                                  widget.wishItem.wishItemId);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: AppColor.backgroundColor,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -225,7 +252,8 @@ class _ItemContributedState extends State<ItemContributed> {
                             child: FittedBox(
                               child: Text(
                                 '위시리스트에서 삭제하기',
-                                style: TextStyle(fontSize: 18,
+                                style: TextStyle(
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
@@ -237,7 +265,9 @@ class _ItemContributedState extends State<ItemContributed> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
           ],
         ),
       ),
@@ -246,7 +276,12 @@ class _ItemContributedState extends State<ItemContributed> {
 }
 
 class ModalUtils {
-  static void showFriendModal(BuildContext context, int fundAmount, int length, int wishItemId,) {
+  static void showFriendModal(
+    BuildContext context,
+    int fundAmount,
+    int length,
+    int wishItemId,
+  ) {
     final WishListController wishListController = Get.put(WishListController());
     showModalBottomSheet(
         context: context,
@@ -270,7 +305,9 @@ class ModalUtils {
             ),
             child: Column(
               children: [
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 Container(
                   height: 70.0,
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -295,23 +332,23 @@ class ModalUtils {
                       ),
                     ),
                   ),
-
                 ),
                 SizedBox(height: 20),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await wishListController.deleteFromWishlist_Con(wishItemId);
+                      await wishListController
+                          .deleteFromWishlist_Con(wishItemId);
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
-
                     child: FittedBox(
                       child: Text(
                         '삭제하기',
-                        style: TextStyle(fontSize: 18,
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -321,7 +358,6 @@ class ModalUtils {
             ),
           );
         },
-        backgroundColor: Colors.transparent
-    );
+        backgroundColor: Colors.transparent);
   }
 }

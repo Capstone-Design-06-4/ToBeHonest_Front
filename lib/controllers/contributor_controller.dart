@@ -44,6 +44,8 @@ class ContributorController extends GetxController {
           // RxList에 변경이 있음을 알립니다.
           update();
         } else {
+          ContributorList.clear();
+          ContributorList.refresh();
           print('너 친구없잖아');
         }
       } else {
