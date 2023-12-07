@@ -223,6 +223,20 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showImageFullScreen(context, widget.message.messageImgURLs);
+                                },
+                                child: Hero(
+                                  tag: 'enlargedImg', // Provide a unique tag for the Hero widget
+                                  child: Image.network(
+                                    widget.message.messageImgURLs.isEmpty
+                                        ? "https://via.placeholder.com/200"
+                                        : widget.message.messageImgURLs[0],
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ),
+                              ),
                             ),
                             SizedBox(height: 8),
                             Text(
@@ -286,3 +300,41 @@ class _MessagedShowPageState extends State<MessagedShowPage> {
     );
   }
 }
+
+void _showImageFullScreen(BuildContext context, List<String> messageImgURLs) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            leadingWidth: 50,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            backgroundColor: Color(0xFFfbfbf2),
+            elevation: 0,
+          ),
+        ),
+        body: Center(
+          child: Hero(
+            tag: 'enlargedImg', // Same tag as in the original page
+            child: Image.network(
+              messageImgURLs.isEmpty
+                  ? "https://via.placeholder.com/200"
+                  : messageImgURLs[0],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+
