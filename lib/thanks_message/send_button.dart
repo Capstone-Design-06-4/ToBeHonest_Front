@@ -24,7 +24,7 @@ class SendButton extends StatelessWidget {
                 minimumSize: Size(0, 36),
               ),
               child: Text(
-                '감사 메시지 보내기',
+                '감사메시지 보내기',
                 style: TextStyle(fontSize: 18),
               ),
             ),

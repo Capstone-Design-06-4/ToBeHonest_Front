@@ -349,22 +349,19 @@ Future<bool> _showConfirmationDialog(BuildContext context) async {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('확인'),
-        content: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Text('감사메시지를 전송하시겠어요?'),
-        ),
+        content: Text('감사메시지를 전송하시겠어요?'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text('아니오'),
+            child: Text('취소'),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(true);
             },
-            child: Text('예'),
+            child: Text('확인'),
           ),
         ],
       );
