@@ -113,6 +113,19 @@ class _FriendWishlistPageState extends State<FriendWishlistPage> {
                       ),
                     ),
                   );
+                  if (wishListController.isLoading.isTrue) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  else if(wishListController.wishItems.length == 0) {
+                    return Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(20.0),
+                      child: Text('친구의 위시리스트가 비었어요.',
+                          style: TextStyle(
+                            fontSize: 18,
+                          )),
+                    );
+                  }
                   return ListView(
                     children: <Widget>[
                       FriendWishItemList(

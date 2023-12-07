@@ -108,6 +108,16 @@ class _WishListPageState extends State<WishListPage> {
                 if (wishListController.isLoading.isTrue) {
                   return Center(child: CircularProgressIndicator());
                 }
+                else if(wishListController.wishItems.length ==0) {
+                  return Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(20.0),
+                    child: Text('위시리스트가 비었어요.\n원하는 상품을 추가해볼까요?',
+                        style: TextStyle(
+                          fontSize: 18,
+                        )),
+                  );
+                }
                 return WishItemList(
                   wishItems: wishListController.wishItems,
                   searchText: _searchText,

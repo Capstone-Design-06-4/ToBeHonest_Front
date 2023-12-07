@@ -128,7 +128,16 @@ class _FriendPageState extends State<FriendPage> {
                 return Center(child: CircularProgressIndicator());
               }
               List<Friend> sortedFriendsList = sortFriendsByProximityToToday(friendController.friendsList);
-
+              if(sortedFriendsList.length ==0) {
+                return Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(20.0),
+                  child: Text('친구목록이 비었어요./n친구를 추가해볼까요?',
+                      style: TextStyle(
+                        fontSize: 18,
+                      )),
+                );
+              }
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),

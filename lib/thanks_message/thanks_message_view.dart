@@ -16,9 +16,9 @@ import 'package:tobehonest/controllers/usedbox_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ThanksMessage extends StatelessWidget {
-  final WishItem wishItem; // WishItem 인스턴스를 필수 파라미터로 추가
+  final WishItem wishItem;
   final ImagePicker _picker = ImagePicker();
-  final controller = Get.put(ImagePickerController()); // 컨트롤러 인스턴스화
+  final controller = Get.put(ImagePickerController());
   final TextEditingController titleController = TextEditingController();
   final TextEditingController textEditingController = TextEditingController();
   final MemoryBoxController memoryBoxController = Get.put(MemoryBoxController());
@@ -30,12 +30,10 @@ class ThanksMessage extends StatelessWidget {
     return formatter.format(number);
   }
 
-  ThanksMessage({Key? key, required this.wishItem})
-      : super(key: key); // 생성자에 required 파라미터 추가
+  ThanksMessage({Key? key, required this.wishItem}) : super(key: key);
 
   Future<void> _pickImage() async {
-    final XFile? selected =
-    await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? selected = await _picker.pickImage(source: ImageSource.gallery);
     controller.pickImage(selected);
   }
 
@@ -46,19 +44,21 @@ class ThanksMessage extends StatelessWidget {
   }
 
   Future<void> sendPressed(ImagePickerController controller, String titleContent,
-      String textFieldContent, WishItem wishItem) async {
+      String textFieldContent, WishItem wishItem, BuildContext context) async {
     Message message;
     String? token;
     token = await getToken();
     String? myID = await getID();
-    if(token == null || myID == null) throw Exception('로그인 다시하세요.');
-    message = Message(wishItemId: wishItem.wishItemId,
-        senderId: int.parse(myID),
-        receiverId: 0,
-        title: titleContent,
-        contents: textFieldContent,
-        messageType: MessageType.THANKS_MSG,
-        fundMoney: wishItem.fundAmount);
+    if (token == null || myID == null) throw Exception('로그인 다시하세요.');
+    message = Message(
+      wishItemId: wishItem.wishItemId,
+      senderId: int.parse(myID),
+      receiverId: 0,
+      title: titleContent,
+      contents: textFieldContent,
+      messageType: MessageType.THANKS_MSG,
+      fundMoney: wishItem.fundAmount,
+    );
     List<File> selectedFile = [];
     selectedFile.add(File(controller.selectedImage.value!.path));
     await sendThanksMessage(message, selectedFile, token!);
@@ -78,7 +78,7 @@ class ThanksMessage extends StatelessWidget {
             automaticallyImplyLeading: false,
             leadingWidth: 50,
             leading: Padding(
-              padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+              padding: const EdgeInsets.only(top: 25.0, left: 20),
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
                 onPressed: () => Navigator.of(context).pop(),
@@ -102,14 +102,13 @@ class ThanksMessage extends StatelessWidget {
                       child: Text(
                         '  메시지를 작성해보아요!',
                         style: TextStyle(
-                          fontSize: 24, // 글씨 크기 조절
+                          fontSize: 24,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-
               Container(
                 margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 decoration: BoxDecoration(
@@ -170,15 +169,16 @@ class ThanksMessage extends StatelessWidget {
                               children: [
                                 Text(
                                   '펀딩 총액: ',
-                                  style: TextStyle(fontSize: 18,),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                                 Text(
                                   '${formatNumber(wishItem.fundAmount)}',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                                  style: TextStyle(
+                                      fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.textColor),
                                 ),
                                 Text(
                                   ' 원',
-                                  style: TextStyle(fontSize: 18,),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ],
                             )
@@ -191,13 +191,13 @@ class ThanksMessage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  SizedBox(height: 10,),
+                  SizedBox(height: 10),
                   Container(
                     margin: EdgeInsets.only(right: 24, left: 24, bottom: 16),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(12.0), // Set border radius
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Column(
                       children: [
@@ -210,14 +210,13 @@ class ThanksMessage extends StatelessWidget {
                             hintText: '제목을 적어주세요!',
                             filled: true,
                             fillColor: Colors.white,
-                            border: OutlineInputBorder( // Add this line to include a border
-                              borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
-                              borderSide: BorderSide(color: Colors.grey), // Adjust the color as needed
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(color: Colors.grey),
                             ),
                           ),
                           keyboardType: TextInputType.text,
                         ),
-
                       ],
                     ),
                   ),
@@ -230,59 +229,69 @@ class ThanksMessage extends StatelessWidget {
                         labelText: '내용을 적어주세요.',
                         filled: true,
                         fillColor: Colors.white,
-                        border: OutlineInputBorder( // Add this line to include a border
-                          borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
-                          borderSide: BorderSide(color: Colors.grey), // Adjust the color as needed
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                       maxLines: 5,
                     ),
                   ),
-
                 ],
               ),
-
-              SizedBox(height: 30,),
+              SizedBox(height: 30),
               GestureDetector(
                 onTap: () {
                   _showImageFullScreen(context);
                 },
                 child: Hero(
-                  tag: 'selectedImageHeroTag', // Unique tag for the hero animation
+                  tag: 'selectedImageHeroTag',
                   child: Container(
                     width: 200,
                     height: 200,
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Obx(() => controller.selectedImage.value == null
-                          ? Center(child: Text('사진을 추가해주세요.', style: TextStyle(fontSize: 18),))
+                          ? Center(child: Text('사진을 추가해주세요.', style: TextStyle(fontSize: 18)))
                           : Image.file(File(controller.selectedImage.value!.path), fit: BoxFit.cover),
                       ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: SendButton(
                   onPressed: () async {
                     if (controller.selectedImage.value != null) {
-                      await sendPressed(controller,
+                      bool sendConfirmed = await _showConfirmationDialog(context);
+
+                      if (sendConfirmed) {
+                        await sendPressed(
+                          controller,
                           titleController.text,
                           textEditingController.text,
-                          wishItem);
-                      Get.snackbar(
-                          "알림", "감사메시지가 전송되었습니다.", snackPosition: SnackPosition.TOP);
-                      Navigator.pop(context); // 현재 페이지 닫기
-                      Navigator.pop(context); // 이전 페이지 닫기
-                      Navigator.pop(context);
+                          wishItem,
+                          context,
+                        );
+                        Get.snackbar(
+                          "알림",
+                          "감사메시지가 전송되었습니다.",
+                          snackPosition: SnackPosition.TOP,
+                        );
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
                     } else {
-                      // 이미지가 선택되지 않았을 경우 처리
                       Get.snackbar(
-                          "알림", "사진을 선택해주세요.", snackPosition: SnackPosition.TOP);
+                        "알림",
+                        "사진을 선택해주세요.",
+                        snackPosition: SnackPosition.TOP,
+                      );
                     }
-                  }
+                  },
                 ),
               ),
             ],
@@ -312,7 +321,7 @@ void _showImageFullScreen(BuildContext context) {
               automaticallyImplyLeading: false,
               leadingWidth: 50,
               leading: Padding(
-                padding: const EdgeInsets.only(top: 25.0, left: 20), // Adjust the top and left margins as needed
+                padding: const EdgeInsets.only(top: 25.0, left: 20),
                 child: IconButton(
                   icon: Icon(Icons.arrow_back_ios_new, color: AppColor.backgroundColor),
                   onPressed: () => Navigator.of(context).pop(),
@@ -334,3 +343,31 @@ void _showImageFullScreen(BuildContext context) {
   }
 }
 
+Future<bool> _showConfirmationDialog(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('확인'),
+        content: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Text('감사메시지를 전송하시겠어요?'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text('아니오'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text('예'),
+          ),
+        ],
+      );
+    },
+  ) ?? false;
+}

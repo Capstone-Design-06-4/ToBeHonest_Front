@@ -101,6 +101,16 @@ class _GiftBoxPageState extends State<GiftBoxPage> {
                 if (giftBoxController.isLoading.isTrue) {
                   return Center(child: CircularProgressIndicator());
                 }
+                else if(giftBoxController.wishItems.length == 0) {
+                  return Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(20.0),
+                    child: Text('선물함이 비었어요.',
+                        style: TextStyle(
+                          fontSize: 18,
+                        )),
+                  );
+                }
                 return WishItemList(
                   wishItems: giftBoxController.wishItems,
                   searchText: _searchText,

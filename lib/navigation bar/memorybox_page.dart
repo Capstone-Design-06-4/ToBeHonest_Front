@@ -145,6 +145,16 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                           if (memoryBoxController.isLoading.isTrue) {
                             return Center(child: CircularProgressIndicator());
                           }
+                          else if(memoryBoxController.wishItems.length ==0) {
+                            return Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(20.0),
+                              child: Text('기억함이 비었어요.',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            );
+                          }
                           return ListView(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -159,6 +169,16 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                             : Obx(() {
                           if (thankBoxController.isLoading.isTrue) {
                             return Center(child: CircularProgressIndicator());
+                          }
+                          else if(memoryBoxController.wishItems.length ==0) {
+                            return Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(20.0),
+                              child: Text('기억함이 비었어요.',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            );
                           }
                           return ListView(
                             shrinkWrap: true,
