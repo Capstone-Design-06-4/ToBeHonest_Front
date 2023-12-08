@@ -51,14 +51,26 @@ Future<void> removeToken() async {
   await prefs.remove('accessToken');
 }
 
-Future<void> signup(Map<String, dynamic> user) async {
+Future<bool> signup(Map<String, dynamic> user) async {
   var url = Uri.parse('${UrlManager.baseUrl}signup');
-  var response = await http.post(url, body: json.encode(user), headers: {'Content-Type': 'application/json'});
 
-  if (response.statusCode == 200) {
-    print('Request to ${url.path} succeeded: ${response.body}');
-  } else {
-    print('Request to ${url.path} failed with status ${response.statusCode}: ${response.body}');
+  try {
+    var response = await http.post(
+      url,
+      body: json.encode(user),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      print('Request to ${url.path} succeeded: ${response.body}');
+      return true; // Successful signup
+    } else {
+      print('Request to ${url.path} failed with status ${response.statusCode}: ${response.body}');
+      return false; // Failed signup
+    }
+  } catch (error) {
+    print('Error during signup: $error');
+    return false; // Failed signup due to an exception
   }
 }
 

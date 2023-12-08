@@ -50,7 +50,7 @@ Widget buildFriendContainer(BuildContext context, Friend friend) {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(friend.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-                        buildBirthdayText(friend.birthDate),
+                        buildBirthdayDdayText(friend.birthDate),
                       ],
                     ),
                   ],
@@ -318,5 +318,45 @@ Widget buildBirthdayText(String birthDateString) {
   return Text(
     displayText,
     style: const TextStyle(fontSize: 13.0, color: Colors.black),
+  );
+}
+
+Widget buildBirthdayDdayText(String birthDateString) {
+  // 생일 문자열을 DateTime 객체로 파싱
+  DateTime birthDate = DateTime.parse(birthDateString);
+
+  // 현재 날짜 가져오기
+  DateTime today = DateTime.now();
+
+  // 생일의 연도를 현재 연도로 설정
+  DateTime nextBirthday = DateTime(today.year, birthDate.month, birthDate.day);
+
+  // 생일이 이미 지났으면 내년으로 설정
+  if (nextBirthday.isBefore(today)) {
+    nextBirthday = DateTime(today.year + 1, birthDate.month, birthDate.day);
+  }
+
+  // 생일까지 남은 일 수 계산
+  int daysRemaining = nextBirthday.difference(today).inDays;
+
+  // 최종적으로 텍스트로 표시할 문자열 생성
+  String displayText = 'D-${daysRemaining}';
+
+  // 아이콘 색상 조건에 따라 설정
+  Color iconColor = daysRemaining <= 7 ? Colors.red : Colors.black12;
+
+  return Row(
+    children: [
+      Text(
+        displayText,
+        style: TextStyle(fontSize: 13.0, color: Colors.black),
+      ),
+      SizedBox(width: 5.0),
+      Icon(
+        Icons.cake, // You can replace this with the appropriate icon
+        color: iconColor,
+        size: 15.0,
+      ),
+    ],
   );
 }

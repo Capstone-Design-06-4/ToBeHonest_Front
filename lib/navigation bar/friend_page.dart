@@ -128,6 +128,7 @@ class _FriendPageState extends State<FriendPage> {
                 return Center(child: CircularProgressIndicator());
               }
               List<Friend> sortedFriendsList = sortFriendsByProximityToToday(friendController.friendsList);
+
               if(sortedFriendsList.length ==0) {
                 return Container(
                   alignment: Alignment.center,
