@@ -153,7 +153,7 @@ class UsedItemDetailed extends StatelessWidget {
                         lineHeight: 22.0,
                         percent: 1,
                         barRadius: Radius.circular(16.0),
-                        progressColor: Colors.green[400],
+                        progressColor: Color(0xFF86bbd8),
                         linearStrokeCap: LinearStrokeCap.roundAll,  // 이 속성을 추가하여 선의 끝 부분을 둥글게 만듭니다.
                         backgroundColor: Colors.grey[200],  // Container의 배경색과 동일한 효과를 위해 추가했습니다.
                       ),

@@ -58,21 +58,21 @@ class ItemStatusWidget extends StatelessWidget {
             children: [
               _buildItem(
                 icon: FontAwesomeIcons.smileWink,
-                backgroundColor: Colors.yellow,
+                backgroundColor: Color(0xffff4d35e),
                 title: '위시리스트',
                 count: progressNum,
                 onTap: () => print('위시리스트'),
               ),
               _buildItem(
                 icon: FontAwesomeIcons.gift,
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.lightGreen,
                 title: '선물함',
                 count: completedNum,
                 onTap: () => print('선물함'),
               ),
               _buildItem(
                 icon: FontAwesomeIcons.handPaper,
-                backgroundColor: Colors.green,
+                backgroundColor: Color(0xFF86bbd8),
                 title: '기억함',
                 count: usedMsgNum + usedNoMsgNum,
                 onTap: () => print('기억함'),
