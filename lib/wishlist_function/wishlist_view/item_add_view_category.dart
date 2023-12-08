@@ -336,7 +336,7 @@ class ModalUtils {
                                         lineWidth: 15.0,
                                         percent: fundSucess/100, //여기에 계산값 넣기
                                         center: Text(
-                                          '$fundSucess %',
+                                          '${fundSucess.toInt()} %', // Convert double to int
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,

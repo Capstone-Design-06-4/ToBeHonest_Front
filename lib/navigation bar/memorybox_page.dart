@@ -90,6 +90,7 @@ class _MemoryBoxPageState extends State<MemoryBoxPage> {
                   icon: Icon(FontAwesomeIcons.sort),
                   onPressed: () {
                     _toggleSort();
+                    _scrollToTop();
                   },
                 ),
               ),
