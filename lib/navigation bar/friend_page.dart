@@ -181,10 +181,10 @@ List<Friend> sortFriendsByProximityToToday(List<Friend> friends) {
 
     // 과거 생일에 대한 처리: -365를 더한 후 절댓값 취하기
     if (differenceA.isNegative) {
-      differenceA = Duration(days: 365) - differenceA.abs();
+      differenceA = Duration(days: 365) + differenceA;
     }
     if (differenceB.isNegative) {
-      differenceB = Duration(days: 365) - differenceB.abs();
+      differenceB = Duration(days: 365) + differenceB;
     }
 
     // Debugging을 위해 print 문 추가
@@ -192,11 +192,11 @@ List<Friend> sortFriendsByProximityToToday(List<Friend> friends) {
     print('Friend A: ${a.name}, Birthdate: ${aThisYearBirthday.toString()}, Difference: ${differenceA.inDays}');
     print('Friend B: ${b.name}, Birthdate: ${bThisYearBirthday.toString()}, Difference: ${differenceB.inDays}');
 
-    // 월이 가까운 순으로 정렬
+/*    // 월이 가까운 순으로 정렬
     int monthComparison = aThisYearBirthday.month.compareTo(bThisYearBirthday.month);
     if (monthComparison != 0) {
       return monthComparison;
-    }
+    }*/
 
     // 같은 월인 경우 일이 가까운 순으로 정렬
     return differenceA.inDays.compareTo(differenceB.inDays);
