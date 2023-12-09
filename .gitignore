@@ -13,7 +13,7 @@ migrate_working_dir/
 # IntelliJ related
 *.iml
 *.ipr
-*.iws
+*.iwss
 .idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in
@@ -42,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/lib/models/item.g.dart
+/lib/models/friend.g.dart
+/test/
+/lib/models/wishItem.g.dart
+/lib/models/contributor.g.dart

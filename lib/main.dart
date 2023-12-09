@@ -1,125 +1,164 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:tobehonest/style.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:tuple/tuple.dart';
+
+import 'models/friend.dart';
+import 'models/item.dart';
+import 'models/wishItem.dart';
+import 'models/contributor.dart';
+
+import '../services/login_service.dart';
+import '../services/friend_service.dart';
+import '../services/item_service.dart';
+import '../services/wishlist_service.dart';
+
+import '../controllers/friend_search_controller.dart';
+import '../controllers/friend_add_controller.dart';
+
+import 'navigation bar/friend_page.dart';
+import 'navigation bar/giftbox_page.dart';
+import 'navigation bar/memorybox_page.dart';
+import 'navigation bar/myprofile_page.dart';
+import 'navigation bar/wishlist_page.dart';
+import 'thanks_message/thanks_message_view.dart';
+import 'navigation_bar.dart';
+import 'login_page/login.dart';
+import 'package:tobehonest/controllers/friend_search_controller.dart';
+import 'package:tobehonest/controllers/giftbox_controller.dart';
+import 'package:tobehonest/controllers/memorybox_controller.dart';
+import 'package:tobehonest/controllers/usedbox_controller.dart';
+import 'package:tobehonest/controllers/myInfo_controller.dart';
+import 'package:tobehonest/controllers/wishlist_controlller.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(FriendAdapter());
+  Hive.registerAdapter(ItemAdapter());
+  Hive.registerAdapter(WishItemAdapter());
+  Hive.registerAdapter(ContributorAdapter());
+  KakaoSdk.init(nativeAppKey: '07150a42df86d834d5deb4c2cffbb9e9');
+
+  // 로그인을 시도하고 토큰이 있으면 친구 목록을 가져옵니다
+
+  //await login('email1@example.com', 'password1');
+
+  //await login('email1@example.com', 'password1');
+
+  //final String? token = await getToken();
+  //if (token != null) {
+  //  await fetchFriends(token);
+  //  await friendController.getFriendsList(); // fetchFriends 메서드 호출
+  //}
+  // 앱 실행
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        fontFamily: 'AppleSDGothicNeo',
+        primaryColor: AppColor.swatchColor,
+        primarySwatch: Colors.deepOrange,
+        appBarTheme: AppBarTheme(
+          color: AppColor.backgroundColor,
+        ),
+        scaffoldBackgroundColor: Color(0xFFfbfbf2),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/login', // Set the initial route to '/login'
+      getPages: [
+        GetPage(name: '/login', page: () => LoginScreen()),
+        GetPage(name: '/home', page: () => MyHomePage()),
+        // Add more routes as needed
+      ],
     );
   }
 }
 
+
+
+
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _currentIndex = 0;
+  final appBarTitles = ['친구', '위시리스트', '선물함', '기억함', 'MY'];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final _pages = [
+    FriendPage(), // 친구 페이지
+    WishListPage(), // 위시리스트 페이지
+    GiftBoxPage(), // 선물함 페이지
+    MemoryBoxPage(), // 기억함 페이지
+    ProfilePage(), // MY 페이지
+  ];
+
+  final FriendController friendController = Get.put(FriendController());
+  final WishListController wishListController = Get.put(WishListController());
+  final GiftBoxController giftBoxController = Get.put(GiftBoxController());
+  final MemoryBoxController memoryBoxController = Get.put(MemoryBoxController());
+  final ThankBoxController thankBoxController = Get.put(ThankBoxController());
+  final MyInfoController myInfoController = Get.put(MyInfoController());
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Color(0xFFF4A261),
+            title: Text(appBarTitles[_currentIndex], style: TextStyle(fontWeight: FontWeight.normal)),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: _pages[_currentIndex],
+        ),
+        bottomNavigationBar: BottomNav(
+          onTap: (index) async {
+            setState(() {
+              _currentIndex = index;
+            });
+            switch(_currentIndex) {
+              case 0:
+                await friendController.getFriendsList();
+                break;
+              case 1:
+                await wishListController.fetchProgressWishItems_Con();
+                break;
+              case 2:
+                await giftBoxController.fetchCompleteWishItems_Con();
+                break;
+              case 3:
+                await memoryBoxController.fetchUsedWishItems_Con();
+                await thankBoxController.fetchThnakWishItems_Con();
+                break;
+              case 4:
+                await myInfoController.fetchMyInfo();
+                break;
+            }
+          },
+          currentIndex: _currentIndex,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

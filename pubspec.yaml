@@ -1,5 +1,5 @@
-name: tobehonest_front
-description: A new Flutter project.
+name: tobehonest
+description: Capstone Design Team 4 project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -30,15 +30,34 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get: ^4.6.6
+  font_awesome_flutter: ^10.5.0
+  http: ^0.13.3
+  shared_preferences: ^2.0.15
+  hive: ^2.2.2
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.1
+  tuple: ^2.0.1
+  intl: ^0.17.0
+  percent_indicator: ^4.2.3
+  flutter_naver_login: ^1.6.0
+  kakao_flutter_sdk_user: ^1.2.1
+  url_launcher: ^6.0.12  # 최신 버전을 확인하고 사용하세요
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
+  image_picker: ^1.0.4
+  flutter_native_splash: ^2.0.5
+  webview_flutter: ^4.4.2
+  kakao_flutter_sdk: ^1.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^2.0.1 # Hive 코드 생성기
+  build_runner: ^2.4.5 # 코드 생성을 위한 빌드러너
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -60,6 +79,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   # assets:
+  assets:
+    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -74,6 +95,29 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Custom_Icons
+      fonts:
+        - asset: assets/fonts/Custom_Icons.ttf
+    - family: AppleSDGothicNeo
+      fonts:
+        - asset: assets/fonts/AppleSDGothicNeoB.ttf
+          weight: 700
+        - asset: assets/fonts/AppleSDGothicNeoEB.ttf
+          weight: 800
+        - asset: assets/fonts/AppleSDGothicNeoH.ttf
+          weight: 100
+        - asset: assets/fonts/AppleSDGothicNeoM.ttf
+          weight: 500
+        - asset: assets/fonts/AppleSDGothicNeoR.ttf
+          weight: 400
+        - asset: assets/fonts/AppleSDGothicNeoSB.ttf
+          weight: 600
+        - asset: assets/fonts/AppleSDGothicNeoT.ttf
+          weight: 300
+        - asset: assets/fonts/AppleSDGothicNeoUL.ttf
+          weight: 200
+
   # fonts:
   #   - family: Schyler
   #     fonts:
